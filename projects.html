@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,9 +10,10 @@
     
     <style>
         :root {
-            --bg-color: #F0F0F0; /* Off-White */
-            --text-color: #000000; /* Solid Black for high contrast */
-            --dim-text: #555555;   /* Gray for secondary text */
+            --bg-color: #F0F0F0;
+            --text-color: #000000;
+            --dim-text: #555555;
+            --hover-color: #A9A9A9;
         }
 
         body {
@@ -27,9 +28,9 @@
 
         /* Nav Header */
         header {
-            padding: 40px 50px;
+            padding: 50px;
             display: flex;
-            gap: 40px;
+            gap: 45px;
         }
 
         header a {
@@ -37,13 +38,15 @@
             text-decoration: none;
             font-weight: 700;
             text-transform: uppercase;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
+            font-size: 1.15rem;
+            letter-spacing: 1.5px;
+            transition: color 0.3s ease; /* Makes the color change smooth */
         }
 
+        /* Updated Hover State */
         header a:hover {
-            color: #777;
-            text-decoration: underline;
+            color: var(--hover-color);
+            text-decoration: none; /* Removed underline for a cleaner look */
         }
 
         /* Main Content Area */
@@ -52,46 +55,54 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 0 10% 0 10%; /* Responsive side padding */
+            padding: 0 10%;
             max-width: 900px;
         }
 
         h1 {
-            font-size: 2.5rem; /* Scaled down from the massive size */
+            font-size: 3rem;
             margin-bottom: 20px;
             font-weight: 700;
-            letter-spacing: -1px;
-            line-height: 1.2;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
         }
 
         p {
-            font-size: 1.25rem;
+            font-size: 1.3rem;
             line-height: 1.6;
             margin: 0;
         }
 
-        /* Bottom Right Page Counter */
-        .page-counter {
-            position: fixed;
-            bottom: 120px;
-            right: 50px;
-            font-size: 1.2rem;
-            font-weight: 400;
-            color: var(--text-color);
-        }
-
-        /* Footer Disclaimer */
+        /* Footer */
         footer {
             padding: 40px 50px;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--dim-text);
-            line-height: 1.5;
-            border-top: 1px solid #ddd;
+            border-top: 1px solid #ccc;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .footer-left {
+            max-width: 70%;
+            line-height: 1.6;
+        }
+
+        .page-counter {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-color);
+            letter-spacing: 2px;
         }
 
         footer a {
             color: var(--text-color);
             text-decoration: underline;
+        }
+
+        footer a:hover {
+            color: var(--hover-color);
         }
     </style>
 </head>
@@ -104,17 +115,21 @@
     </header>
 
     <main>
-        <h1>This is a work in progress</h1>
+        <h1>Elvis Arroyo</h1>
         <p>
-            placeholder
+            I am a student at Kennesaw State University. This website was created for 
+            IT 4403 Advanced Web and Mobile Applications to practice setting up a 
+            public web hosting environment. This space will be used to publish all my exercises 
+            and projects for this course.
         </p>
     </main>
 
-    <div class="page-counter">01 — 03</div>
-
     <footer>
-        Disclaimer: This is a student website created for course projects in IT 4403. <br>
-        Visit the <a href="https://www.kennesaw.edu/ccse/academics/information-technology/" target="_blank">CCSE Department of IT Website</a>.
+        <div class="footer-left">
+            Disclaimer: This is a student website created for course projects in IT 4403. <br>
+            Visit the <a href="https://www.kennesaw.edu/ccse/academics/information-technology/" target="_blank">CCSE Department of IT Website</a>.
+        </div>
+        <div class="page-counter">03 — 03</div>
     </footer>
 
 </body>
