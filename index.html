@@ -1,13 +1,13 @@
-<!DOCTYPE html> <!-- Tells browser this is an HTML5 file -->
-<html lang="en"> <!-- Starts HTML page and sets language -->
+<!DOCTYPE html> 
+<html lang="en"> <!-- set language -->
 
-<head> <!-- Head section (not visible on page) -->
+<head> <!-- Head section  -->
     <meta charset="UTF-8"> <!-- Supports special characters -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Makes site mobile-friendly -->
-    <title>Home | IT 4403</title> <!-- Text shown in browser tab -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- mobile friend -->
+    <title>Home | IT 4403</title> <!-- Text in browser tab -->
 
-    <!-- Google Fonts setup -->
-    <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- Speeds up font loading -->
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- font loading -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- Connects to font files -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"> <!-- Loads Inter font -->
 
@@ -21,16 +21,16 @@
         }
 
         body { /* Styles entire page */
-            background-color: var(--background); /* Sets background color */
-            color: var(--text); /* Sets text color */
-            font-family: 'Inter', sans-serif; /* Sets font */
-            margin: 0; /* Removes default spacing */
-            display: flex; /* Uses flexbox layout */
-            flex-direction: column; /* Stacks elements vertically */
+            background-color: var(--background); /*  background color */
+            color: var(--text); /*  text color */
+            font-family: 'Inter', sans-serif; /*  font */
+            margin: 0; /* spacing */
+            display: flex; /* flexbox */
+            flex-direction: column; /* Stacks elements  */
             min-height: 100vh; /* Full screen height */
         }
 
-        /* Navigation Header */
+       
         header { /* Top navigation bar */
             padding: 50px; /* Space inside header */
             display: flex; /* Puts links in a row */
@@ -39,30 +39,30 @@
 
         header a { /* Navigation links */
             color: var(--text); /* Link text color */
-            text-decoration: none; /* Removes underline */
+            text-decoration: none; /* Remove underline */
             font-weight: 700; /* Makes text bold */
             text-transform: uppercase; /* All caps */
-            font-size: 1.15rem; /* Text size */
+            font-size: 1.15rem; /* Text font size */
             letter-spacing: 1.5px; /* Space between letters */
             transition: color 0.3s ease; /* Smooth hover effect */
         }
 
-        header a:hover { /* Hover effect on nav links */
+        header a:hover { /* Hover effect on links */
             color: var(--hover); /* Changes color on hover */
         }
 
         /* Main Content Area */
         main { /* Main page content */
             flex-grow: 1; /* Fills remaining space */
-            display: flex; /* Uses flexbox */
+            display: flex; /* flexbox */
             flex-direction: column; /* Stacks text vertically */
             justify-content: center; /* Centers content vertically */
             padding: 0 10%; /* Left and right spacing */
-            max-width: 900px; /* Limits content width */
+            max-width: 900px; /* content width */
         }
 
-        h1 { /* Main heading */
-            font-size: 3rem; /* Large text */
+        h1 { 
+            font-size: 3rem; /* text size */
             margin-bottom: 20px; /* Space below heading */
             font-weight: 700; /* Bold text */
             letter-spacing: -1.5px; /* Tightens letters */
@@ -75,19 +75,18 @@
             margin: 0; /* Removes default margin */
         }
 
-        /* Footer */
-        footer { /* Bottom section */
+        footer { /* Bottom */
             padding: 40px 50px; /* Space inside footer */
             font-size: 0.9rem; /* Smaller text */
             color: var(--dim-text); /* Dim text color */
             border-top: 1px solid #ccc; /* Line above footer */
             display: flex; /* Horizontal layout */
-            justify-content: space-between; /* Pushes items apart */
+            justify-content: space-between; /* space betwwen */
             align-items: flex-end; /* Aligns items at bottom */
         }
 
         .footer-left { /* Left footer text */
-            max-width: 70%; /* Limits width */
+            max-width: 70%; /* width */
             line-height: 1.6; /* Line spacing */
         }
 
@@ -95,7 +94,7 @@
             font-size: 1.4rem; /* Text size */
             font-weight: 700; /* Bold */
             color: var(--text); /* Text color */
-            letter-spacing: 2px; /* Space between characters */
+            letter-spacing: 2px; /* Space between */
         }
 
         footer a { /* Footer links */
@@ -107,19 +106,19 @@
             color: var(--hover); /* Changes color on hover */
         }
 
-    </style> <!-- Ends CSS -->
-</head> <!-- Ends head -->
+    </style> 
+</head> 
 
-<body> <!-- Starts visible page content -->
+<body>
 
     <header> <!-- Navigation menu -->
-        <a href="index.html">Home</a> <!-- Home page link -->
-        <a href="labs.html">Labs</a> <!-- Labs page link -->
-        <a href="projects.html">Projects</a> <!-- Projects page link -->
+        <a href="index.html">Home</a> <!-- Home page  -->
+        <a href="labs.html">Labs</a> <!-- Labs page  -->
+        <a href="projects.html">Projects</a> <!-- Projects page  -->
     </header>
 
-    <main> <!-- Main content -->
-        <h1>Elvis Arroyo</h1> <!-- Your name -->
+    <main> <!-- Main -->
+        <h1>Elvis Arroyo</h1> <!-- name -->
         <p> <!-- Description text -->
             I am a student at Kennesaw State University. This website was created for 
             IT 4403 Advanced Web and Mobile Applications to practice setting up a 
@@ -128,7 +127,7 @@
         </p>
     </main>
 
-    <footer> <!-- Footer section -->
+    <footer> 
         <div class="footer-left">
             Disclaimer: This is a student website created for course projects in IT 4403. <br>
             Visit the 
@@ -136,10 +135,10 @@
                 CCSE Department of IT Website
             </a>.
         </div>
-        <div class="page-counter">01 — 03</div> <!-- Page counter -->
+        <div class="page-counter">01 — 03</div>
     </footer>
 
-</body> <!-- Ends body -->
-</html> <!-- Ends HTML -->
+</body> 
+</html> 
 
 </html>
