@@ -1,0 +1,67 @@
+:root {
+    --bg-color: #000000;
+    --text-color: #FFFFFF;
+    --dim-text: #888888;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Inter', sans-serif; /* Matches your screenshot */
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header/Nav */
+header {
+    padding: 60px 40px 20px 40px;
+    display: flex;
+    gap: 40px;
+}
+
+header a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Main Body */
+main {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    padding-left: 10%; /* Mimics the offset in your image */
+}
+
+h1 {
+    font-size: clamp(3rem, 10vw, 6rem); /* Big, bold, and WCAG friendly */
+    font-weight: 700;
+    margin: 0;
+}
+
+/* Page Number (Bottom Right) */
+.page-counter {
+    position: fixed;
+    bottom: 100px;
+    right: 50px;
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+}
+
+/* Footer */
+footer {
+    padding: 30px 40px;
+    font-size: 0.85rem;
+    color: var(--dim-text);
+    line-height: 1.6;
+}
+
+footer a {
+    color: var(--text-color);
+}
