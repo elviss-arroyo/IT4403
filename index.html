@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT 4403 Student Site</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #000000;
+            --text-color: #FFFFFF;
+            --dim-text: #888888;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Navigation Header */
+        header {
+            padding: 40px;
+            display: flex;
+            gap: 30px;
+        }
+
+        header a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        header a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Body Content */
+        main {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 40px;
+        }
+
+        h1 {
+            font-size: 5rem; /* Large font for WCAG visibility */
+            letter-spacing: -2px;
+            text-transform: uppercase;
+        }
+
+        /* Page Numbering in Bottom Right */
+        .page-counter {
+            position: fixed;
+            bottom: 80px;
+            right: 40px;
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+
+        /* Footer with Disclaimer */
+        footer {
+            padding: 20px 40px;
+            font-size: 0.9rem;
+            color: var(--dim-text);
+            border-top: 1px solid #333;
+        }
+
+        footer a {
+            color: var(--text-color);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html">Home</a>
+        <a href="labs.html">Labs</a>
+        <a href="projects.html">Projects</a>
+    </header>
+
+    <main>
+        <h1>HELLLLOOOO</h1>
+    </main>
+
+    <div class="page-counter">01 — 02</div>
+
+    <footer>
+        Disclaimer: This is a student website created for course projects in IT 4403. 
+        Visit the <a href="https://www.kennesaw.edu/ccse/academics/information-technology/">CCSE Department of IT Website</a>.
+    </footer>
+
+</body>
+</html>
