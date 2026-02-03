@@ -1,67 +1,67 @@
-:root {
-    --bg-color: #000000;
-    --text-color: #FFFFFF;
-    --dim-text: #888888;
+ :root { /* Root element that holds global variables */
+    --background: #000000; /* Page background color */
+    --text: #FFFFFF; /* Main text color */
+    --muted-text: #888888; /* Dim/secondary text color */
 }
 
-body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-family: 'Inter', sans-serif; /* Matches your screenshot */
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+body { /* Styles the entire page */
+    background-color: var(--background); /* Sets page background */
+    color: var(--text); /* Sets default text color */
+    font-family: 'Inter', sans-serif; /* Sets font */
+    margin: 0; /* Removes browser default spacing */
+    display: flex; /* Enables flexbox layout */
+    flex-direction: column; /* Stacks elements vertically */
+    min-height: 100vh; /* Makes page at least full screen height */
 }
 
 /* Header/Nav */
-header {
-    padding: 60px 40px 20px 40px;
-    display: flex;
-    gap: 40px;
+header { /* Styles the top navigation area */
+    padding: 60px 40px 20px 40px; /* Space inside header */
+    display: flex; /* Aligns links in a row */
+    gap: 40px; /* Space between links */
 }
 
-header a {
-    color: var(--text-color);
-    text-decoration: none;
-    font-size: 1.1rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+header a { /* Styles navigation links */
+    color: var(--text); /* Sets link color */
+    text-decoration: none; /* Removes underline */
+    font-size: 1.1rem; /* Sets text size */
+    font-weight: 700; /* Makes text bold */
+    text-transform: uppercase; /* Makes text all caps */
+    letter-spacing: 1px; /* Adds space between letters */
 }
 
 /* Main Body */
-main {
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
-    padding-left: 10%; /* Mimics the offset in your image */
+main { /* Styles main content area */
+    flex-grow: 1; /* Fills remaining vertical space */
+    display: flex; /* Enables flexbox */
+    align-items: center; /* Centers content vertically */
+    padding-left: 10%; /* Adds space from left side */
 }
 
-h1 {
-    font-size: clamp(3rem, 10vw, 6rem); /* Big, bold, and WCAG friendly */
-    font-weight: 700;
-    margin: 0;
+h1 { /* Styles main heading */
+    font-size: clamp(3rem, 10vw, 6rem); /* Responsive text size */
+    font-weight: 700; /* Makes text bold */
+    margin: 0; /* Removes default margin */
 }
 
 /* Page Number (Bottom Right) */
-.page-counter {
-    position: fixed;
-    bottom: 100px;
-    right: 50px;
-    font-size: 1.5rem;
-    font-weight: 400;
-    letter-spacing: 2px;
+.page-counter { /* Styles page number text */
+    position: fixed; /* Keeps it in same screen spot */
+    bottom: 100px; /* Distance from bottom */
+    right: 50px; /* Distance from right */
+    font-size: 1.5rem; /* Text size */
+    font-weight: 400; /* Normal font weight */
+    letter-spacing: 2px; /* Space between characters */
 }
 
 /* Footer */
-footer {
-    padding: 30px 40px;
-    font-size: 0.85rem;
-    color: var(--dim-text);
-    line-height: 1.6;
+footer { /* Styles footer area */
+    padding: 30px 40px; /* Space inside footer */
+    font-size: 0.85rem; /* Smaller text size */
+    color: var(--muted-text); /* Uses dim text color */
+    line-height: 1.6; /* Space between lines */
 }
 
-footer a {
-    color: var(--text-color);
+footer a { /* Styles links in footer */
+    color: var(--text); /* Sets link color */
 }
