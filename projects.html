@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | IT 4403</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #000000;
+            --text-color: #FFFFFF; /* 21:1 Contrast Ratio (WCAG AAA) */
+            --dim-text: #A0A0A0;    /* High enough for 4.5:1 on small text */
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow: hidden; /* Keeps it looking like an app/portfolio */
+        }
+
+        /* Nav Header */
+        header {
+            padding: 50px;
+            display: flex;
+            gap: 40px;
+        }
+
+        header a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+
+        header a:hover {
+            color: var(--dim-text);
+        }
+
+        /* Main Center Text */
+        main {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            padding-left: 10%;
+        }
+
+        h1 {
+            font-size: clamp(4rem, 12vw, 8rem);
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: -4px;
+        }
+
+        /* Bottom Right Page Counter */
+        .page-counter {
+            position: fixed;
+            bottom: 120px;
+            right: 50px;
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+
+        /* Footer Disclaimer */
+        footer {
+            padding: 40px 50px;
+            font-size: 0.85rem;
+            color: var(--dim-text);
+            line-height: 1.5;
+        }
+
+        footer a {
+            color: var(--text-color);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html">Home</a>
+        <a href="labs.html">Labs</a>
+        <a href="projects.html">Projects</a>
+    </header>
+
+    <main>
+        <h1>Work in progress</h1>
+    </main>
+
+    <div class="page-counter">01 — 02</div>
+
+    <footer>
+        Disclaimer: This is a student website created for course projects in IT 4403. <br>
+        Visit the <a href="https://www.kennesaw.edu/ccse/academics/information-technology/" target="_blank">CCSE Department of IT Website</a>.
+    </footer>
