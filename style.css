@@ -1,5 +1,5 @@
  :root { /* Root element that holds global variables */
-    --background: #000000; /* Page background color */
+    --background: #C0C0C0; /* Page background color */
     --text: #FFFFFF; /* Main text color */
     --muted-text: #888888; /* Dim/secondary text color */
 }
