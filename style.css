@@ -1,67 +1,95 @@
- :root { /* Root element that holds global variables */
-    --background: #C0C0C0; /* Page background color */
-    --text: #FFFFFF; /* Main text color */
-    --muted-text: #888888; /* Dim/secondary text color */
+/* Global variables (simple names) */
+:root {
+    --background: #F0F0F0; /* Page background color */
+    --text: #000000;       /* Main text color */
+    --dim-text: #555555;   /* Lighter text color */
+    --hover: #A9A9A9;      /* Hover color */
 }
 
-body { /* Styles the entire page */
-    background-color: var(--background); /* Sets page background */
-    color: var(--text); /* Sets default text color */
-    font-family: 'Inter', sans-serif; /* Sets font */
-    margin: 0; /* Removes browser default spacing */
-    display: flex; /* Enables flexbox layout */
-    flex-direction: column; /* Stacks elements vertically */
-    min-height: 100vh; /* Makes page at least full screen height */
+/* Whole page */
+body {
+    background-color: var(--background); /* Background */
+    color: var(--text); /* Text color */
+    font-family: 'Inter', sans-serif; /* Font */
+    margin: 0; /* Remove default spacing */
+    display: flex; /* Flex layout */
+    flex-direction: column; /* Stack items */
+    min-height: 100vh; /* Full screen height */
 }
 
-/* Header/Nav */
-header { /* Styles the top navigation area */
-    padding: 60px 40px 20px 40px; /* Space inside header */
-    display: flex; /* Aligns links in a row */
-    gap: 40px; /* Space between links */
+/* Header / Navigation */
+header {
+    padding: 50px; /* Space inside header */
+    display: flex; /* Row layout */
+    gap: 45px; /* Space between links */
 }
 
-header a { /* Styles navigation links */
-    color: var(--text); /* Sets link color */
-    text-decoration: none; /* Removes underline */
-    font-size: 1.1rem; /* Sets text size */
-    font-weight: 700; /* Makes text bold */
-    text-transform: uppercase; /* Makes text all caps */
-    letter-spacing: 1px; /* Adds space between letters */
+header a {
+    color: var(--text); /* Link color */
+    text-decoration: none; /* No underline */
+    font-weight: 700; /* Bold */
+    text-transform: uppercase; /* All caps */
+    font-size: 1.15rem; /* Size */
+    letter-spacing: 1.5px; /* Letter spacing */
+    transition: color 0.3s ease; /* Smooth hover */
 }
 
-/* Main Body */
-main { /* Styles main content area */
-    flex-grow: 1; /* Fills remaining vertical space */
-    display: flex; /* Enables flexbox */
-    align-items: center; /* Centers content vertically */
-    padding-left: 10%; /* Adds space from left side */
+header a:hover {
+    color: var(--hover); /* Hover color */
 }
 
-h1 { /* Styles main heading */
-    font-size: clamp(3rem, 10vw, 6rem); /* Responsive text size */
-    font-weight: 700; /* Makes text bold */
-    margin: 0; /* Removes default margin */
+/* Main content */
+main {
+    flex-grow: 1; /* Push footer down */
+    display: flex; /* Flex */
+    flex-direction: column; /* Stack text */
+    justify-content: center; /* Center vertically */
+    padding: 0 10%; /* Side spacing */
+    max-width: 900px; /* Limit width */
 }
 
-/* Page Number (Bottom Right) */
-.page-counter { /* Styles page number text */
-    position: fixed; /* Keeps it in same screen spot */
-    bottom: 100px; /* Distance from bottom */
-    right: 50px; /* Distance from right */
-    font-size: 1.5rem; /* Text size */
-    font-weight: 400; /* Normal font weight */
-    letter-spacing: 2px; /* Space between characters */
+h1 {
+    font-size: 3rem; /* Big heading */
+    margin-bottom: 20px; /* Space below */
+    font-weight: 700; /* Bold */
+    letter-spacing: -1.5px; /* Tight text */
+    line-height: 1.1; /* Line spacing */
+}
+
+p {
+    font-size: 1.3rem; /* Paragraph size */
+    line-height: 1.6; /* Line spacing */
+    margin: 0; /* No margin */
 }
 
 /* Footer */
-footer { /* Styles footer area */
-    padding: 30px 40px; /* Space inside footer */
-    font-size: 0.85rem; /* Smaller text size */
-    color: var(--muted-text); /* Uses dim text color */
-    line-height: 1.6; /* Space between lines */
+footer {
+    padding: 40px 50px; /* Space */
+    font-size: 0.9rem; /* Smaller text */
+    color: var(--dim-text); /* Dim color */
+    border-top: 1px solid #ccc; /* Top line */
+    display: flex; /* Row */
+    justify-content: space-between; /* Spread */
+    align-items: flex-end; /* Bottom align */
 }
 
-footer a { /* Styles links in footer */
-    color: var(--text); /* Sets link color */
+.footer-left {
+    max-width: 70%; /* Width limit */
+    line-height: 1.6; /* Line spacing */
+}
+
+.page-counter {
+    font-size: 1.4rem; /* Size */
+    font-weight: 700; /* Bold */
+    color: var(--text); /* Text color */
+    letter-spacing: 2px; /* Spacing */
+}
+
+footer a {
+    color: var(--text); /* Link color */
+    text-decoration: underline; /* Underline */
+}
+
+footer a:hover {
+    color: var(--hover); /* Hover color */
 }
