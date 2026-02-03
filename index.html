@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IT 4403 Student Site</title>
+    <title>Home | IT 4403</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --bg-color: #000000;
-            --text-color: #FFFFFF;
-            --dim-text: #888888;
+            --text-color: #FFFFFF; /* 21:1 Contrast Ratio (WCAG AAA) */
+            --dim-text: #A0A0A0;    /* High enough for 4.5:1 on small text */
         }
 
         body {
@@ -22,56 +23,59 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            overflow: hidden; /* Keeps it looking like an app/portfolio */
         }
 
-        /* Navigation Header */
+        /* Nav Header */
         header {
-            padding: 40px;
+            padding: 50px;
             display: flex;
-            gap: 30px;
+            gap: 40px;
         }
 
         header a {
             color: var(--text-color);
             text-decoration: none;
-            font-size: 1.2rem;
             font-weight: 700;
+            text-transform: uppercase;
+            font-size: 1rem;
+            letter-spacing: 1px;
         }
 
         header a:hover {
-            text-decoration: underline;
+            color: var(--dim-text);
         }
 
-        /* Main Body Content */
+        /* Main Center Text */
         main {
             flex-grow: 1;
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 0 40px;
+            padding-left: 10%;
         }
 
         h1 {
-            font-size: 5rem; /* Large font for WCAG visibility */
-            letter-spacing: -2px;
-            text-transform: uppercase;
+            font-size: clamp(4rem, 12vw, 8rem);
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: -4px;
         }
 
-        /* Page Numbering in Bottom Right */
+        /* Bottom Right Page Counter */
         .page-counter {
             position: fixed;
-            bottom: 80px;
-            right: 40px;
+            bottom: 120px;
+            right: 50px;
             font-size: 1.2rem;
             font-weight: 400;
         }
 
-        /* Footer with Disclaimer */
+        /* Footer Disclaimer */
         footer {
-            padding: 20px 40px;
-            font-size: 0.9rem;
+            padding: 40px 50px;
+            font-size: 0.85rem;
             color: var(--dim-text);
-            border-top: 1px solid #333;
+            line-height: 1.5;
         }
 
         footer a {
@@ -95,8 +99,8 @@
     <div class="page-counter">01 — 02</div>
 
     <footer>
-        Disclaimer: This is a student website created for course projects in IT 4403. 
-        Visit the <a href="https://www.kennesaw.edu/ccse/academics/information-technology/">CCSE Department of IT Website</a>.
+        Disclaimer: This is a student website created for course projects in IT 4403. <br>
+        Visit the <a href="https://www.kennesaw.edu/ccse/academics/information-technology/" target="_blank">CCSE Department of IT Website</a>.
     </footer>
 
 </body>
