@@ -1,139 +1,44 @@
-<!DOCTYPE html> 
-<html lang="en"> <!-- set language -->
+<!DOCTYPE html>
+<html lang="en">
 
-<head> <!-- Head section  -->
-    <meta charset="UTF-8"> <!-- Supports special characters -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- mobile friend -->
-    <title>Home | IT 4403</title> <!-- Text in browser tab -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labs | IT 4403</title>
 
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- font loading -->
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- Connects to font files -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"> <!-- Loads Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 
-    <style> <!-- Starts CSS -->
-
-        :root { /* Holds global CSS variables */
-            --background: #F0F0F0; /* Page background color */
-            --text: #000000; /* Main text color */
-            --dim-text: #555555; /* Lighter text color */
-            --hover: #A9A9A9; /* Link hover color */
-        }
-
-        body { /* Styles entire page */
-            background-color: var(--background); /*  background color */
-            color: var(--text); /*  text color */
-            font-family: 'Inter', sans-serif; /*  font */
-            margin: 0; /* spacing */
-            display: flex; /* flexbox */
-            flex-direction: column; /* Stacks elements  */
-            min-height: 100vh; /* Full screen height */
-        }
-
-       
-        header { /* Top navigation bar */
-            padding: 50px; /* Space inside header */
-            display: flex; /* Puts links in a row */
-            gap: 45px; /* Space between links */
-        }
-
-        header a { /* Navigation links */
-            color: var(--text); /* Link text color */
-            text-decoration: none; /* Remove underline */
-            font-weight: 700; /* Makes text bold */
-            text-transform: uppercase; /* All caps */
-            font-size: 1.15rem; /* Text font size */
-            letter-spacing: 1.5px; /* Space between letters */
-            transition: color 0.3s ease; /* Smooth hover effect */
-        }
-
-        header a:hover { /* Hover effect on links */
-            color: var(--hover); /* Changes color on hover */
-        }
-
-        /* Main Content Area */
-        main { /* Main page content */
-            flex-grow: 1; /* Fills remaining space */
-            display: flex; /* flexbox */
-            flex-direction: column; /* Stacks text vertically */
-            justify-content: center; /* Centers content vertically */
-            padding: 0 10%; /* Left and right spacing */
-            max-width: 900px; /* content width */
-        }
-
-        h1 { 
-            font-size: 3rem; /* text size */
-            margin-bottom: 20px; /* Space below heading */
-            font-weight: 700; /* Bold text */
-            letter-spacing: -1.5px; /* Tightens letters */
-            line-height: 1.1; /* Controls line spacing */
-        }
-
-        p { /* Paragraph text */
-            font-size: 1.3rem; /* Text size */
-            line-height: 1.6; /* Line spacing */
-            margin: 0; /* Removes default margin */
-        }
-
-        footer { /* Bottom */
-            padding: 40px 50px; /* Space inside footer */
-            font-size: 0.9rem; /* Smaller text */
-            color: var(--dim-text); /* Dim text color */
-            border-top: 1px solid #ccc; /* Line above footer */
-            display: flex; /* Horizontal layout */
-            justify-content: space-between; /* space betwwen */
-            align-items: flex-end; /* Aligns items at bottom */
-        }
-
-        .footer-left { /* Left footer text */
-            max-width: 70%; /* width */
-            line-height: 1.6; /* Line spacing */
-        }
-
-        .page-counter { /* Page number */
-            font-size: 1.4rem; /* Text size */
-            font-weight: 700; /* Bold */
-            color: var(--text); /* Text color */
-            letter-spacing: 2px; /* Space between */
-        }
-
-        footer a { /* Footer links */
-            color: var(--text); /* Link color */
-            text-decoration: underline; /* Underlined links */
-        }
-
-        footer a:hover { /* Footer hover effect */
-            color: var(--hover); /* Changes color on hover */
-        }
-
-    </style> 
-</head> 
+    <!-- Link external CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
 
 <body>
 
-    <header> <!-- Navigation menu -->
-        <a href="index.html">Home</a> <!-- Home page  -->
-        <a href="labs.html">Labs</a> <!-- Labs page  -->
-        <a href="projects.html">Projects</a> <!-- Projects page  -->
-    </header>
+<header>
+    <a href="index.html">Home</a>
+    <a href="labs.html">Labs</a>
+    <a href="projects.html">Projects</a>
+</header>
 
-    <main> <!-- Main -->
-        <h1>projects are a work in progress.</h1> 
-        <p> 
-            placeholder
-        </p>
-    </main>
+<main>
+    <h1> projects are a work in progress.</h1></h1>
+    <p>
+        placeholder
+    </p>
+</main>
 
-    <footer> 
-        <div class="footer-left">
-            Disclaimer: This is a student website created for course projects in IT 4403. <br>
-            Visit the 
-            <a href="https://www.kennesaw.edu/ccse/academics/information-technology/" target="_blank">
-                CCSE Department of IT Website
-            </a>.
-        </div>
-        <div class="page-counter">03 — 03</div>
-    </footer>
+<footer>
+    <div class="footer-left">
+        Disclaimer: This is a student website created for course projects in IT 4403. <br>
+        Visit the
+        <a href="https://www.kennesaw.edu/ccse/academics/information-technology/" target="_blank">
+            CCSE Department of IT Website
+        </a>.
+    </div>
+    <div class="page-counter">03 — 03</div>
+</footer>
 
-</body> 
-</html> 
+</body>
+</html>
