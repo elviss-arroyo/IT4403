@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"> <!-- set character encoding -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- make page responsive -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Picture Browser Application</title> <!-- page title -->
 
   <!-- Fonts -->
@@ -23,14 +23,14 @@
     h1 { margin-bottom: 20px; } /* space below title */
 
     .picture-browser { 
-      width: 80%; /* container width */
-      max-width: 600px; /* max width */
+      width: 100%; /* container width */
+      max-width: 800px; /* max width */
       text-align: center; /* center content */
     }
 
     img { 
       width: 100%; /* full width */
-      max-height: 400px; /* max height */
+      max-height: 800px; /* max height */
       object-fit: cover; /* scale image nicely */
       border: 2px solid #000; /* black border */
       border-radius: 5px; /* rounded corners */
@@ -48,7 +48,7 @@
     .counter { 
       margin-top: 5px; /* space above counter */
       font-size: 14px; /* counter text size */
-      color: #666; /* gray text */
+      color: #333; /* gray text */
     }
 
     button { 
@@ -56,6 +56,13 @@
       padding: 8px 15px; /* button padding */
       font-size: 16px; /* button text size */
       cursor: pointer; /* pointer on hover */
+    }
+
+    .note { 
+      margin-top: 10px; /* space above notes */
+      font-size: 14px; 
+      color: #555; 
+      text-align: center; 
     }
   </style>
 
@@ -69,29 +76,30 @@
     <div class="caption" id="caption"></div> <!-- caption under image -->
     <div class="counter" id="counter"></div> <!-- shows current image number -->
     <button id="nextBtn">Next</button> <!-- next button -->
+    <button id="slideshowBtn">Start Slideshow</button> <!-- new slideshow button -->
   </div>
+
+  <div class="note">Keyboard navigation: use right key to move forward and left to go back.</div> <!-- keyboard note -->
+  <div class="note">These photos are Public domain, artist is Eulalie Osgood Grover from: Kittens and Cats; a Book of Tales. <a href="https://publicdomainreview.org/">Website</a></div> <!-- refrence note -->
 
   <script>
     $(document).ready(function() { // run code when page loads
 
-      var images = [ // array of images with url, alt text, and caption
-        {url: "https://images.pdimagearchive.org/collections/kittens-and-cats-a-first-reader-1911-cats-and-captions-before-the-internet-age/24011088907_6c5c049316_b.jpg?width=680&height=800", caption: "el barto"},
-		{url: "https://images.pdimagearchive.org/collections/kittens-and-cats-a-first-reader-1911-cats-and-captions-before-the-internet-age/24011090777_8bedfa95bc_b.jpg?width=680&height=800", caption: "el bbbbarto"},
-        {url: "https://images.pdimagearchive.org/collections/kittens-and-cats-a-first-reader-1911-cats-and-captions-before-the-internet-age/24011087867_640a7a55ed_b.jpg?width=680&height=800", caption: "el bugrto"},
-        {url: "https://images.pdimagearchive.org/collections/kittens-and-cats-a-first-reader-1911-cats-and-captions-before-the-internet-age/24011088377_7d4ccc7644_b.jpg?width=680&height=800", caption: "el bayfrto"},
-
-       
-  
+      var images = [ // array of images with url and caption
+        {url: "https://images.pdimagearchive.org/collections/kittens-and-cats-a-first-reader-1911-cats-and-captions-before-the-internet-age/24011088907_6c5c049316_b.jpg?width=680&height=800", caption: "It Is My Party"},
+        {url: "https://images.pdimagearchive.org/collections/kittens-and-cats-a-first-reader-1911-cats-and-captions-before-the-internet-age/24011090777_8bedfa95bc_b.jpg?width=680&height=800", caption: "I Am the Queen"},
+        {url: "https://images.pdimagearchive.org/collections/kittens-and-cats-a-first-reader-1911-cats-and-captions-before-the-internet-age/24011087867_640a7a55ed_b.jpg?width=680&height=800", caption: "The Mouse Trap"},
+        {url: "https://images.pdimagearchive.org/collections/kittens-and-cats-a-first-reader-1911-cats-and-captions-before-the-internet-age/24011088377_7d4ccc7644_b.jpg?width=680&height=800", caption: "In My Automobile"}
       ];
 
       var currentIndex = 0; // start first image
+      var slideshowInterval = null; // store slideshow interval
 
       function showImage(index) { //image by index
-        var img = images[index]; //  current image 
+        var img = images[index]; // current image
         $("#image").css("opacity", 0); // fade image
         setTimeout(function() { // wait change
           $("#image").attr("src", img.url); // set image source
-          $("#image").attr("alt", img.alt); // set alt text
           $("#caption").text(img.caption); // update caption under image
           $("#counter").text("Image " + (index + 1) + " of " + images.length); // update counter
           $("#image").css("opacity", 1); // fade in image
@@ -103,7 +111,21 @@
         showImage(currentIndex); // show new 
       });
 
-      $(document).keydown(function(e) { //  keyboard arrows
+      $("#slideshowBtn").click(function() { // slideshow button
+        if(slideshowInterval) { // if running
+          clearInterval(slideshowInterval); // stop slideshow
+          slideshowInterval = null; // clear interval
+          $(this).text("Start Slideshow"); // button text
+        } else { // if not running
+          slideshowInterval = setInterval(function() { // start slideshow
+            currentIndex = (currentIndex + 1) % images.length; // next image
+            showImage(currentIndex); // show it
+          }, 3000); // every 3 seconds
+          $(this).text("Stop Slideshow"); // button text
+        }
+      });
+
+      $(document).keydown(function(e) { // keyboard arrows
         if(e.key === "ArrowRight") { // right arrow pressed
           currentIndex = (currentIndex + 1) % images.length; // next image
           showImage(currentIndex); // show 
@@ -119,4 +141,3 @@
   </script>
 </body>
 </html>
-
