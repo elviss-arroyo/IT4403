@@ -1,62 +1,113 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modified Calculator Example</title> <!-- title in browser tab -->
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> <!-- load jQuery library -->
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', Arial, sans-serif; /* use Inter font */
+            display: flex; /* flex layout */
+            flex-direction: column; /* stack elements vertically */
+            align-items: center; /* center horizontally */
+            padding: 20px; /* page padding */
+            background-color: #ffffff; /* white background */
+        }
+
+        h1 {
+            margin-bottom: 20px; /* space below title */
+        }
+
+        .calculator {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        input, select {
+            padding: 8px;
+            font-size: 16px;
+            margin-top: 5px;
+            width: 200px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 8px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> <!-- load jQuery  -->
 </head>
 <body>
 
 <h1>Calculations</h1> <!-- main page heading -->
 
-
+<div class="calculator">
 
 <label>first number:</label> <!-- label for first input -->
 <input type="text" id="num1"> <!-- textbox for first number -->
-<br><br>
 
 <label>second number:</label> <!-- label for second input -->
 <input type="text" id="num2"> <!-- textbox for second number -->
-<br><br>
 
 <label>select the type of calculation:</label> <!-- label for dropdown -->
 <select id="operation"> <!-- dropdown to pick math operation -->
-    <option value="+">Addition (+)</option> <!-- add option -->
-    <option value="-">Subtraction (-)</option> <!-- subtract option -->
-    <option value="*">Multiplication (*)</option> <!-- multiply option -->
-    <option value="/">Division (/)</option> <!-- divide option -->
+    <option value="+">Addition (+)</option> <!-- add  -->
+    <option value="-">Subtraction (-)</option> <!-- subtract  -->
+    <option value="*">Multiplication (*)</option> <!-- multiply  -->
+    <option value="/">Division (/)</option> <!-- divide  -->
 </select>
-<br><br>
 
 <label>result color (red, blue, green):</label> <!-- label for color input -->
 <input type="text" id="color"> <!-- textbox for color name -->
-<br><br>
 
 <button id="calcBtn">Calculate</button> <!-- button user clicks -->
 
-<p id="result">Result will appear here</p> <!-- place where result will show -->
+<p id="result">Result... </p> <!-- place where result will show -->
+
+</div>
 
 <script>
 
-$(document).ready(function(){ // runs when page is fully loaded
+$(document).ready(function(){ // runs when page load
 
     $("#calcBtn").click(function(){ // event handling when button is clicked
 
-        var x = parseFloat($("#num1").val()); // get first number using jQuery and convert to number
-        var y = parseFloat($("#num2").val()); // get second number using jQuery and convert to number
+        var x = parseFloat($("#num1").val()); // get first number 
+        var y = parseFloat($("#num2").val()); // get second number 
         var op = $("#operation").val(); // get selected operation from dropdown
         var colorName = $("#color").val(); // get the color the user typed
         var answer; // variable to store result
 
-        if(op == "+"){ answer = x + y; } // if addition selected, add numbers
-        else if(op == "-"){ answer = x - y; } // if subtraction selected, subtract numbers
-        else if(op == "*"){ answer = x * y; } // if multiplication selected, multiply numbers
-        else if(op == "/"){ // if division selected
+        if(op == "+"){ answer = x + y; } //  add 
+        else if(op == "-"){ answer = x - y; } // subtract 
+        else if(op == "*"){ answer = x * y; } // multiply
+        else if(op == "/"){ //  division 
             if(y == 0){ answer = "Cannot divide by zero"; } // stop divide by zero
             else{ answer = x / y; } // divide numbers
         }
 
-        $("#result").text("Result: " + answer + " ( " + x + " " + op + " " + y + " )"); // show result text using jQuery
+        $("#result").text("Result: " + answer + " ( " + x + " " + op + " " + y + " )"); // show result
         $("#result").css("color", colorName); // change text color to what user typed
 
     }); // end click event
@@ -67,4 +118,3 @@ $(document).ready(function(){ // runs when page is fully loaded
 
 </body>
 </html>
-
