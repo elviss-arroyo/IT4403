@@ -1,29 +1,69 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-	<title>JavaScript calculation</title>
-</head>
+    <title>jQuery Calculation</title> <!-- title in browser tab -->
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> <!-- load jQuery library -->
+</head>
 <body>
 
-<h1>Calculations</h1>
-<p>This example shows some basic arithmetics.</p>
-<p id="result"></p>
-<script type="text/javascript">
-var x=10;
-var y=4.5; //variables are dynamically typed.
-var result1=x+y;
+<h1>Calculations</h1> <!-- main page heading -->
 
-//don't forget HTML tags in your output!
-document.getElementById("result").innerHTML="<p>x="+x+", y="+y+"</p>";
+<p>This example uses jQuery for everything.</p> <!-- small description text -->
 
-document.write("<p>x + y = "+result1+"</p>"); 
-document.write("<p>x - y = "+(x-y)+"</p>"); 
-document.write("<p>x * y = "+x*y+"</p>"); 
-document.write("<p>x / y = "+x/y+"</p>");
+<label>Enter first number:</label> <!-- label for first input -->
+<input type="text" id="num1"> <!-- textbox for first number -->
+<br><br>
+
+<label>Enter second number:</label> <!-- label for second input -->
+<input type="text" id="num2"> <!-- textbox for second number -->
+<br><br>
+
+<label>Choose operation:</label> <!-- label for dropdown -->
+<select id="operation"> <!-- dropdown to pick math operation -->
+    <option value="+">Addition (+)</option> <!-- add option -->
+    <option value="-">Subtraction (-)</option> <!-- subtract option -->
+    <option value="*">Multiplication (*)</option> <!-- multiply option -->
+    <option value="/">Division (/)</option> <!-- divide option -->
+</select>
+<br><br>
+
+<label>Enter a color for the result (red, blue, green):</label> <!-- label for color input -->
+<input type="text" id="color"> <!-- textbox for color name -->
+<br><br>
+
+<button id="calcBtn">Calculate</button> <!-- button user clicks -->
+
+<p id="result">Result will appear here</p> <!-- place where result will show -->
+
+<script>
+
+$(document).ready(function(){ // runs when page is fully loaded
+
+    $("#calcBtn").click(function(){ // event handling when button is clicked
+
+        var x = parseFloat($("#num1").val()); // get first number using jQuery and convert to number
+        var y = parseFloat($("#num2").val()); // get second number using jQuery and convert to number
+        var op = $("#operation").val(); // get selected operation from dropdown
+        var colorName = $("#color").val(); // get the color the user typed
+        var answer; // variable to store result
+
+        if(op == "+"){ answer = x + y; } // if addition selected, add numbers
+        else if(op == "-"){ answer = x - y; } // if subtraction selected, subtract numbers
+        else if(op == "*"){ answer = x * y; } // if multiplication selected, multiply numbers
+        else if(op == "/"){ // if division selected
+            if(y == 0){ answer = "Cannot divide by zero"; } // stop divide by zero
+            else{ answer = x / y; } // divide numbers
+        }
+
+        $("#result").text("Result: " + answer + " ( " + x + " " + op + " " + y + " )"); // show result text using jQuery
+        $("#result").css("color", colorName); // change text color to what user typed
+
+    }); // end click event
+
+}); // end ready function
 
 </script>
-</body>
 
+</body>
 </html>
