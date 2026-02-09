@@ -72,7 +72,7 @@
   <h1>Picture Browser Application</h1> <!-- main title -->
 
   <div class="picture-browser"> <!-- container for picture app -->
-    <img id="image" src="" alt="image" /> <!-- main image element -->
+    <img id="image" src="" alt="cat pictures" /> <!-- main image element -->
     <div class="caption" id="caption"></div> <!-- caption under image -->
     <div class="counter" id="counter"></div> <!-- shows current image number -->
     <button id="nextBtn">Next</button> <!-- next button -->
@@ -86,10 +86,10 @@
     $(document).ready(function() { // run code when page loads
 
       var images = [ // array of images with url and caption
-        {url: "https://images.pdimagearchive.org/collections/kittens-and-cats-a-first-reader-1911-cats-and-captions-before-the-internet-age/24011088907_6c5c049316_b.jpg?width=680&height=800", caption: "It Is My Party"},
-        {url: "https://images.pdimagearchive.org/collections/kittens-and-cats-a-first-reader-1911-cats-and-captions-before-the-internet-age/24011090777_8bedfa95bc_b.jpg?width=680&height=800", caption: "I Am the Queen"},
-        {url: "https://images.pdimagearchive.org/collections/kittens-and-cats-a-first-reader-1911-cats-and-captions-before-the-internet-age/24011087867_640a7a55ed_b.jpg?width=680&height=800", caption: "The Mouse Trap"},
-        {url: "https://images.pdimagearchive.org/collections/kittens-and-cats-a-first-reader-1911-cats-and-captions-before-the-internet-age/24011088377_7d4ccc7644_b.jpg?width=680&height=800", caption: "In My Automobile"}
+        {url: "https://images.pdimagearchive.org/collections/kittens-and-cats-a-first-reader-1911-cats-and-captions-before-the-internet-age/24011088907_6c5c049316_b.jpg?width=680&height=800", caption: "It Is My Party", alt: "Black and white image, cat wearing dress" },
+        {url: "https://images.pdimagearchive.org/collections/kittens-and-cats-a-first-reader-1911-cats-and-captions-before-the-internet-age/24011090777_8bedfa95bc_b.jpg?width=680&height=800", caption: "I Am the Queen",  alt: "Black and white image, cat wearing dress and crown" },
+        {url: "https://images.pdimagearchive.org/collections/kittens-and-cats-a-first-reader-1911-cats-and-captions-before-the-internet-age/24011087867_640a7a55ed_b.jpg?width=680&height=800", caption: "The Mouse Trap", alt: "Black and white image, cat wearing a top hat" },
+        {url: "https://images.pdimagearchive.org/collections/kittens-and-cats-a-first-reader-1911-cats-and-captions-before-the-internet-age/24011088377_7d4ccc7644_b.jpg?width=680&height=800", caption: "In My Automobile",  alt: "Black and white image, cat riding a wagon" },
       ];
 
       var currentIndex = 0; // start first image
@@ -100,6 +100,7 @@
         $("#image").css("opacity", 0); // fade image
         setTimeout(function() { // wait change
           $("#image").attr("src", img.url); // set image source
+          $("#image").attr("alt", img.alt); 
           $("#caption").text(img.caption); // update caption under image
           $("#counter").text("Image " + (index + 1) + " of " + images.length); // update counter
           $("#image").css("opacity", 1); // fade in image
@@ -141,4 +142,5 @@
   </script>
 </body>
 </html>
+
 
