@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"> <!-- set character encoding -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- make page responsive -->
+  <title>Picture Browser Application</title> <!-- page title -->
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- preconnect fonts domain -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"> <!-- load Inter font -->
+
+  <style>
+    body {
+      font-family: 'Inter', Arial, sans-serif; /* use Inter font */
+      display: flex; /* flex layout */
+      flex-direction: column; /* stack elements vertically */
+      align-items: center; /* center horizontally */
+      padding: 20px; /* page padding */
+      background-color: #ffffff; /* white background */
+    }
+
+    h1 { margin-bottom: 20px; } /* space below title */
+
+    .picture-browser { 
+      width: 80%; /* container width */
+      max-width: 600px; /* max width */
+      text-align: center; /* center content */
+    }
+
+    img { 
+      width: 100%; /* full width */
+      max-height: 400px; /* max height */
+      object-fit: cover; /* scale image nicely */
+      border: 2px solid #000; /* black border */
+      border-radius: 5px; /* rounded corners */
+      transition: opacity 0.5s ease-in-out; /* fade effect */
+    }
+
+    .caption { 
+      margin-top: 10px; /* space above caption */
+      font-size: 18px; /* caption text size */
+      color: #333; /* dark gray text */
+      text-align: center; /* center caption under image */
+      font-weight: 500; /* medium font weight */
+    }
+
+    .counter { 
+      margin-top: 5px; /* space above counter */
+      font-size: 14px; /* counter text size */
+      color: #666; /* gray text */
+    }
+
+    button { 
+      margin-top: 15px; /* space above button */
+      padding: 8px 15px; /* button padding */
+      font-size: 16px; /* button text size */
+      cursor: pointer; /* pointer on hover */
+    }
+  </style>
+
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script> <!-- load jQuery -->
+</head>
+<body>
+  <h1>Picture Browser Application</h1> <!-- main title -->
+
+  <div class="picture-browser"> <!-- container for picture app -->
+    <img id="image" src="" alt="image" /> <!-- main image element -->
+    <div class="caption" id="caption"></div> <!-- caption under image -->
+    <div class="counter" id="counter"></div> <!-- shows current image number -->
+    <button id="nextBtn">Next</button> <!-- next button -->
+  </div>
+
+  <script>
+    $(document).ready(function() { // run code when page loads
+
+      var images = [ // array of images with url, alt text, and caption
+        {url: "https://images.pdimagearchive.org/collections/kittens-and-cats-a-first-reader-1911-cats-and-captions-before-the-internet-age/24011088907_6c5c049316_b.jpg?width=680&height=800", caption: "el barto"},
+		{url: "https://images.pdimagearchive.org/collections/kittens-and-cats-a-first-reader-1911-cats-and-captions-before-the-internet-age/24011090777_8bedfa95bc_b.jpg?width=680&height=800", caption: "el barto"},
+        {url: "https://images.pdimagearchive.org/collections/kittens-and-cats-a-first-reader-1911-cats-and-captions-before-the-internet-age/24011087867_640a7a55ed_b.jpg?width=680&height=800", caption: "el barto"},
+        {url: "https://images.pdimagearchive.org/collections/kittens-and-cats-a-first-reader-1911-cats-and-captions-before-the-internet-age/24011088377_7d4ccc7644_b.jpg?width=680&height=800", caption: "el barto"},
+
+       
+  
+      ];
+
+      var currentIndex = 0; // start first image
+
+      function showImage(index) { //image by index
+        var img = images[index]; //  current image 
+        $("#image").css("opacity", 0); // fade image
+        setTimeout(function() { // wait change
+          $("#image").attr("src", img.url); // set image source
+          $("#image").attr("alt", img.alt); // set alt text
+          $("#caption").text(img.caption); // update caption under image
+          $("#counter").text("Image " + (index + 1) + " of " + images.length); // update counter
+          $("#image").css("opacity", 1); // fade in image
+        }, 200); 
+      }
+
+      $("#nextBtn").click(function() { // when button clicked
+        currentIndex = (currentIndex + 1) % images.length; // go next image
+        showImage(currentIndex); // show new 
+      });
+
+      $(document).keydown(function(e) { //  keyboard arrows
+        if(e.key === "ArrowRight") { // right arrow pressed
+          currentIndex = (currentIndex + 1) % images.length; // next image
+          showImage(currentIndex); // show 
+        } else if(e.key === "ArrowLeft") { // left arrow pressed
+          currentIndex = (currentIndex - 1 + images.length) % images.length; // previous image
+          showImage(currentIndex); // show 
+        }
+      });
+
+      showImage(currentIndex); // show first image on page load
+
+    });
+  </script>
+</body>
+</html>
