@@ -82,9 +82,6 @@ $(document).ready(function() {
     $("#humidity").text(jsonObject.main.humidity + "%"); // show humidity
     $("#wind").text(jsonObject.wind.speed + " m/s"); // show wind speed
     $("#clouds").text(jsonObject.clouds.all + "%"); // show cloudiness
-    var iconCode = jsonObject.weather[0].icon; // 
-    var iconUrl = "https://openweathermap.org/img/wn/" + iconCode + "@2x.png";
-    $("#weather-icon").attr("src", iconUrl);
 
 
 });
