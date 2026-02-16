@@ -1,1 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book JSON Display</title>
+
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">   <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>    <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"> <!-- load Inter font -->
+
+  <style>
+
+    body {
+      font-family: 'Inter', Arial, sans-serif; /* use Inter font */
+      display: flex; /* flex layout */
+      flex-direction: column; /* stack elements vertically */
+      align-items: center; /* center horizontally */
+      padding: 20px; /* page padding */
+      background-color: #f8f8f8; /* light background */
+    }
+
+    h1 {
+      margin-bottom: 20px; /* space below title */
+    }
+
+    /* Container for book info */
+    .book-container {
+      width: 100%; /* full width */
+      max-width: 600px; /* max width */
+      background-color: #fff; /* white card */
+      padding: 20px; /* inner padding */
+      border-radius: 8px; /* rounded corners */
+    }
+
+    /* Each field row */
+    .field {
+      margin-bottom: 12px; /* space between fields */
+    }
+
+    /* Labels for fields */
+    .label {
+      font-weight: 600; /* bold label */
+      margin-right: 5px; /* small gap after label */
+    }
+  </style>
+
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script> <!-- load jQuery -->
+</head>
+<body>
+
+<h1>Book Information</h1> <!-- main title -->
+
+<div class="book-container"> <!-- container for book info -->
+  <div class="field"><span class="label">Title:</span><span id="title"></span></div>
+  <div class="field"><span class="label">Authors:</span><span id="authors"></span></div>
+  <div class="field"><span class="label">Publisher:</span><span id="publisher"></span></div>
+  <div class="field"><span class="label">Publish Date:</span><span id="publish_date"></span></div>
+  <div class="field"><span class="label">First Sentence:</span><span id="first_sentence"></span></div>
+  <div class="field"><span class="label">Pages:</span><span id="pages"></span></div>
+  <div class="field"><span class="label">ISBN-10:</span><span id="isbn10"></span></div>
+  <div class="field"><span class="label">ISBN-13:</span><span id="isbn13"></span></div>
+  <div class="field"><span class="label">Created:</span><span id="created"></span></div>
+  <div class="field"><span class="label">Last Modified:</span><span id="last_modified"></span></div>
+</div>
+
+<script>
+var jsonObject = { 
+    "identifiers": {"goodreads": ["1507552"], "librarything": ["6446"]},
+    "title": "Fantastic Mr. Fox",
+    "authors": [{"key": "/authors/OL34184A"}],
+    "publish_date": "October 1, 1988",
+    "publishers": ["Puffin"],
+    "covers": [15152634, 8739161, -1],
+    "contributions": ["Tony Ross (Illustrator)"],
+    "languages": [{"key": "/languages/eng"}],
+    "first_sentence": {"type": "/type/text", "value": "Down in the valley there were three farms."},
+    "number_of_pages": 96,
+    "isbn_10": ["0140328726"],
+    "isbn_13": ["9780140328721"],
+    "created": {"type": "/type/datetime", "value": "2008-04-29T13:35:46.876380"},
+    "last_modified": {"type": "/type/datetime", "value": "2025-12-15T09:37:45.661490"}
+};
+
+
+$(document).ready(function() {
+
+    $("#title").text(jsonObject.title); // set title text
+    $("#authors").text(jsonObject.authors.map(a => a.key).join(", ")); // set authors text
+    $("#publisher").text(jsonObject.publishers.join(", ")); // set publisher text
+    $("#publish_date").text(jsonObject.publish_date); // set publish date text
+    $("#first_sentence").text(jsonObject.first_sentence.value); // set first sentence
+    $("#pages").text(jsonObject.number_of_pages); // set number of pages
+    $("#isbn10").text(jsonObject.isbn_10.join(", ")); // set ISBN-10
+    $("#isbn13").text(jsonObject.isbn_13.join(", ")); // set ISBN-13
+    $("#created").text(jsonObject.created.value); // set created date
+    $("#last_modified").text(jsonObject.last_modified.value); // set last modified date
+});
+</script>
+
+</body>
+</html>
 
