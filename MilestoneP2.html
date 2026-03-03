@@ -1,1 +1,175 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book JSON Display</title> 
 
+  <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- font loading -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"> <!-- load Inter font -->
+
+  <style> 
+
+    body { /* style body */
+      font-family: 'Inter', Arial, sans-serif; /* use Inter font */
+      display: flex; /* flex layout */
+      flex-direction: column; /* items vertically */
+      align-items: center; /* center items horizontally */
+      padding: 20px; /* page padding */
+      background-color: #f8f8f8; /* light background */
+    }
+
+    h1 { /* style heading */
+      margin-bottom: 20px; /* space below heading */
+    }
+
+    .book-container { /* style container */
+      width: 100%; /* full width */
+      max-width: 700px; /* limit width */
+      background-color: #fff; /* white  */
+      padding: 20px; /* inner spacing */
+      border-radius: 8px; /* rounded edges */
+    }
+
+    .center-image { /* style image */
+      display: block; /* center block */
+      margin: 0 auto; /* center horizontally */
+      max-width: 100%; /* responsive image */
+      border: 2px solid #000; /*  black border */
+      border-radius: 6px; /* rounded edges */
+    }
+
+    .center-text { /*  centered text */
+      text-align: center; /* center text */
+    }
+
+    hr { /* separator */
+      margin: 20px 0; /* spacing */
+      border: 0; /* remove border */
+      border-top: 1px solid #ccc; /* thin line */
+    }
+
+  </style> <!-- end CSS -->
+
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script> <!-- load jQuery -->
+</head> 
+<body> 
+
+<h1>Single Book Data</h1> <!-- title -->
+
+<div class="book-container"> <!-- container -->
+  <img id="cover" class="center-image" alt="Book Cover"> <!-- centered image with border -->
+  <p class="center-text"><b>A Guide to Modern Web Development</b></p> <!-- centered  -->
+  <div id="description" class="center-text"></div> <!-- centered  -->
+
+  <hr> <!-- separator -->
+  
+  <h2 class="center-text">Details</h2> <!-- details heading -->
+  <div id="details"></div> <!-- details section -->
+  
+  <hr> <!-- separator -->
+  
+  <h2 class="center-text">Links</h2> <!-- links heading -->
+  <div id="links"></div> <!-- links section -->
+</div> <!-- end container -->
+
+<script> 
+
+var jsonObject = { /* JSON data provided */
+ "kind": "books#volume",
+ "id": "Wfan6L9RGgYC",
+ "etag": "ZvAF36NdUD0",
+ "selfLink": "https://www.googleapis.com/books/v1/volumes/Wfan6L9RGgYC",
+ "volumeInfo": { 
+  "title": "The Modern Web",
+  "subtitle": "Multi-device Web Development with HTML5, CSS3, and JavaScript",
+  "authors": ["Peter Gasston"],
+  "publisher": "No Starch Press",
+  "publishedDate": "2013",
+  "description": "<p><b>A Guide to Modern Web Development</b><br></p><p>Today's web technologies are evolving at near-light speed, bringing the promise of a seamless Internet ever closer to reality. When users can browse the Web on a three-inch phone screen as easily as on a fifty-inch HDTV, what's a developer to do?</p><p>Peter Gasston's <i>The Modern Web</i> will guide you through the latest and most important tools of device-agnostic web development, including HTML5, CSS3, and JavaScript. His plain-English explanations and practical examples emphasize the techniques, principles, and practices that you'll need to easily transcend individual browser quirks and stay relevant as these technologies are updated.</p><p>Learn how to:</p><p>* Plan your content so that it displays fluidly across multiple devices<br>* Design websites to interact with devices using the most up-to-date APIs, including Geolocation, Orientation, and Web Storage<br>* Incorporate cross-platform audio and video without using troublesome plug-ins<br>* Make images and graphics scalable on high-resolution devices with SVGUse powerful HTML5 elements to design better forms</p><p>Turn outdated websites into flexible, user-friendly ones that take full advantage of the unique capabilities of any device or browser. With the help of <i>The Modern Web</i>, you'll be ready to navigate the front lines of device-independent development.</p>",
+  "industryIdentifiers": [ 
+   {"type": "ISBN_10", "identifier": "1593274874"},
+   {"type": "ISBN_13", "identifier": "9781593274870"}
+  ],
+  "readingModes": {"text": true, "image": true},
+  "pageCount": 264,
+  "printedPageCount": 266,
+  "dimensions": {"height": "24.00 cm", "width": "17.80 cm", "thickness": "1.50 cm"},
+  "printType": "BOOK",
+  "categories": [
+   "Computers / Web / Design",
+   "Computers / Software Development & Engineering / General",
+   "Computers / Programming Languages / JavaScript",
+   "Computers / Programming Languages / HTML",
+   "Computers / Web / Web Programming"
+  ],
+  "averageRating": 4.5,
+  "ratingsCount": 3,
+  "maturityRating": "NOT_MATURE",
+  "imageLinks": {
+   "thumbnail": "https://books.google.com/books/content?id=Wfan6L9RGgYC&printsec=frontcover&img=1"
+  },
+  "language": "en",
+  "previewLink": "https://play.google.com/store/books/details?id=Wfan6L9RGgYC",
+  "infoLink": "https://play.google.com/store/books/details?id=Wfan6L9RGgYC",
+  "canonicalVolumeLink": "https://market.android.com/details?id=book-Wfan6L9RGgYC"
+ },
+ "layerInfo": {
+  "layers": [{"layerId": "geo", "volumeAnnotationsVersion": "8"}]
+ },
+ "saleInfo": {
+  "country": "US",
+  "saleability": "NOT_FOR_SALE",
+  "isEbook": false
+ },
+ "accessInfo": {
+  "country": "US",
+  "viewability": "PARTIAL",
+  "embeddable": true,
+  "publicDomain": false,
+  "textToSpeechPermission": "ALLOWED",
+  "epub": {"isAvailable": true},
+  "pdf": {"isAvailable": true},
+  "webReaderLink": "http://play.google.com/books/reader?id=Wfan6L9RGgYC",
+  "accessViewStatus": "SAMPLE",
+  "quoteSharingAllowed": false
+ }
+};
+
+$(document).ready(function() { /* run when page loads */
+
+  var v = jsonObject.volumeInfo; /* shortcut */
+
+  if (v.imageLinks && v.imageLinks.thumbnail) { /* check image */
+    $("#cover").attr("src", v.imageLinks.thumbnail); /* set image */
+  }
+
+  $("#description").html(v.description); /* full description */
+
+  $("#details").html( 
+    "<b>Title:</b> " + v.title + "<br>" +
+    "<b>Subtitle:</b> " + v.subtitle + "<br>" +
+    "<b>Author(s):</b> " + v.authors.join(", ") + "<br>" +
+    "<b>Publisher:</b> " + v.publisher + "<br>" +
+    "<b>Published:</b> " + v.publishedDate + "<br>" +
+    "<b>Pages:</b> " + v.pageCount + "<br>" +
+    "<b>Print Type:</b> " + v.printType + "<br>" +
+    "<b>Maturity:</b> " + v.maturityRating + "<br>" +
+    "<b>Identifiers:</b> ISBN-10: " + v.industryIdentifiers[0].identifier +
+    " | ISBN-13: " + v.industryIdentifiers[1].identifier + "<br>" +
+    "<b>Rating:</b> " + v.averageRating + "<br>" +
+    "<b>Categories:</b> " + v.categories.join(", ")
+  );
+
+  $("#links").html( 
+    "<b>Preview:</b> <a href='" + v.previewLink + "' target='_blank'>" + v.previewLink + "</a><br>" +
+    "<b>Info:</b> <a href='" + v.infoLink + "' target='_blank'>" + v.infoLink + "</a>"
+  );
+
+});
+
+</script> 
+
+</body> 
+</html>
