@@ -1,13 +1,13 @@
-<!DOCTYPE html> 
-<html lang="en"> 
-<head> 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book List</title>
+<!DOCTYPE html> <!-- document type -->
+<html lang="en"> <!-- html language -->
+<head> <!-- head section -->
+  <meta charset="UTF-8"> <!-- character set -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- responsive -->
+  <title>Book Search List</title> <!-- page title -->
 
-  <link rel="preconnect" href="https://fonts.googleapis.com"> 
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- preconnect fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- font loading -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"> <!-- font link -->
 
   <style> /* CSS start */
     body { font-family: 'Inter', Arial, sans-serif; padding: 20px; background: #f8f8f8; } /* body style */
@@ -17,58 +17,50 @@
     .card img { border: 2px solid #000; border-radius: 4px; width: 120px; height: 160px; object-fit: cover; margin: 0 auto; } /* image style */
     .links a { display: block; margin: 3px 0; } /* links spacing */
     .desc { font-size: 0.9em; } /* description style */
-    .card p { 
-    margin: 2px 0;
-    line-height: 1.2;
+    .card p {  /* card paragraph */
+    margin: 2px 0; /* margin */
+    line-height: 1.2; /* line height */
     }
-  </style> 
-  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-</head> 
+  </style> <!-- end style -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script> <!-- jquery -->
+</head> <!-- end head -->
 
-<body> 
-  <h1>Book Search List</h1>
+<body> <!-- body start -->
+  <h1>Book Search List</h1> <!-- heading -->
 
-  <div class="grid" id="grid"></div> 
-<script>
-$(document).ready(function() {  
-    $.getJSON("google-books-search.json", function(json) {
-
-        $("#grid").empty();  
-
-        var items = json.items || [];  
-
-        for (var i = 0; i < 10; i++) {  
-            var card = $("<div class='card'></div>"); 
-
-            if (items[i]) {  
-                var v = items[i].volumeInfo; 
-
-                var img = v.imageLinks ? v.imageLinks.smallThumbnail : 'https://via.placeholder.com/120x160'; 
-
-                card.append("<img src='" + img + "' alt='Book'>"); 
-                card.append("<h3>" + (v.title || '') + "</h3>");
-                card.append("<p><b>Author:</b> " + (v.authors ? v.authors.join(', ') : '') + "</p>"); 
-                card.append("<p><b>Publisher:</b> " + (v.publisher || '') + "</p>"); 
-                card.append("<p><b>Pages:</b> " + (v.pageCount || 'N/A') + "</p>"); 
-                card.append("<p><b>Published:</b> " + (v.publishedDate || '') + "</p>"); 
-                
-                var desc = v.description || ''; 
-                if (desc.length > 120) { desc = desc.substring(0, 120) + "..."; } 
-                card.append("<p class='desc'>" + desc + "</p>"); 
-                
-                card.append("<div class='links'>" + 
-                    "<a href='" + (v.previewLink || '#') + "' target='_blank'>Preview</a>" + 
-                    "<a href='" + (v.infoLink || '#') + "' target='_blank'>Info Link</a>" + 
-                "</div>"); 
-            } else { 
-                card.append("<div>No Data</div>"); 
+  <div class="grid" id="grid"></div> <!-- grid container -->
+<script> 
+$(document).ready(function() {  /* document ready */
+    $.getJSON("google-books-search.json", function(json) { /* get json */
+        $("#grid").empty();  /* clear grid */
+        var items = json.items || [];  /* items array */
+        for (var i = 0; i < 10; i++) {  /* loop 10 */
+            var card = $("<div class='card'></div>"); /* create card */
+            if (items[i]) {  /* if item exists */
+                var v = items[i].volumeInfo; /* volume info */
+                var img = v.imageLinks ? v.imageLinks.smallThumbnail : 'https://via.placeholder.com/120x160'; /* image */
+                card.append("<img src='" + img + "' alt='Book'>"); /* image element */
+                card.append("<h3>" + (v.title || '') + "</h3>"); /* title */
+                card.append("<p><b>Author:</b> " + (v.authors ? v.authors.join(', ') : '') + "</p>"); /* author */
+                card.append("<p><b>Publisher:</b> " + (v.publisher || '') + "</p>"); /* publisher */
+                card.append("<p><b>Pages:</b> " + (v.pageCount || 'N/A') + "</p>"); /* pages */
+                card.append("<p><b>Published:</b> " + (v.publishedDate || '') + "</p>"); /* published */
+                var desc = v.description || ''; /* description */
+                if (desc.length > 120) { desc = desc.substring(0, 120) + "..."; } /* trim desc */
+                card.append("<p class='desc'>" + desc + "</p>"); /* description element */
+                card.append("<div class='links'>" +  /* links container */
+                    "<a href='" + (v.previewLink || '#') + "' target='_blank'>Preview</a>" +  /* preview */
+                    "<a href='" + (v.infoLink || '#') + "' target='_blank'>Info Link</a>" +  /* info */
+                "</div>"); /* end links */
+            } else { /* no data */
+                card.append("<div>No Data</div>"); /* no data message */
             }
 
-            $("#grid").append(card);
+            $("#grid").append(card); /* append card */
         }
     });
-}); 
-</script>
+}); /* end document ready */
+</script> <!-- end script -->
 
-</body> 
-</html> 
+</body> <!-- end body -->
+</html> <!-- end html -->
