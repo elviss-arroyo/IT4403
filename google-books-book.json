@@ -1,4 +1,4 @@
-var jsonObject = { /* JSON data provided */
+var jsonObject = { 
  "kind": "books#volume",
  "id": "Wfan6L9RGgYC",
  "etag": "ZvAF36NdUD0",
