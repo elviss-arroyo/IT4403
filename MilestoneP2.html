@@ -78,7 +78,7 @@
 
 
 $(document).ready(function() { /* run when page loads */
-
+    $.getJSON("google-books-book.json", function(jsonObject) {
   var v = jsonObject.volumeInfo; /* shortcut */
 
   if (v.imageLinks && v.imageLinks.thumbnail) { /* check image */
