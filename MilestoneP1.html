@@ -16,6 +16,7 @@
     .card { background: white; padding: 10px; border-radius: 6px; text-align: center; min-height: 260px; display: flex; flex-direction: column; justify-content: space-between; } /* card styling */
     .card img { border: 2px solid #000; border-radius: 4px; width: 120px; height: 160px; object-fit: cover; margin: 0 auto; } /* image style */
     .links a { display: block; margin: 3px 0; } /* links spacing */
+    .card p { margin: 2px 0; } /* reduce paragraph spacing */
     .desc { font-size: 0.9em; } /* description style */
   </style> 
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
@@ -960,23 +961,14 @@ $(document).ready(function() { /* document ready */
       var img = v.imageLinks ? v.imageLinks.smallThumbnail : 'https://via.placeholder.com/120x160'; /* image or placeholder */
 
       card.append("<img src='" + img + "' alt='Book'>"); /* image */
-
-      card.append("<h3>Title: " + (v.title || '') + "</h3>"); /* title */
-
-      card.append("<p><b>Author(s):</b> " + (v.authors ? v.authors.join(', ') : '') + "</p>"); /* authors */
-
+      card.append("<h3> (v.title || '') + "</h3>"); /* title */
+      card.append("<p><b>Author:</b> " + (v.authors ? v.authors.join(', ') : '') + "</p>"); /* authors */
       card.append("<p><b>Publisher:</b> " + (v.publisher || '') + "</p>"); /* publisher */
-
       card.append("<p><b>Pages:</b> " + (v.pageCount || 'N/A') + "</p>"); /* pages */
-
       card.append("<p><b>Published:</b> " + (v.publishedDate || '') + "</p>"); /* publish date */
-
       var desc = v.description || ''; /* description */
-
       if (desc.length > 120) { desc = desc.substring(0, 120) + "..."; } /* shorten description */
-
       card.append("<p class='desc'>" + desc + "</p>"); /* description */
-
       card.append("<div class='links'>" + /* links */
         "<a href='" + (v.previewLink || '#') + "' target='_blank'>Preview</a>" + /* preview */
         "<a href='" + (v.infoLink || '#') + "' target='_blank'>Info Link</a>" + /* info */
