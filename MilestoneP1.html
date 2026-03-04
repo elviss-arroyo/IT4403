@@ -17,17 +17,16 @@
     .card img { border: 2px solid #000; border-radius: 4px; width: 120px; height: 160px; object-fit: cover; margin: 0 auto; } /* image style */
     .links a { display: block; margin: 3px 0; } /* links spacing */
     .desc { font-size: 0.9em; } /* description style */
-  </style> /* CSS end */
+  </style> 
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+</head> 
 
-  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script> /* load jQuery */
-</head> /* head end */
+<body> 
+  <h1>Book List</h1>
 
-<body> /* body start */
-  <h1>Book List</h1> /* page heading */
+  <div class="grid" id="grid"></div> 
 
-  <div class="grid" id="grid"></div> /* grid container */
-
-<script> /* JS start */
+<script>
 
 
 var json =  { 
@@ -956,17 +955,21 @@ $(document).ready(function() { /* document ready */
     var card = $("<div class='card'></div>"); /* create card */
 
     if (items[i]) { /* if item exists */
-      var v = items[i].volumeInfo; /* shortcut */
+      var v = items[i].volumeInfo; 
 
       var img = v.imageLinks ? v.imageLinks.smallThumbnail : 'https://via.placeholder.com/120x160'; /* image or placeholder */
 
       card.append("<img src='" + img + "' alt='Book'>"); /* image */
 
-      card.append("<h3>Title: " + v.title + "</h3>"); /* title */
+      card.append("<h3>Title: " + (v.title || '') + "</h3>"); /* title */
+
+      card.append("<p><b>Author(s):</b> " + (v.authors ? v.authors.join(', ') : '') + "</p>"); /* authors */
+
+      card.append("<p><b>Publisher:</b> " + (v.publisher || '') + "</p>"); /* publisher */
+
+      card.append("<p><b>Pages:</b> " + (v.pageCount || 'N/A') + "</p>"); /* pages */
 
       card.append("<p><b>Published:</b> " + (v.publishedDate || '') + "</p>"); /* publish date */
-
-      card.append("<p><b>Rating:</b> " + (v.averageRating || 'N/A') + "</p>"); /* rating */
 
       var desc = v.description || ''; /* description */
 
@@ -979,10 +982,10 @@ $(document).ready(function() { /* document ready */
         "<a href='" + (v.infoLink || '#') + "' target='_blank'>Info Link</a>" + /* info */
       "</div>"); /* end links */
     } else { /* if no item */
-      card.append("<div>No Data</div>"); 
+      card.append("<div>No Data</div>"); /* placeholder */
     }
 
-    $("#grid").append(card); /* add card */
+    $("#grid").append(card);
   }
 
 }); 
