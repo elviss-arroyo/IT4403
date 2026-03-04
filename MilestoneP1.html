@@ -34,16 +34,17 @@
 
 
 
-$(document).ready(function() { /* document ready */
+$(document).ready(function() {  
+   $.getJSON("google-books-search.json", function(json) {
 
-  $("#grid").empty(); /* clear grid */
+  $("#grid").empty();  
 
-  var items = json.items || []; /* get items or empty */
+  var items = json.items || [];  
 
-  for (var i = 0; i < 10; i++) { /* loop all 10 books */
+  for (var i = 0; i < 10; i++) {  
     var card = $("<div class='card'></div>"); /* create card */
 
-    if (items[i]) { /* if item exists */
+    if (items[i]) {  
       var v = items[i].volumeInfo; 
 
       var img = v.imageLinks ? v.imageLinks.smallThumbnail : 'https://via.placeholder.com/120x160'; /* image or placeholder */
