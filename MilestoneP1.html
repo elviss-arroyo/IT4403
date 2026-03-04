@@ -1,33 +1,34 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en"> 
 <head> 
-  <meta charset="UTF-8"> <!-- character encoding -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-  <title> Book List Data</title> <!-- page title -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book List</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- fonts -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"> <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"> 
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 
-  <style> /* CSS styling */
+  <style> /* CSS start */
     body { font-family: 'Inter', Arial, sans-serif; padding: 20px; background: #f8f8f8; } /* body style */
     h1 { text-align: center; } /* center title */
-    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 900px; margin: 0 auto; } /* 3x3 grid */
-    .card { background: white; padding: 10px; border-radius: 6px; text-align: center; min-height: 260px; display: flex; flex-direction: column; justify-content: space-between; } /* 10th book */
-    .card img { border: 2px solid #000; border-radius: 4px; display: block; margin: 0 auto 10px; width: 120px; height: 160px; object-fit: cover; } /* thumbnail same size */
-    a { display: block; margin: 2px 0; } /* link spacing */
-    .placeholder { color: #888; font-style: italic; } 
-  </style>
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 1000px; margin: 0 auto; } /* 3 column grid */
+    .card { background: white; padding: 10px; border-radius: 6px; text-align: center; min-height: 260px; display: flex; flex-direction: column; justify-content: space-between; } /* card styling */
+    .card img { border: 2px solid #000; border-radius: 4px; width: 120px; height: 160px; object-fit: cover; margin: 0 auto; } /* image style */
+    .links a { display: block; margin: 3px 0; } /* links spacing */
+    .desc { font-size: 0.9em; } /* description style */
+  </style> /* CSS end */
 
-  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-</head>
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script> /* load jQuery */
+</head> /* head end */
 
-<body>
-  <h1>Book List Data</h1> 
+<body> /* body start */
+  <h1>Book List</h1> /* page heading */
 
-  <div class="grid" id="grid"></div> 
+  <div class="grid" id="grid"></div> /* grid container */
 
-<script>  
+<script> /* JS start */
+
 
 var json =  { 
  "kind": "books#volumes",
@@ -940,50 +941,53 @@ var json =  {
    },
    "searchInfo": {
     "textSnippet": "\u003cb\u003eModern\u003c/b\u003e. \u003cb\u003eWeb\u003c/b\u003e. How. the. \u003cb\u003eWeb\u003c/b\u003e. Has. Changed. Prior to about 2010, putting too \u003cbr\u003e\nmuch JavaScriptTM in an application was considered bad practice. Today \u003cbr\u003e\nJavaScript is the primary programming language of the \u003cb\u003eweb\u003c/b\u003e. To understand this \u003cbr\u003e\nradical&nbsp;..."
-   }
-  }
- ]};
-$(document).ready(function() {
-
-  $("#grid").empty(); 
-
-  if (!json || !json.items) { 
-    for (var i = 0; i < 9; i++) { 
-      $("#grid").append("<div class='card placeholder'></div>"); 
     }
-    return; /* stop */
   }
+ ]
+}; /* end JSON */
 
-  var items = json.items; /* books array */
+$(document).ready(function() { /* document ready */
 
-  for (var i = 0; i < 9; i++) { /* 3x3 loop */
+  $("#grid").empty(); /* clear grid */
+
+  var items = json.items || []; /* get items or empty */
+
+  for (var i = 0; i < 10; i++) { /* loop all 10 books */
     var card = $("<div class='card'></div>"); /* create card */
 
-    if (items[i]) { /* if book exists */
+    if (items[i]) { /* if item exists */
       var v = items[i].volumeInfo; /* shortcut */
-      var img = v.imageLinks ? v.imageLinks.smallThumbnail : 'https://via.placeholder.com/120x160'; /* fallback image */
 
-      card.append("<img src='" + img + "' alt='Book'>"); /* small thumbnail */
-      card.append("<h3>" + v.title + "</h3>"); /* title */
-      card.append("<p><b>" + (v.subtitle || '') + "</b></p>"); /* subtitle  */
-      card.append("<p>" + (v.authors ? v.authors.join(', ') : '') + "</p>"); /* authors */
-      card.append("<p><b>Publisher:</b> " + (v.publisher || '') + "</p>"); /* publisher */
-      card.append("<p><b>Published:</b> " + (v.publishedDate || '') + "</p>"); /* published date */
-      card.append("<p><b>Description:</b> " + (v.description || '') + "</p>"); /* description */
+      var img = v.imageLinks ? v.imageLinks.smallThumbnail : 'https://via.placeholder.com/120x160'; /* image or placeholder */
+
+      card.append("<img src='" + img + "' alt='Book'>"); /* image */
+
+      card.append("<h3>Title: " + v.title + "</h3>"); /* title */
+
+      card.append("<p><b>Published:</b> " + (v.publishedDate || '') + "</p>"); /* publish date */
+
       card.append("<p><b>Rating:</b> " + (v.averageRating || 'N/A') + "</p>"); /* rating */
-      card.append("<a href='" + (v.previewLink || '#') + "' target='_blank'>Preview</a>"); /* preview */
-      card.append("<a href='" + (v.infoLink || '#') + "' target='_blank'>Info</a>"); /* info */
-      card.append("<a href='" + (v.webReaderLink || '#') + "' target='_blank'>Reader</a>"); /* reader */
-    } else {
-      card.append("<div class='placeholder'>Empty Slot</div>"); /* empty card */
+
+      var desc = v.description || ''; /* description */
+
+      if (desc.length > 120) { desc = desc.substring(0, 120) + "..."; } /* shorten description */
+
+      card.append("<p class='desc'>" + desc + "</p>"); /* description */
+
+      card.append("<div class='links'>" + /* links */
+        "<a href='" + (v.previewLink || '#') + "' target='_blank'>Preview</a>" + /* preview */
+        "<a href='" + (v.infoLink || '#') + "' target='_blank'>Info Link</a>" + /* info */
+      "</div>"); /* end links */
+    } else { /* if no item */
+      card.append("<div>No Data</div>"); 
     }
 
-    $("#grid").append(card); 
+    $("#grid").append(card); /* add card */
   }
 
-});
+}); 
 
 </script> 
 
 </body> 
-</html>
+</html> 
