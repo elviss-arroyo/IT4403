@@ -29,49 +29,46 @@
   <h1>Book Search List</h1>
 
   <div class="grid" id="grid"></div> 
-
 <script>
-
-
-
 $(document).ready(function() {  
-   $.getJSON("google-books-search.json", function(json) {
+    $.getJSON("google-books-search.json", function(json) {
 
-  $("#grid").empty();  
+        $("#grid").empty();  
 
-  var items = json.items || [];  
+        var items = json.items || [];  
 
-  for (var i = 0; i < 10; i++) {  
-    var card = $("<div class='card'></div>"); /* create card */
+        for (var i = 0; i < 10; i++) {  
+            var card = $("<div class='card'></div>"); 
 
-    if (items[i]) {  
-      var v = items[i].volumeInfo; 
+            if (items[i]) {  
+                var v = items[i].volumeInfo; 
 
-      var img = v.imageLinks ? v.imageLinks.smallThumbnail : 'https://via.placeholder.com/120x160'; /* image or placeholder */
+                var img = v.imageLinks ? v.imageLinks.smallThumbnail : 'https://via.placeholder.com/120x160'; 
 
-      card.append("<img src='" + img + "' alt='Book'>"); /* image */
-      card.append("<h3>" + (v.title || '') + "</h3>");
-      card.append("<p><b>Author:</b> " + (v.authors ? v.authors.join(', ') : '') + "</p>"); /* authors */
-      card.append("<p><b>Publisher:</b> " + (v.publisher || '') + "</p>"); /* publisher */
-      card.append("<p><b>Pages:</b> " + (v.pageCount || 'N/A') + "</p>"); /* pages */
-      card.append("<p><b>Published:</b> " + (v.publishedDate || '') + "</p>"); /* publish date */
-      var desc = v.description || ''; /* description */
-      if (desc.length > 120) { desc = desc.substring(0, 120) + "..."; } /* shorten description */
-      card.append("<p class='desc'>" + desc + "</p>"); /* description */
-      card.append("<div class='links'>" + /* links */
-        "<a href='" + (v.previewLink || '#') + "' target='_blank'>Preview</a>" + /* preview */
-        "<a href='" + (v.infoLink || '#') + "' target='_blank'>Info Link</a>" + /* info */
-      "</div>"); /* end links */
-    } else { /* if no item */
-      card.append("<div>No Data</div>"); /* placeholder */
-    }
+                card.append("<img src='" + img + "' alt='Book'>"); 
+                card.append("<h3>" + (v.title || '') + "</h3>");
+                card.append("<p><b>Author:</b> " + (v.authors ? v.authors.join(', ') : '') + "</p>"); 
+                card.append("<p><b>Publisher:</b> " + (v.publisher || '') + "</p>"); 
+                card.append("<p><b>Pages:</b> " + (v.pageCount || 'N/A') + "</p>"); 
+                card.append("<p><b>Published:</b> " + (v.publishedDate || '') + "</p>"); 
+                
+                var desc = v.description || ''; 
+                if (desc.length > 120) { desc = desc.substring(0, 120) + "..."; } 
+                card.append("<p class='desc'>" + desc + "</p>"); 
+                
+                card.append("<div class='links'>" + 
+                    "<a href='" + (v.previewLink || '#') + "' target='_blank'>Preview</a>" + 
+                    "<a href='" + (v.infoLink || '#') + "' target='_blank'>Info Link</a>" + 
+                "</div>"); 
+            } else { 
+                card.append("<div>No Data</div>"); 
+            }
 
-    $("#grid").append(card);
-  }
-});
+            $("#grid").append(card);
+        }
+    });
 }); 
-
-</script> 
+</script>
 
 </body> 
 </html> 
