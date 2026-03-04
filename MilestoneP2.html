@@ -1,50 +1,50 @@
 <!DOCTYPE html> 
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book JSON Display</title> 
+<head> <!-- head section -->
+  <meta charset="UTF-8"> <!-- character set -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- responsive -->
+  <title>Book JSON Display</title> <!-- page title -->
 
   <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- fonts -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- font loading -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"> <!-- load Inter font -->
 
-  <style> 
+  <style> /* CSS start */
 
     body { /* style body */
       font-family: 'Inter', Arial, sans-serif; /* use Inter font */
       display: flex; /* flex layout */
-      flex-direction: column; /* items vertically */
-      align-items: center; /* center items horizontally */
+      flex-direction: column; /* items vertical */
+      align-items: center; /* center horizontally */
       padding: 20px; /* page padding */
       background-color: #f8f8f8; /* light background */
     }
 
     h1 { /* style heading */
-      margin-bottom: 20px; /* space below heading */
+      margin-bottom: 20px; /* space below */
     }
 
     .book-container { /* style container */
       width: 100%; /* full width */
-      max-width: 700px; /* limit width */
-      background-color: #fff; /* white  */
+      max-width: 700px; /* max width */
+      background-color: #fff; /* white background */
       padding: 20px; /* inner spacing */
       border-radius: 8px; /* rounded edges */
     }
 
     .center-image { /* style image */
-      display: block; /* center block */
+      display: block; /* block element */
       margin: 0 auto; /* center horizontally */
-      max-width: 100%; /* responsive image */
-      border: 2px solid #000; /*  black border */
+      max-width: 100%; /* responsive */
+      border: 2px solid #000; /* black border */
       border-radius: 6px; /* rounded edges */
     }
 
-    .center-text { /*  centered text */
-      text-align: center; /* center text */
+    .center-text { /* center text */
+      text-align: center; /* center alignment */
     }
 
-    hr { /* separator */
+    hr { /* style separator */
       margin: 20px 0; /* spacing */
       border: 0; /* remove border */
       border-top: 1px solid #ccc; /* thin line */
@@ -53,33 +53,32 @@
   </style> <!-- end CSS -->
 
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script> <!-- load jQuery -->
-</head> 
-<body> 
+</head> <!-- end head -->
+
+<body> <!-- body start -->
 
 <h1>Single Book Data</h1> <!-- title -->
 
 <div class="book-container"> <!-- container -->
-  <img id="cover" class="center-image" alt="Book Cover"> <!-- centered image with border -->
-  <div id="description" class="center-text"></div> <!-- centered  -->
+  <img id="cover" class="center-image" alt="Book Cover"> <!-- image -->
+  <div id="description" class="center-text"></div> <!-- description -->
 
   <hr> <!-- separator -->
   
   <h2 class="center-text">Details</h2> <!-- details heading -->
-  <div id="details"></div> <!-- details section -->
-  
+  <div id="details"></div> <!-- details -->
+
   <hr> <!-- separator -->
   
   <h2 class="center-text">Links</h2> <!-- links heading -->
-  <div id="links"></div> <!-- links section -->
+  <div id="links"></div> <!-- links -->
 </div> <!-- end container -->
 
-<script> 
+<script> /* script start */
 
-
-
-$(document).ready(function() { /* run when page loads */
-    $.getJSON("google-books-book.json", function(jsonObject) {
-  var v = jsonObject.volumeInfo; /* shortcut */
+$(document).ready(function() { /* document ready */
+    $.getJSON("google-books-book.json", function(jsonObject) { /* get JSON */
+  var v = jsonObject.volumeInfo; 
 
   if (v.imageLinks && v.imageLinks.thumbnail) { /* check image */
     $("#cover").attr("src", v.imageLinks.thumbnail); /* set image */
@@ -87,29 +86,29 @@ $(document).ready(function() { /* run when page loads */
 
   $("#description").html(v.description); /* full description */
 
-  $("#details").html( 
-    "<b>Title:</b> " + v.title + "<br>" +
-    "<b>Subtitle:</b> " + v.subtitle + "<br>" +
-    "<b>Author(s):</b> " + v.authors.join(", ") + "<br>" +
-    "<b>Publisher:</b> " + v.publisher + "<br>" +
-    "<b>Published:</b> " + v.publishedDate + "<br>" +
-    "<b>Pages:</b> " + v.pageCount + "<br>" +
-    "<b>Print Type:</b> " + v.printType + "<br>" +
-    "<b>Maturity:</b> " + v.maturityRating + "<br>" +
-    "<b>Identifiers:</b> ISBN-10: " + v.industryIdentifiers[0].identifier +
-    " | ISBN-13: " + v.industryIdentifiers[1].identifier + "<br>" +
-    "<b>Rating:</b> " + v.averageRating + "<br>" +
-    "<b>Categories:</b> " + v.categories.join(", ")
+  $("#details").html( /* build details */
+    "<b>Title:</b> " + v.title + "<br>" + /* title */
+    "<b>Subtitle:</b> " + v.subtitle + "<br>" + /* subtitle */
+    "<b>Author(s):</b> " + v.authors.join(", ") + "<br>" + /* authors */
+    "<b>Publisher:</b> " + v.publisher + "<br>" + /* publisher */
+    "<b>Published:</b> " + v.publishedDate + "<br>" + /* date */
+    "<b>Pages:</b> " + v.pageCount + "<br>" + /* pages */
+    "<b>Print Type:</b> " + v.printType + "<br>" + /* type */
+    "<b>Maturity:</b> " + v.maturityRating + "<br>" + /* rating */
+    "<b>Identifiers:</b> ISBN-10: " + v.industryIdentifiers[0].identifier + /* isbn10 */
+    " | ISBN-13: " + v.industryIdentifiers[1].identifier + "<br>" + /* isbn13 */
+    "<b>Rating:</b> " + v.averageRating + "<br>" + /* rating */
+    "<b>Categories:</b> " + v.categories.join(", ") /* categories */
   );
 
-  $("#links").html( 
-    "<b>Preview:</b> <a href='" + v.previewLink + "' target='_blank'>" + v.previewLink + "</a><br>" +
-    "<b>Info:</b> <a href='" + v.infoLink + "' target='_blank'>" + v.infoLink + "</a>"
+  $("#links").html( /* build links */
+    "<b>Preview:</b> <a href='" + v.previewLink + "' target='_blank'>" + v.previewLink + "</a><br>" + /* preview */
+    "<b>Info:</b> <a href='" + v.infoLink + "' target='_blank'>" + v.infoLink + "</a>" /* info */
   );
 });
 });
 
-</script> 
+</script> <!-- end script -->
 
 </body> 
-</html>
+</html> 
