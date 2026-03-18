@@ -1,111 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">                                             
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Bookshelf | Milestone 2
-  </title>                           
-  <link rel="preconnect" href="https://fonts.googleapis.com">          
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">                      
-  <style>                                                               /* Start internal style */
-    body { background-color: #f9f9f9; min-height: 100vh; }         
-    .grid { 
-        display: grid !important;                                       grid-template-columns: repeat(3, 1fr); 
-        gap: 20px; 
-        max-width: 1100px; 
-        margin: 40px auto; 
-        padding: 20px;
-        position: relative;
-        z-index: 10;                                                    } 
-    .card { background: white; padding: 20px; text-align: center; border: 1px solid #eee; display: flex; flex-direction: column; justify-content: space-between; min-height: 400px; } 
-    .card img { border: 1px solid #333; width: 120px; height: 160px; object-fit: cover; margin: 0 auto; } 
-    .card h3 { font-size: 1em; margin: 15px 0 5px 0; height: 2.4em; overflow: hidden; } 
-    .card h3 a { color: #333; text-decoration: none; }                   
-    .price-tag { font-weight: bold; color: #222; margin: 5px 0; font-size: 0.9em; } 
-    .desc { font-size: 0.85em; color: #666; height: 3.6em; overflow: hidden; margin-bottom: 15px; line-height: 1.4; } 
-    .error-msg { color: #d93025; background: #fde8e8; padding: 15px; text-align: center; grid-column: 1/-1; border: 1px solid #f5c6cb; } 
-  </style>                                                      
-</head>
+<style>
 
-<body>                                           
-  <header>                                       
-    <a href="MILESTONE2BookSearchPage.html">Home</a>       
-    <a href="MILESTONE2BookShelf.html">My Bookshelf</a>          
-  </header>                                                      
-  <main>                                                         
-    <h1 style="text-align: center; margin-top: 40px;">My Bookshelf</h1> 
-    <div class="grid" id="resultsGrid">                               
-      <p id="loadingMsg" style="grid-column: 1/-1; text-align:center;">Connecting to Google Books API...</p> 
-    </div>                                       
+  body { font-family: 'Inter', sans-serif; background-color: #f9f9f9; color: #333; margin: 0; }
+  
+
+  header { padding: 20px; display: flex; gap: 20px; font-weight: bold; font-size: 14px; text-transform: uppercase; }
+  header a { color: #333; text-decoration: none; }
+
+  /* Search Container - Matches Image 2 */
+  .search-container { text-align: center; margin: 60px auto 40px; max-width: 800px; display: flex; justify-content: center; align-items: flex-end; }
+  #searchTerm { padding: 10px; width: 60%; border: none; border-bottom: 2px solid #333; background: transparent; font-size: 18px; outline: none; }
+  #searchBtn { padding: 12px 30px; background: #333; color: white; border: none; cursor: pointer; font-size: 14px; font-weight: bold; margin-left: 15px; transition: 0.3s; }
+  #searchBtn:hover { background: #555; }
+
+  /* Grid Layout - 3 Columns with even spacing */
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+
+  .card { 
+    background: white; 
+    padding: 25px; 
+    text-align: center; 
+    border: 1px solid #eee; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    transition: transform 0.2s;
+  }
+  .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+
+  /* Consistent Image Sizing */
+  .card img { border: 1px solid #333; width: 130px; height: 180px; object-fit: cover; margin-bottom: 20px; }
+
+  /* Font Consistency */
+  .card h3 { font-size: 16px; font-weight: 700; margin: 0 0 10px 0; height: 2.4em; overflow: hidden; line-height: 1.2; }
+  .card h3 a { color: #333; text-decoration: none; }
+  .card .meta-info { font-size: 13px; color: #333; margin-bottom: 8px; }
+  .card .price-tag { font-weight: 700; color: #222; margin: 10px 0; font-size: 14px; }
+  .card .desc { font-size: 13px; color: #777; line-height: 1.5; height: 4.5em; overflow: hidden; margin-top: auto; }
+</style>
+
+<script>
+  $(document).ready(function() {
+    const volumeIds = ["8VnJLu3AvvQC", "pTr44Sx6oWQC", "JVEc0QEACAAJ", "qhQAywOYz10C", "L-U3AAAACAAJ"];
+    const myKey = "AIzaSyBu_4vbTfN8fWyFkHPgvlphVEZ0KJdkEtc";
+    const $grid = $("#resultsGrid");
+
+    function loadShelf() {
+      $grid.empty();
       
-      
-</main>                                         
-  <footer>                                                  
-    <div class="footer-left">                                  
-      Disclaimer: This is a student website created for course projects in IT 4403. 
-      <br> Visit the <a href="https://www.kennesaw.edu/ccse/academics/information-technology/" target="_blank">CCSE Website</a>.
-    </div>           
-    </footer>                         
-  <script>                                                              // Start script
-
-    const volumeIds = [
-      "8VnJLu3AvvQC", // The Shining
-      "pTr44Sx6oWQC", // The Alchemist
-      "JVEc0QEACAAJ", // Absolute Batman
-      "qhQAywOYz10C", // The Odyssey
-      "L-U3AAAACAAJ"  // One Piece
-    ];
-
-    const myKey = "AIzaSyBu_4vbTfN8fWyFkHPgvlphVEZ0KJdkEtc";              // API Key
-
-    async function loadShelfByIds() {                                   // Fetch function
-      const resultsGrid = document.getElementById('resultsGrid');       // Get grid
-      
-      try {
-        // Fetch all books at once using fetch()
-        const responses = await Promise.all(
-          volumeIds.map(id => fetch(`https://www.googleapis.com/books/v1/volumes/${id}?key=${myKey}`))
-        );
-
-        const books = await Promise.all(responses.map(res => res.json())); // Parse all JSON
-        
-        resultsGrid.innerHTML = "";                                     // Clear loading text
-
-        books.forEach(book => {                                         // Loop results
-          if (!book || book.error) return;                              // Skip errors
-
-          const v = book.volumeInfo;                                    // Info shortcut
-          const s = book.saleInfo;                                      // Sale shortcut
-          const img = v.imageLinks ? v.imageLinks.smallThumbnail : 'https://via.placeholder.com/120x160'; 
-          const secureImg = img.replace("http://", "https://");         // Force HTTPS
-
-          let price = "N/A";                                            // Default price
-          if (s && s.saleability === "FOR_SALE" && s.listPrice) {       // Check if available
-            price = `$${s.listPrice.amount}`;                           // Format price
+      volumeIds.forEach(id => {
+        $.get(`https://www.googleapis.com/books/v1/volumes/${id}?key=${myKey}`, function(book) {
+          const v = book.volumeInfo;
+          const s = book.saleInfo;
+          const img = v.imageLinks ? v.imageLinks.smallThumbnail.replace("http://", "https://") : 'https://via.placeholder.com/130x180';
+          
+          let price = "Price: N/A";
+          if (s && s.listPrice) {
+            price = "Price: $" + s.listPrice.amount.toFixed(2);
           }
 
-        
-          const cardHtml = `
+          const card = $(`
             <div class="card">
-              <img src="${secureImg}" alt="Book Cover">
+              <img src="${img}" alt="Book Cover">
               <h3><a href="details.html?id=${book.id}">${v.title || 'Untitled'}</a></h3>
-              <p style="font-size:0.85em;"><b>By:</b> ${v.authors ? v.authors.join(', ') : 'N/A'}</p>
-              <p style="font-size:0.8em;"><b>Publisher:</b> ${v.publisher || 'N/A'}</p>
-              <p class="price-tag">Price: ${price}</p>
-              <p class="desc">${(v.description || 'No description available.').substring(0, 90)}...</p>
+              <div class="meta-info"><b>By:</b> ${v.authors ? v.authors[0] : 'N/A'}</div>
+              <div class="meta-info"><b>Publisher:</b> ${v.publisher || 'N/A'}</div>
+              <div class="price-tag">${price}</div>
+              <div class="desc">${v.description ? v.description.substring(0, 100) + '...' : 'No description available.'}</div>
             </div>
-          `;
+          `);
           
-          resultsGrid.insertAdjacentHTML('beforeend', cardHtml);         // Add to grid
+          $grid.append(card);
         });
-      } catch (err) {                                                   // Catch network errors
-        resultsGrid.innerHTML = `<p class="error-msg">Error: ${err.message}</p>`;
-      }
+      });
     }
 
-
-    document.addEventListener('DOMContentLoaded', loadShelfByIds);      // Trigger fetch
-  </script>                                                             </body>
-</html>
+    loadShelf();
+  });
+</script>
