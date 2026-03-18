@@ -1,1 +1,106 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>Book Search</title> 
+  <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- connect to fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- faster font load -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"> <!-- font -->
 
+ 
+  <style>
+    body { font-family: 'Inter', Arial; padding: 20px; background: #f8f8f8; } /* page style */
+    h1 { text-align: center; } /* center title */
+    .search-box { text-align: center; margin-bottom: 15px; } /* search area */
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 1000px; margin: auto; } /* grid */
+    .card { background: white; padding: 10px; border-radius: 6px; text-align: center; min-height: 260px; } /* card */
+    .card img { width: 120px; height: 160px; border: 2px solid black; margin: auto; } /* image */
+    .desc { font-size: 0.9em; } /* description */
+    #pagination { text-align: center; margin-top: 15px; } /* pagination */
+    button { margin: 3px; padding: 5px 10px; } /* buttons */
+  </style>
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script> <!-- jquery library -->
+</head> 
+
+<body> 
+
+<h1>Book Search</h1> 
+
+
+<div class="search-box">
+  <input type="text" id="searchInput" placeholder="Search books..."> <!-- input box -->
+  <button id="searchBtn">Search</button> <!-- search button -->
+</div>
+
+<div class="grid" id="grid"></div> 
+<div id="pagination"></div> <!-- page buttons -->
+
+<script> 
+
+let currentPage = 1; // store current page
+let query = ""; // store search term
+$(document).ready(function() {
+
+  // when search button clicked
+  $("#searchBtn").click(function() {
+    query = $("#searchInput").val(); // get input value
+    currentPage = 1; // reset to page 1
+    searchBooks(); // call function
+  });
+
+});
+
+// function to call API
+function searchBooks() {
+
+  if (!query) return; // stop if empty
+
+  let startIndex = (currentPage - 1) * 20; // calculate offset
+
+  // API URL
+  let url = "https://www.googleapis.com/books/v1/volumes?q=" 
+            + query + "&maxResults=20&startIndex=" + startIndex;
+  
+  $.getJSON(url, function(data) {   // get data from API
+    $("#grid").empty(); // clear old results
+    let items = data.items || []; // get items a
+    for (let i = 0; i < items.length; i++) {
+      let book = items[i]; // current book
+      let v = book.volumeInfo; // book info
+      let card = $("<div class='card'></div>"); // create card
+      let img = v.imageLinks ? v.imageLinks.smallThumbnail : "https://via.placeholder.com/120x160";
+      card.append("<img src='" + img + "'>"); // add image
+      card.append("<h3><a href='details.html?id=" + book.id + "'>" + (v.title || "No Title") + "</a></h3>"); // clickable title
+      card.append("<p><b>Author:</b> " + (v.authors ? v.authors.join(", ") : "N/A") + "</p>");    // author
+      card.append("<p><b>Publisher:</b> " + (v.publisher || "N/A") + "</p>");  // publisher
+      // description
+      let desc = v.description || ""; // get desc
+      if (desc.length > 100) desc = desc.substring(0, 100) + "..."; // shorten
+      card.append("<p class='desc'>" + desc + "</p>"); // add desc
+
+      $("#grid").append(card); // add card to grid
+    }
+    createPagination(data.totalItems); // create page buttons
+  });
+
+}
+function createPagination(totalItems) {
+  $("#pagination").empty(); // clear old buttons
+  let totalPages = Math.ceil(Math.min(totalItems, 60) / 20); // max 60 results
+  for (let i = 1; i <= totalPages; i++) {
+    let btn = $("<button>" + i + "</button>"); // create button
+    btn.click(function() {
+      currentPage = i; // set page
+      searchBooks(); // reload results
+    });
+
+    $("#pagination").append(btn); // add button
+  }
+
+}
+
+</script>
+
+</body> 
+</html>
