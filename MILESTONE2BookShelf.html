@@ -61,9 +61,7 @@
         $("#resultsGrid").empty();                                      // Clear loading text
         var items = data.items || [];                                   // Get book list
 
-        if (items.length === 0) {                                       // If empty
-          $("#resultsGrid").html("<p class='error-msg'>No books found in this bookshelf.</p>"); 
-          return;                                                     
+
         }
 
         items.forEach(function(book) {                                  // Loop books
@@ -91,9 +89,6 @@
 
           $("#resultsGrid").append(card);                               // Put card in grid
         });                                                             // End loop
-      }).fail(function() {                                              // Error handler
-        $("#resultsGrid").html("<p class='error-msg'>Could not load bookshelf. Ensure it is set to Public.</p>"); // Fail msg
-      });
     }
 
     loadShelf();                                                        // Run on load
