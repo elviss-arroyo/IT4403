@@ -1,115 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">                                            
+  <meta charset="UTF-8">                                               
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book Search | Milestone 2</title>        
+  <title>Book Search | Milestone 2
+  </title>                            
   <link rel="preconnect" href="https://fonts.googleapis.com">         
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"> 
-  <style>                                                             
-    body { font-family: 'Inter', Arial, sans-serif; padding: 20px; background: #f8f8f8; color: #333; margin: 0; }
-    header { background: transparent; padding: 20px; text-align: left; border-bottom: 1px solid #eee; margin-bottom: 40px; }
-    header a { margin-right: 20px; text-decoration: none; color: #333; font-size: 0.9em; }
-    header a:hover { text-decoration: underline; }                      
-
-    h1 { text-align: center; font-weight: 700; margin-bottom: 30px; }    /* Center title */
-    .search-container { text-align: center; margin-bottom: 50px; max-width: 700px; margin-left: auto; margin-right: auto; display: flex; justify-content: center; } 
-    #searchTerm { padding: 12px; width: 70%; border: none; border-bottom: 2px solid #333; background: transparent; font-size: 16px; outline: none; } 
-    #searchBtn { padding: 12px 25px; background: #333; color: white; border: none; cursor: pointer; font-size: 14px; font-weight: bold; margin-left: 10px; transition: opacity 0.2s; } 
-    #searchBtn:hover { opacity: 0.8; }                                   /* Button hover */
-    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1000px; margin: 0 auto; } /* 3 column grid */
-    .card { background: white; padding: 20px; text-align: center; border: 1px solid #eee; display: flex; flex-direction: column; justify-content: space-between; } 
-    .card img { border: 1px solid #333; width: 120px; height: 160px; object-fit: cover; margin: 0 auto; } /* Image style */
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">                         
+  <style>                                                            
+    .search-container { text-align: center; margin: 40px auto; max-width: 700px; display: flex; justify-content: center; align-items: flex-end; }
+    #searchTerm { padding: 12px; width: 70%; border: none; border-bottom: 1px solid #333; background: transparent; font-size: 16px; outline: none; font-family: 'Inter'; } 
+    #searchBtn { padding: 10px 25px; background: #333; color: white; border: none; cursor: pointer; font-size: 14px; font-weight: bold; margin-left: 10px; font-family: 'Inter'; } /* Black button */
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1100px; margin: 0 auto; padding: 20px; } /* 3 column grid */
+    .card { background: white; padding: 20px; text-align: center; border: 1px solid #eee; display: flex; flex-direction: column; justify-content: space-between; } /* Card box */
+    .card img { border: 1px solid #333; width: 120px; height: 160px; object-fit: cover; margin: 0 auto; } /* Book cover style */
     .card h3 { font-size: 1em; margin: 15px 0 5px 0; height: 2.4em; overflow: hidden; } /* Title style */
-    .card h3 a { color: #999; text-decoration: none; }                   /* Link color */
-    .card h3 a:hover { text-decoration: underline; }                    /* Link hover */
+    .card h3 a { color: #333; text-decoration: none; }                   /* Title link color */
+    .desc { font-size: 0.85em; color: #666; height: 3.6em; overflow: hidden; margin-bottom: 15px; line-height: 1.4; } /* Snippet style */
+    #pagination { text-align: center; margin: 40px 0; }                 /* Page buttons area */
+    .page-btn { margin: 0 5px; padding: 8px 15px; background: white; border: 1px solid #333; cursor: pointer; } /* Button style */
+    .active { background: #333; color: white; }                          /* Current page style */
+    .error-msg { color: #d93025; background: #fde8e8; padding: 15px; text-align: center; grid-column: 1/-1; border: 1px solid #f5c6cb; } /* Error style */
+  </style>                                                         
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js">
     
-    .desc { font-size: 0.85em; color: #666; height: 3.6em; overflow: hidden; margin-bottom: 15px; line-height: 1.4; } /* Description */
-
-    #pagination { text-align: center; margin-top: 40px; padding-bottom: 40px; } /* Pagination spacing */
-    .page-btn { margin: 0 5px; padding: 8px 15px; background: white; border: 1px solid #333; cursor: pointer; font-family: 'Inter'; } /* Page button */
-    .active { background: #333; color: white; }                          /* Active page black */
-
-    .error-msg { color: #d93025; background: #fde8e8; padding: 15px; text-align: center; grid-column: 1/-1; border: 1px solid #f5c6cb; } 
-  </style>                                                   
-  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  </script>   
 </head>
+  
 
-<body>                                                      
-  <header>                                                                                  
-    <a href="MILESTONE2BookSearchPage.html">Home</a>     
-    <a href="MILESTONE2BookShelf.html">My Bookshelf</a>            
-  </header>                                                       
-  <h1>Book Search List</h1>                                       
-  <div class="search-container">                                  
-    <input type="text" id="searchTerm" placeholder="Search for books..."> 
-    <button id="searchBtn">SEARCH</button>                              
-  </div>                                                               
-  <div class="grid" id="resultsGrid"></div>                            
-  <div id="pagination"></div>                                         
+<body>                         
+  <header>                      
+    <a href="index.html">Home</a> 
+    <a href="labs.html">Lab Work</a>    
+    <a href="projects.html">Individual Project Work</a>    
+  </header>                                                        
+  <main>                                                    
+    <h1 style="text-align: center;">Book Search List
+    </h1>        
+    <div class="search-container">                                    
+      <input type="text" id="searchTerm" placeholder="Search for books..."> 
+      <button id="searchBtn">SEARCH
+      </button>                           
+    </div>                                                             
+    <div class="grid" id="resultsGrid">
+      
+    </div>                          
+    <div id="pagination">
+    
+    </div>                
+  </main>                                 
+  <footer>                                  
+    <div class="footer-left">                 
+      Disclaimer: This is a student website created for courses. 
+      <br> Visit the <a href="https://www.kennesaw.edu/ccse/academics/information-technology/" target="_blank">CCSE Website</a>.
+    </div>                      
+    <div class="page-counter">01 — 03</div>    
+  </footer>                                      
   <script>                                                              // Start script
-  $(document).ready(function() {                                        // Wait for page load
+  $(document).ready(function() {                                        // Page ready function
     var myKey = "AIzaSyBu_4vbTfN8fWyFkHPgvlphVEZ0KJdkEtc";              // API Key
-    var query = "";                                                     // Search query
-    var currentPage = 1;                                                // Default page
+    var query = "";                                                     // Search term storage
+    var currentPage = 1;                                                // Page tracker
 
-    $("#searchBtn").on("click", function() {                            // Search click
-      query = $("#searchTerm").val().trim();                            // Get text
-      if (!query) return;                                               // Stop if empty
-      currentPage = 1;                                                  // Reset page
-      runSearch();                                                      // Call API
+    $("#searchBtn").on("click", function() {                            // Search trigger
+      query = $("#searchTerm").val().trim();                            // Get text input
+      if (!query) return;                                               // Exit if empty
+      currentPage = 1;                                                  // Reset page count
+      runSearch();                                                      // Run API call
     });
 
-    function runSearch() {                                              // API Function
-      var startIndex = (currentPage - 1) * 20;                          // Calculate start
+    function runSearch() {                                              // Fetch data
+      var startIndex = (currentPage - 1) * 20;                          // Calculate offset
       var url = "https://www.googleapis.com/books/v1/volumes?q=" + encodeURIComponent(query) + 
-                "&maxResults=20&startIndex=" + startIndex + "&key=" + myKey; // Build URL
+                "&maxResults=20&startIndex=" + startIndex + "&key=" + myKey; // Full URL
 
       $("#resultsGrid").html("<p style='grid-column: 1/-1; text-align:center;'>Searching...</p>"); // Loading
 
-      $.get(url, function(data) {                                       // Request data
+      $.get(url, function(data) {                                       // AJAX request
         $("#resultsGrid").empty();                                      // Clear grid
-        var items = data.items || [];                                   // Get items
+        var items = data.items || [];                                   // List of books
 
-        if (items.length === 0) {                                  
-            $("#resultsGrid").html("<p class='error-msg'>No books found. Try another search.</p>"); // Error
+        if (items.length === 0) {                                       // Handle no results
+            $("#resultsGrid").html("<p class='error-msg'>No books found.</p>"); // Message
             return;                                                     // Stop
         }
 
-        items.forEach(function(book) {                                  // Loop books
+        items.forEach(function(book) {                                  // Loop through books
           var v = book.volumeInfo;                                      // Data shortcut
-          var img = v.imageLinks ? v.imageLinks.smallThumbnail : 'https://via.placeholder.com/120x160'; // Image
-          img = img.replace("http://", "https://");                     
+          var img = v.imageLinks ? v.imageLinks.smallThumbnail : 'https://via.placeholder.com/120x160'; // Cover
+          img = img.replace("http://", "https://");                     // Force secure
 
-          var card = $("<div class='card'></div>");                     // Create card
+          var card = $("<div class='card'></div>");                     // Card element
           card.append("<img src='" + img + "' alt='Book'>");            // Add image
-          card.append("<h3><a href='details.html?id=" + book.id + "'>" + (v.title || 'Untitled') + "</a></h3>"); // Add title
-          card.append("<p style='font-size:0.9em;'><b>By:</b> " + (v.authors ? v.authors[0] : 'Unknown') + "</p>"); // Add author
+          card.append("<h3><a href='details.html?id=" + book.id + "'>" + (v.title || 'Untitled') + "</a></h3>"); // Title link
+          card.append("<p style='font-size:0.85em;'><b>By:</b> " + (v.authors ? v.authors[0] : 'N/A') + "</p>"); // Author
           
-          var dText = v.description || 'No description available.';     // Get desc
-          if (dText.length > 90) dText = dText.substring(0, 90) + "..."; // Trim desc
-          card.append("<p class='desc'>" + dText + "</p>");             // Add desc
+          var dText = v.description || 'No description.';               // Description text
+          if (dText.length > 90) dText = dText.substring(0, 90) + "..."; // Shorten it
+          card.append("<p class='desc'>" + dText + "</p>");             // Add text
 
-          $("#resultsGrid").append(card);                               // Add to grid
+          $("#resultsGrid").append(card);                               // Put card in grid
         });                                                             // End loop
 
         renderPagination(data.totalItems);                              // Draw buttons
-      }).fail(function() {                                              // If API fails
-          $("#resultsGrid").html("<p class='error-msg'>Error connecting to Google Books. Please try again.</p>"); // Fail 
       });
     }
 
-    function renderPagination(total) {                                  // Draw pages
-      $("#pagination").empty();                                         // Clear buttons
+    function renderPagination(total) {                                  // Draw page buttons
+      $("#pagination").empty();                                         // Clear old
       var pages = Math.ceil(Math.min(total, 60) / 20);                  // Max 3 pages
       for (var i = 1; i <= pages; i++) {                                // Loop pages
-        var btn = $("<button class='page-btn'>" + i + "</button>");     // Create btn
-        if (i === currentPage) btn.addClass("active");                  // Set active
+        var btn = $("<button class='page-btn'>" + i + "</button>");     // Create button
+        if (i === currentPage) btn.addClass("active");                  // Set active style
         btn.on("click", (function(num) {                                // Click logic
           return function() { currentPage = num; runSearch(); window.scrollTo(0,0); }; // Go to page
         })(i));
-        $("#pagination").append(btn);                                   // Add to div
+        $("#pagination").append(btn);                                   // Show button
       }
     }
   });                                                                   // End ready
