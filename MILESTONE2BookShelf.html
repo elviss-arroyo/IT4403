@@ -10,20 +10,20 @@
   <link rel="stylesheet" href="style.css">                         
   <style>                                                            
 
-    h1 { 
-        text-align: center; 
-        margin-top: 40px; 
-        font-size: 32px; 
-        font-weight: 800; 
-    }
+    body { font-family: 'Inter', sans-serif; background-color: white; color: #333; margin: 0; }
+    
+    header { padding: 30px 50px; display: flex; gap: 30px; }
+    header a { color: #333; text-decoration: none; font-weight: 700; font-size: 16px; }
 
-   
+
+    h1 { text-align: center; margin: 40px 0; font-size: 32px; font-weight: 800; }
+
     .grid { 
         display: grid; 
         grid-template-columns: repeat(3, 1fr); 
         gap: 20px; 
         max-width: 1100px; 
-        margin: 0 auto; /* Centers the grid horizontally */
+        margin: 0 auto !important; 
         padding: 20px; 
     } 
 
@@ -42,13 +42,13 @@
     .card h3 { font-size: 1em; margin: 15px 0 5px 0; height: 2.4em; overflow: hidden; } 
     .card h3 a { color: #333; text-decoration: none; }                   
     
+    /* Uniform font size within cards */
     .card p, .price-tag, .desc { font-size: 0.85em; color: #666; margin: 5px 0; line-height: 1.4; } 
     .price-tag { color: #333; font-weight: bold; }
     .desc { height: 3.6em; overflow: hidden; margin-bottom: 15px; }
 
-    #pagination { text-align: center; margin: 40px 0; }
-    .page-btn { margin: 0 5px; padding: 8px 15px; background: white; border: 1px solid #333; cursor: pointer; } 
-    .active { background: #333; color: white; }
+    footer { padding: 40px; text-align: center; font-size: 12px; color: #888; border-top: 1px solid #eee; margin-top: 50px; }
+    .footer-left { text-align: center; }
   </style>                                                          
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>   
 </head>
@@ -63,7 +63,6 @@
     <h1>My Bookshelf</h1>        
     <div class="grid" id="resultsGrid">
       </div>                                          
-    <div id="pagination"></div>                
   </main>                                                 
   
   <footer>                                                  
