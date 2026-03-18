@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Details</title>                                     
+  <link rel="preconnect" href="https://fonts.googleapis.com">     
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>                                                               /* Start CSS style */
+    body { font-family: 'Inter', Arial, sans-serif; padding: 20px; background: #f8f8f8; } /* Body style */
+    h1 { text-align: center; }                                          /* Center title */
+    .grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 10px; max-width: 600px; margin: 0 auto; } /* Single column grid for detail */
+    .card { background: white; padding: 20px; border-radius: 6px; text-align: center; border: 1px solid #ddd; } /* Card styling */
+    .card img { border: 2px solid #000; border-radius: 4px; width: 180px; height: auto; margin: 0 auto; } /* Image style */
+    .links a { display: block; margin: 5px 0; color: #007bff; text-decoration: none; } /* Link style */
+    .desc { font-size: 0.95em; text-align: left; margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px; } /* Description style */
+    .price { color: black; font-weight: bold; margin: 10px 0; font-size: 1.2em; } /* Price style */
+  </style>                                         
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>  
+</head>
+
+<body>                                                
+  <h1>Book Details</h1>                                                
+  <div class="grid" id="grid">                                         
+    <div id="content">                                               
+      <p style="text-align:center">Loading book details...</p>      
+    </div>                                                     
+  </div>                                                           
+  <script>                                                              // Start script
+  $(document).ready(function() {                                     
+  
+    var myKey = "AIzaSyBu_4vbTfN8fWyFkHPgvlphVEZ0KJdkEtc";              
+    var params = new URLSearchParams(window.location.search);           
+    var bookId = params.get('id');                                      // Get the ID from URL
+
+    var url = "https://www.googleapis.com/books/v1/volumes/" + bookId + "?key=" + myKey; // 
+
+    $.get(url, function(data) {                                         // Call Google Books
+        $("#grid").empty();                                             // Clear the loading message
+        
+        var v = data.volumeInfo;                                       
+        var s = data.saleInfo;                                       
+        
+        var img = v.imageLinks ? v.imageLinks.thumbnail : 'https://via.placeholder.com/180x240'; // Set image
+        img = img.replace("http://", "https://");                       
+
+        var priceText = "Not for Sale";                                 // Default price text
+        if (s && s.listPrice) {                                         // Check if price exists
+            priceText = "$" + s.listPrice.amount + " " + s.listPrice.currencyCode; // Format price string
+        }
+
+        var card = $("<div class='card'></div>");                       // Create the card element
+
+        card.append("<a href='index.html' style='display:block; margin-bottom:10px;'>← Back to Search</a>"); // Back link
+        card.append("<img src='" + img + "' alt='Book Cover'>");        // Add the book cover
+        card.append("<h3>" + (v.title || 'Untitled') + "</h3>");         // Add the book title
+        card.append("<p><b>Author:</b> " + (v.authors ? v.authors.join(', ') : 'Unknown') + "</p>"); // Add authors
+        card.append("<p><b>Publisher:</b> " + (v.publisher || 'N/A') + "</p>"); // Add publisher info
+        card.append("<p><b>Published:</b> " + (v.publishedDate || 'N/A') + "</p>"); // Add date
+        card.append("<p class='price'>Price: " + priceText + "</p>");   // Add price in green
+        card.append("<div class='desc'><b>Description:</b><br>" + (v.description || 'No description.') + "</div>"); // Add description
+        
+        card.append("<div class='links'>" +                             // Start links section
+            "<a href='" + (v.previewLink || '#') + "' target='_blank'>Google Preview</a>" + // Preview link
+            "<a href='" + (v.infoLink || '#') + "' target='_blank'>View in Store</a>" + // Store link
+        "</div>");                                                      // End links section
+
+        $("#grid").append(card);                                       
+    });                                                                
+  });                                                                  
+  </script>                                                     
+</body>                                                           
+</html>
