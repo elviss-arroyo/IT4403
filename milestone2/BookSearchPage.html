@@ -1,111 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Search</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-
-    <style>
-        body { font-family: 'Inter', sans-serif; padding: 20px; background-color: #f8f8f8; }
-        h1 { text-align: center; }
-        .search-area { text-align: center; margin-bottom: 20px; }
-        #searchTerm { padding: 10px; width: 300px; border-radius: 4px; border: 1px solid #ddd; }
-        #searchBtn { padding: 10px 20px; border-radius: 4px; border: none; background-color: #007bff; color: white; cursor: pointer; }
-        
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1000px; margin: 0 auto; }
-        .card { background: white; padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .card img { width: 120px; height: 160px; border: 1px solid #333; margin-bottom: 10px; }
-        .card h3 { font-size: 1rem; margin: 10px 0; }
-        
-        #pagination { text-align: center; margin-top: 20px; }
-        .page-btn { margin: 5px; padding: 5px 10px; cursor: pointer; }
-        .active { font-weight: bold; background-color: #ddd; }
-    </style>
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<title>M </title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
-<body>
 
-    <h1>Book Search</h1>
+<body> 
+<div class="full_web">
 
-    <div class="search-area">
-        <input type="text" id="searchTerm" placeholder="Search...">
-        <button id="searchBtn">Search</button>
-    </div>
+<header>
 
-    <div class="grid" id="bookGrid"></div>
-    <div id="pagination"></div>
+<div class="Top_section"> 
+</div>
 
-    <script>
-   
-        $(function () {
-            console.log("DOM Ready");
+<nav>
+<a href="index.html">HOME PAGE </a>
+<a href="Milestone2_Part3.html">SEARCH</a>
+<a href="bookshelf.html">MY BOOKSHELF </a>
 
-      
-            $("#searchBtn").on("click", function () {
-                runSearch(1); 
-            });
+</header>
 
-            // Enter key support
-            $("#searchTerm").on("keydown", function (e) {
-                if (e.which === 13) {
-                    runSearch(1);
-                }
-            });
-        });
+<!--Buttons-->
 
-        function runSearch(page) {
-            const query = $("#searchTerm").val().trim();
-            if (!query) return;
+<div class="Buttons"> 
+<input id="TextBox" type="text" placeholder="Search Keywords (Example: App Development)">
+<button id="SearchButton">Search</button>
+<select id="NumberofPages"> </select>
+</div>
 
-            const startIndex = (page - 1) * 20;
-            const url = "https://www.googleapis.com/books/v1/volumes?q=" + encodeURIComponent(query) + "&maxResults=20&startIndex=" + startIndex;
+<div class="Result"></div>
 
-            $("#bookGrid").html("<p>Loading...</p>");
+<script> 
 
-            $.getJSON(url, function (data) {
-                $("#bookGrid").empty();
-                if (!data.items) return;
+user_input = ""
+number_of_results = 10
+pagebegin = 0
 
-                data.items.forEach(function (book) {
-                    const v = book.volumeInfo;
-                    
-       
-                    const img = (v.imageLinks && v.imageLinks.thumbnail) 
-                                ? v.imageLinks.thumbnail 
-                                : "https://via.placeholder.com/120x160?text=No+Cover";
+$('#SearchButton').click(function(){
+    user_input=$('#TextBox').val()
+    pagenums()
+    resultnums(pagebegin)
+})
 
-                    const cardHTML = `
-                        <div class="card">
-                            <img src="${img}">
-                            <h3><a href="details.html?id=${book.id}">${v.title || 'No Title'}</a></h3>
-                            <p>Author: ${v.authors ? v.authors[0] : 'N/A'}</p>
+function pagenums(){
+    $('#NumberofPages').html("")
+
+    for(i=0;i<3;i++){ //Keeps number of pages at 3
+
+        max=i*number_of_results
+        $('#NumberofPages').append(
+            "<option value='"+ max +"'>Page "+(i+1)+"</option>")
+    }}    pagebegin = $(this).val()
+    resultnums(pagebegin)
+
+})
+
+
+function resultnums(pagebegin){
+
+    $(".Result").html("")
+    url = "https://www.googleapis.com/books/v1/volumes?q=" + user_input +"&maxResults=" + number_of_results +"&startIndex=" + pagebegin +"&key=AIzaSyCKfwA19zlxpWUozLUu6PwikkFIodUt22Y"
+
+    $.get(url, function(json_MultipleBooks){ 
+        for (i = 0; i<json_MultipleBooks.items.length; i++){ 
+            MultBooks = json_MultipleBooks.items[i].volumeInfo
+            ForID = json_MultipleBooks.items[i]
+
+            title = MultBooks.title
+            id = ForID.id
+            authors = MultBooks.authors
+            publisher = MultBooks.publisher
+            date = MultBooks.publishedDate
+            cover = MultBooks.imageLinks.thumbnail
+    
+
+            $(".Result").append(`
+
+                <div class="bookCard">
+                    <img src="${cover}" class="bookImg">
+                    <div class="bookInfo">
+                        
+                        <h3>
+                            <a href="M2P4(2).html?id=${id}">${title}</a>
+                        </h3>
+
+                        <p><b>Authors:</b> ${authors}</p>
+                        <p><b>Publisher:</b> ${publisher}</p>
+                        <p><b>Published:</b> ${date}</p>
+
+                        <div class="bookButtons">
+                            <a href="https://books.google.com/books?id=${id}" target="_blank">Preview</a>
+                            <a href="details.html?id=${id}">Info</a>
                         </div>
-                    `;
-                    $("#bookGrid").append(cardHTML);
-                });
 
-                createPagination(data.totalItems, page);
-            });
+                    </div>
+                </div>
+
+`)
         }
+    })
+}
+</script>
 
-        function createPagination(totalItems, currentPage) {
-            $("#pagination").empty();
-            const maxPages = Math.ceil(Math.min(totalItems, 60) / 20);
+<style>
 
-            for (let i = 1; i <= maxPages; i++) {
-                const btn = $("<button class='page-btn'>" + i + "</button>");
-                if (i === currentPage) btn.addClass("active");
+body {
+    background-color: lightskyblue;
+    font-family: Arial;
+}
 
-                btn.on("click", function () {
-                    runSearch(i);
-                });
-                $("#pagination").append(btn);
-            }
-        }
-    </script>
-</body>
-</html>
+.full_web {
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav a {
+    text-decoration: none;
+    background-color: black;
+    color:white;
+    border-radius: 30px;
+    padding: 10px 20px;
+    margin-left: 10px;
+}
+
+</style>
