@@ -1,68 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">                                               
+  <meta charset="UTF-8">                                                
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BookShelf | Milestone 2
-  </title>                            
-  <link rel="preconnect" href="https://fonts.googleapis.com">         
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">                         
-  <style>                                                            
-    .search-container { text-align: center; margin: 40px auto; max-width: 700px; display: flex; justify-content: center; align-items: flex-end; }
-    #searchTerm { padding: 12px; width: 70%; border: none; border-bottom: 1px solid #333; background: transparent; font-size: 16px; outline: none; font-family: 'Inter'; } 
-    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1100px; margin: 0 auto; padding: 20px; } /* 3 column grid */
-    .card { background: white; padding: 20px; text-align: center; border: 1px solid #eee; display: flex; flex-direction: column; justify-content: space-between; } /* Card box */
-    .card img { border: 1px solid #333; width: 120px; height: 160px; object-fit: cover; margin: 0 auto; } /* Book cover style */
-    .card h3 { font-size: 1em; margin: 15px 0 5px 0; height: 2.4em; overflow: hidden; } /* Title style */
-    .card h3 a { color: #333; text-decoration: none; }                   /* Title link color */
-    .desc { font-size: 0.85em; color: #666; height: 3.6em; overflow: hidden; margin-bottom: 15px; line-height: 1.4; } /* Snippet style */
-    .active { background: #333; color: white; }                          /* Current page style */
-    .error-msg { color: #d93025; background: #fde8e8; padding: 15px; text-align: center; grid-column: 1/-1; border: 1px solid #f5c6cb; } /* Error style */
-  </style>                                                         
-  <script src="https://code.jquery.com/jquery-3.7.0.min.js">
-    
-  </script>   
-</head>
+  <title>BookShelf | Milestone 2</title>                             
   
-
-<body>                         
-  <header>                      
-    <a href="MILESTONE2BookSearchPage.html">Home</a> 
-    <a href="MILESTONE2BookShelf.html">My Bookshelf</a>    
-  </header>                                                        
-  <main>                                                    
-    <h1 style="text-align: center;">My Bookshelf
-    </h1>                            
-    <div id="pagination">
+  <link rel="preconnect" href="https://fonts.googleapis.com">           
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  
+  <style>                                                               
+    /* Base Styles */
+    body { font-family: 'Inter', sans-serif; background-color: #f9f9f9; color: #333; margin: 0; }
     
-    </div>                
-  </main>                                 
-  <footer>                                  
+    header { padding: 30px 50px; display: flex; gap: 30px; }
+    header a { 
+        color: #333; 
+        text-decoration: none; 
+        font-weight: 700; 
+        font-size: 14px; 
+        text-transform: uppercase; 
+        letter-spacing: 1px;
+    }
+
+    h1 { text-align: center; margin-top: 40px; font-size: 32px; font-weight: 800; }
+
+    /* Grid and Card Styling for Consistent Font Sizes */
+    .grid { 
+        display: grid; 
+        grid-template-columns: repeat(3, 1fr); 
+        gap: 20px; 
+        max-width: 1100px; 
+        margin: 40px auto; 
+        padding: 20px; 
+    } 
+    
+    .card { 
+        background: white; 
+        padding: 20px; 
+        text-align: center; 
+        border: 1px solid #eee; 
+        display: flex; 
+        flex-direction: column; 
+        justify-content: flex-start; 
+        min-height: 480px; 
+    } 
+    
+    .card img { border: 1px solid #333; width: 120px; height: 160px; object-fit: cover; margin: 0 auto 15px auto; } 
+    
+    /* Standardized Title Size */
+    .card h3 { font-size: 1.1em; margin: 10px 0; height: 2.4em; overflow: hidden; line-height: 1.2; } 
+    .card h3 a { color: #333; text-decoration: none; }                   
+    
+    /* Unified font size for all metadata */
+    .card p { font-size: 0.85em; margin: 4px 0; color: #333; }
+    
+    .price-tag { font-weight: bold; margin: 10px 0 !important; }
+    
+    .desc { 
+        font-size: 0.85em; 
+        color: #666; 
+        height: 4.5em; 
+        overflow: hidden; 
+        margin-top: auto; 
+        line-height: 1.4; 
+    } 
+
+    footer { padding: 40px; text-align: center; font-size: 12px; color: #888; border-top: 1px solid #eee; margin-top: 50px; }
+    .footer-left { text-align: center; }
+  </style>                                                              
+
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>   
+</head>
+
+<body>                                                                  
+  <header>                                                              
+    <a href="MILESTONE2BookSearchPage.html">Home</a> 
+    <a href="MILESTONE2BookShelf.html">My Bookshelf</a>     
+  </header>                                                             
+
+  <main>                                                                
+    <h1>My Bookshelf</h1>          
+    <div class="grid" id="resultsGrid">
+      </div>                                                              
+  </main>                                                               
+
+  <footer>                                                              
     <div class="footer-left">                 
       Disclaimer: This is a student website created for courses. 
       <br> Visit the <a href="https://www.kennesaw.edu/ccse/academics/information-technology/" target="_blank">CCSE Website</a>.
-    </div>                      
-     
-  </footer>                                      
-<script>                                                              
+    </div>                                                      
+  </footer>                                                             
+
+  <script>                                                              
   $(document).ready(function() {                                        
     const volumeIds = ["8VnJLu3AvvQC", "pTr44Sx6oWQC", "JVEc0QEACAAJ", "qhQAywOYz10C", "L-U3AAAACAAJ"];
     const myKey = "AIzaSyBu_4vbTfN8fWyFkHPgvlphVEZ0KJdkEtc";              
     const $grid = $("#resultsGrid");
 
     function loadShelf() {
-      // Create an array of AJAX requests
+      $grid.html("<p style='grid-column: 1/-1; text-align:center;'>Loading Books...</p>");
+
       const requests = volumeIds.map(id => 
         $.get(`https://www.googleapis.com/books/v1/volumes/${id}?key=${myKey}`)
       );
 
-      // Wait for all requests to finish before rendering
       $.when(...requests).done(function(...responses) {
-        $grid.empty(); // Clear loading message once
-
-        // jQuery returns different structures based on number of arguments
+        $grid.empty(); 
         const books = volumeIds.length === 1 ? [responses[0]] : responses.map(r => r[0]);
 
         books.forEach(book => {
@@ -75,12 +119,13 @@
             priceText = "Price: $" + s.listPrice.amount.toFixed(2);
           }
 
+          // Use standard <p> tags for By and Publisher to inherit the 0.85em font size
           const card = $(`
             <div class="card">
               <img src="${img}" alt="Book Cover">
               <h3><a href="details.html?id=${book.id}">${v.title || 'Untitled'}</a></h3>
-              <p style="font-size:0.85em; margin: 5px 0;"><b>By:</b> ${v.authors ? v.authors[0] : 'N/A'}</p>
-              <p style="font-size:0.85em; margin: 5px 0;"><b>Publisher:</b> ${v.publisher || 'N/A'}</p>
+              <p><b>By:</b> ${v.authors ? v.authors[0] : 'N/A'}</p>
+              <p><b>Publisher:</b> ${v.publisher || 'N/A'}</p>
               <p class="price-tag">${priceText}</p>
               <p class="desc">${v.description ? v.description.substring(0, 110) + '...' : 'No description available.'}</p>
             </div>
@@ -89,7 +134,7 @@
           $grid.append(card);
         });
       }).fail(function() {
-        $grid.html("<p class='error-msg'>Error loading bookshelf. Please refresh.</p>");
+        $grid.html("<p class='error-msg'>Error loading bookshelf.</p>");
       });
     }
 
