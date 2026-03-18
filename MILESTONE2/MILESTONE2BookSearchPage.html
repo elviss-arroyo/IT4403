@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">                                               
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Search | Milestone 2
+  </title>                            
+  <link rel="preconnect" href="https://fonts.googleapis.com">         
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">                         
+  <style>                                                            
+    .search-container { text-align: center; margin: 40px auto; max-width: 700px; display: flex; justify-content: center; align-items: flex-end; }
+    #searchTerm { padding: 12px; width: 70%; border: none; border-bottom: 1px solid #333; background: transparent; font-size: 16px; outline: none; font-family: 'Inter'; } 
+    #searchBtn { padding: 10px 25px; background: #333; color: white; border: none; cursor: pointer; font-size: 14px; font-weight: bold; margin-left: 10px; font-family: 'Inter'; } /* Black button */
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1100px; margin: 0 auto; padding: 20px; } /* 3 column grid */
+    .card { background: white; padding: 20px; text-align: center; border: 1px solid #eee; display: flex; flex-direction: column; justify-content: space-between; } /* Card box */
+    .card img { border: 1px solid #333; width: 120px; height: 160px; object-fit: cover; margin: 0 auto; } /* Book cover style */
+    .card h3 { font-size: 1em; margin: 15px 0 5px 0; height: 2.4em; overflow: hidden; } /* Title style */
+    .card h3 a { color: #333; text-decoration: none; }                   /* Title link color */
+    .desc { font-size: 0.85em; color: #666; height: 3.6em; overflow: hidden; margin-bottom: 15px; line-height: 1.4; } /* Snippet style */
+    #pagination { text-align: center; margin: 40px 0; }                 /* Page buttons area */
+    .page-btn { margin: 0 5px; padding: 8px 15px; background: white; border: 1px solid #333; cursor: pointer; } /* Button style */
+    .active { background: #333; color: white; }                          /* Current page style */
+    .error-msg { color: #d93025; background: #fde8e8; padding: 15px; text-align: center; grid-column: 1/-1; border: 1px solid #f5c6cb; } /* Error style */
+  </style>                                                         
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js">
+    
+  </script>   
+</head>
+  
+
+<body>                         
+  <header>                      
+    <a href="MILESTONE2BookSearchPage.html">Home</a> 
+    <a href="MILESTONE2BookShelf.html">My Bookshelf</a>    
+  </header>                                                        
+  <main>                                                    
+    <h1 style="text-align: center;">Book Search List
+    </h1>        
+    <div class="search-container">                                    
+      <input type="text" id="searchTerm" placeholder="Search for books..."> 
+      <button id="searchBtn">SEARCH
+      </button>                           
+    </div>                                                             
+    <div class="grid" id="resultsGrid">
+      
+    </div>                          
+    <div id="pagination">
+    
+    </div>                
+  </main>                                 
+  <footer>                                  
+    <div class="footer-left">                 
+       Disclaimer: This is a student website created for course projects in IT 4403. 
+      <br> Visit the <a href="https://www.kennesaw.edu/ccse/academics/information-technology/" target="_blank">CCSE Website</a>.
+    </div>                      
+     
+  </footer>                                      
+  <script>                                                              // Start script
+  $(document).ready(function() {                                        // Page ready function
+    var myKey = "AIzaSyBu_4vbTfN8fWyFkHPgvlphVEZ0KJdkEtc";              // API Key
+    var query = "";                                                     // Search term storage
+    var currentPage = 1;                                                // Page tracker
+
+    $("#searchBtn").on("click", function() {                            // Search trigger
+      query = $("#searchTerm").val().trim();                            // Get text input
+      if (!query) return;                                               // Exit if empty
+      currentPage = 1;                                                  // Reset page count
+      runSearch();                                                      // Run API call
+    });
+
+    function runSearch() {                                              // Fetch data
+      var startIndex = (currentPage - 1) * 20;                          // Calculate offset
+      var url = "https://www.googleapis.com/books/v1/volumes?q=" + encodeURIComponent(query) + 
+                "&maxResults=20&startIndex=" + startIndex + "&key=" + myKey; // Full URL
+
+      $("#resultsGrid").html("<p style='grid-column: 1/-1; text-align:center;'>Searching...</p>"); // Loading
+
+      $.get(url, function(data) {                                       // AJAX request
+        $("#resultsGrid").empty();                                      // Clear grid
+        var items = data.items || [];                                   // List of books
+
+        if (items.length === 0) {                                       // Handle no results
+            $("#resultsGrid").html("<p class='error-msg'>No books found.</p>"); // Message
+            return;                                                     // Stop
+        }
+
+        items.forEach(function(book) {                                  // Loop through books
+          var v = book.volumeInfo;                                      // Data shortcut
+          var img = v.imageLinks ? v.imageLinks.smallThumbnail : 'https://via.placeholder.com/120x160'; // Cover
+          img = img.replace("http://", "https://");                     // Force secure
+
+          var card = $("<div class='card'></div>");                     // Card element
+          card.append("<img src='" + img + "' alt='Book'>");            // Add image
+          card.append("<h3><a href='details.html?id=" + book.id + "'>" + (v.title || 'Untitled') + "</a></h3>"); // Title link
+          card.append("<p style='font-size:0.85em;'><b>By:</b> " + (v.authors ? v.authors[0] : 'N/A') + "</p>"); // Author
+          
+          var dText = v.description || 'No description.';               // Description text
+          if (dText.length > 90) dText = dText.substring(0, 90) + "..."; // Shorten it
+          card.append("<p class='desc'>" + dText + "</p>");             // Add text
+
+          $("#resultsGrid").append(card);                               // Put card in grid
+        });                                                             // End loop
+
+        renderPagination(data.totalItems);                              // Draw buttons
+      });
+    }
+
+    function renderPagination(total) {                                  // Draw page buttons
+      $("#pagination").empty();                                         // Clear old
+      var pages = Math.ceil(Math.min(total, 60) / 20);                  // Max 3 pages
+      for (var i = 1; i <= pages; i++) {                                // Loop pages
+        var btn = $("<button class='page-btn'>" + i + "</button>");     // Create button
+        if (i === currentPage) btn.addClass("active");                  // Set active style
+        btn.on("click", (function(num) {                                // Click logic
+          return function() { currentPage = num; runSearch(); window.scrollTo(0,0); }; // Go to page
+        })(i));
+        $("#pagination").append(btn);                                   // Show button
+      }
+    }
+  });                                                                   // End ready
+  </script>                                                             </body>
+</html>
