@@ -1,0 +1,95 @@
+/* Global variables (simple names) */
+:root {
+    --background: #F0F0F0; /* Page background color */
+    --text: #000000;       /* Main text color */
+    --dim-text: #555555;   /* Lighter text color */
+    --hover: #A9A9A9;      /* Hover color */
+}
+
+/* Whole page */
+body {
+    background-color: var(--background); /* Background */
+    color: var(--text); /* Text color */
+    font-family: 'Inter', sans-serif; /* Font */
+    margin: 0; /* Remove default spacing */
+    display: flex; /* Flex layout */
+    flex-direction: column; /* Stack items */
+    min-height: 100vh; /* Full screen height */
+}
+
+/* Header / Navigation */
+header {
+    padding: 50px; /* Space inside header */
+    display: flex; /* Row layout */
+    gap: 45px; /* Space between links */
+}
+
+header a {
+    color: var(--text); /* Link color */
+    text-decoration: none; /* No underline */
+    font-weight: 700; /* Bold */
+    text-transform: uppercase; /* All caps */
+    font-size: 1.15rem; /* Size */
+    letter-spacing: 1.5px; /* Letter spacing */
+    transition: color 0.3s ease; /* Smooth hover */
+}
+
+header a:hover {
+    color: var(--hover); /* Hover color */
+}
+
+/* Main content */
+main {
+    flex-grow: 1; /* Push footer down */
+    display: flex; /* Flex */
+    flex-direction: column; /* Stack text */
+    justify-content: center; /* Center vertically */
+    padding: 0 10%; /* Side spacing */
+    max-width: 900px; /* Limit width */
+}
+
+h1 {
+    font-size: 3rem; /* Big heading */
+    margin-bottom: 20px; /* Space below */
+    font-weight: 700; /* Bold */
+    letter-spacing: -1.5px; /* Tight text */
+    line-height: 1.1; /* Line spacing */
+}
+
+p {
+    font-size: 1.3rem; /* Paragraph size */
+    line-height: 1.6; /* Line spacing */
+    margin: 0; /* No margin */
+}
+
+/* Footer */
+footer {
+    padding: 40px 50px; /* Space */
+    font-size: 0.9rem; /* Smaller text */
+    color: var(--dim-text); /* Dim color */
+    border-top: 1px solid #ccc; /* Top line */
+    display: flex; /* Row */
+    justify-content: space-between; /* Spread */
+    align-items: flex-end; /* Bottom align */
+}
+
+.footer-left {
+    max-width: 70%; /* Width limit */
+    line-height: 1.6; /* Line spacing */
+}
+
+.page-counter {
+    font-size: 1.4rem; /* Size */
+    font-weight: 700; /* Bold */
+    color: var(--text); /* Text color */
+    letter-spacing: 2px; /* Spacing */
+}
+
+footer a {
+    color: var(--text); /* Link color */
+    text-decoration: underline; /* Underline */
+}
+
+footer a:hover {
+    color: var(--hover); /* Hover color */
+}
