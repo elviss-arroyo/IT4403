@@ -1,104 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">                                           
+  <meta charset="UTF-8">                                            
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book Search | Milestone 2
-  </title>                            
-  <link rel="preconnect" href="https://fonts.googleapis.com">          
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  
+  <title>Book Search | Milestone 2</title>        
+  <link rel="preconnect" href="https://fonts.googleapis.com">         
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"> 
   <style>                                                             
-    body { font-family: 'Inter', Arial, sans-serif; padding: 20px; background: #f8f8f8; } 
-    header { background: white; padding: 15px; border-bottom: 1px solid #ddd; text-align: center; margin-bottom: 20px; } 
-    header a { margin: 0 15px; text-decoration: none; color: #007bff; font-weight: bold; } /* Header link style */
-    h1 { text-align: center; }                                          /* Center title */
-    .search-container { text-align: center; margin-bottom: 30px; background: white; padding: 25px; border-radius: 6px; border: 1px solid #ddd; max-width: 700px; margin: 0 auto; } /* Search box */
-    #searchTerm { padding: 10px; width: 60%; border: 1px solid #ddd; border-radius: 4px; } /* Input style */
-    #searchBtn { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; } /* Button style */
-    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; max-width: 1000px; margin: 0 auto; } /* 3 column grid */
-    .card { background: white; padding: 15px; border-radius: 6px; text-align: center; border: 1px solid #ddd; display: flex; flex-direction: column; justify-content: space-between; } /* Card style */
-    .card img { border: 2px solid #000; border-radius: 4px; width: 120px; height: 160px; object-fit: cover; margin: 0 auto; } /* Image style */
-    .card h3 { font-size: 1em; margin: 10px 0; height: 2.4em; overflow: hidden; } /* Title style */
-    .desc { font-size: 0.85em; color: #666; height: 3.6em; overflow: hidden; margin-bottom: 10px; } /* Desc style */
-    #pagination { text-align: center; margin-top: 30px; }               /* Pagination style */
-    .page-btn { margin: 0 5px; padding: 8px 15px; background: white; border: 1px solid #ddd; cursor: pointer; } /* Page button */
-    .active { background: #007bff; color: white; }                      /* Active page style */
-  </style>                                                        
-  <script src="https://code.jquery.com/jquery-3.7.0.min.js">
+    body { font-family: 'Inter', Arial, sans-serif; padding: 20px; background: #f8f8f8; color: #333; margin: 0; }
+    header { background: transparent; padding: 20px; text-align: left; border-bottom: 1px solid #eee; margin-bottom: 40px; }
+    header a { margin-right: 20px; text-decoration: none; color: #333; font-size: 0.9em; }
+    header a:hover { text-decoration: underline; }                      
+
+    h1 { text-align: center; font-weight: 700; margin-bottom: 30px; }    /* Center title */
+    .search-container { text-align: center; margin-bottom: 50px; max-width: 700px; margin-left: auto; margin-right: auto; display: flex; justify-content: center; } 
+    #searchTerm { padding: 12px; width: 70%; border: none; border-bottom: 2px solid #333; background: transparent; font-size: 16px; outline: none; } 
+    #searchBtn { padding: 12px 25px; background: #333; color: white; border: none; cursor: pointer; font-size: 14px; font-weight: bold; margin-left: 10px; transition: opacity 0.2s; } 
+    #searchBtn:hover { opacity: 0.8; }                                   /* Button hover */
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1000px; margin: 0 auto; } /* 3 column grid */
+    .card { background: white; padding: 20px; text-align: center; border: 1px solid #eee; display: flex; flex-direction: column; justify-content: space-between; } 
+    .card img { border: 1px solid #333; width: 120px; height: 160px; object-fit: cover; margin: 0 auto; } /* Image style */
+    .card h3 { font-size: 1em; margin: 15px 0 5px 0; height: 2.4em; overflow: hidden; } /* Title style */
+    .card h3 a { color: #999; text-decoration: none; }                   /* Link color */
+    .card h3 a:hover { text-decoration: underline; }                    /* Link hover */
     
-  </script>   
+    .desc { font-size: 0.85em; color: #666; height: 3.6em; overflow: hidden; margin-bottom: 15px; line-height: 1.4; } /* Description */
+
+    #pagination { text-align: center; margin-top: 40px; padding-bottom: 40px; } /* Pagination spacing */
+    .page-btn { margin: 0 5px; padding: 8px 15px; background: white; border: 1px solid #333; cursor: pointer; font-family: 'Inter'; } /* Page button */
+    .active { background: #333; color: white; }                          /* Active page black */
+
+    .error-msg { color: #d93025; background: #fde8e8; padding: 15px; text-align: center; grid-column: 1/-1; border: 1px solid #f5c6cb; } 
+  </style>                                                   
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 </head>
 
-<body>                 
-  <header>            
-    <a href="MILESTONE2BookSearchPage.html" target="_blank">Home</a> 
-    <a href="MILESTONE2BookShelf.html" target="_blank">My Bookshelf</a>
-  </header>                                               
-  <h1>Book Search List</h1>                                
-  <div class="search-container">                          
+<body>                                                      
+  <header>                                                                                  
+    <a href="MILESTONE2BookSearchPage.html">Home</a>     
+    <a href="MILESTONE2BookShelf.html">My Bookshelf</a>            
+  </header>                                                       
+  <h1>Book Search List</h1>                                       
+  <div class="search-container">                                  
     <input type="text" id="searchTerm" placeholder="Search for books..."> 
-    <button id="searchBtn">Search</button>                            
-  </div>                                                             
-  <div class="grid" id="resultsGrid"></div>                           
+    <button id="searchBtn">SEARCH</button>                              
+  </div>                                                               
+  <div class="grid" id="resultsGrid"></div>                            
   <div id="pagination"></div>                                         
   <script>                                                              // Start script
-  $(document).ready(function() {                                        // Wait for page to load
+  $(document).ready(function() {                                        // Wait for page load
     var myKey = "AIzaSyBu_4vbTfN8fWyFkHPgvlphVEZ0KJdkEtc";              // API Key
-    var query = "";                                                     // Empty query variable
-    var currentPage = 1;                                                // Start on page 1
+    var query = "";                                                     // Search query
+    var currentPage = 1;                                                // Default page
 
-    $("#searchBtn").on("click", function() {                            // When button is clicked
-      query = $("#searchTerm").val().trim();                            // Get text from input
+    $("#searchBtn").on("click", function() {                            // Search click
+      query = $("#searchTerm").val().trim();                            // Get text
       if (!query) return;                                               // Stop if empty
-      currentPage = 1;                                                  // Reset to page 1
-      runSearch();                                                      // Start API call
+      currentPage = 1;                                                  // Reset page
+      runSearch();                                                      // Call API
     });
 
-    function runSearch() {                                              // Search function
-      var startIndex = (currentPage - 1) * 20;                         
+    function runSearch() {                                              // API Function
+      var startIndex = (currentPage - 1) * 20;                          // Calculate start
       var url = "https://www.googleapis.com/books/v1/volumes?q=" + encodeURIComponent(query) + 
-                "&maxResults=20&startIndex=" + startIndex + "&key=" + myKey; 
+                "&maxResults=20&startIndex=" + startIndex + "&key=" + myKey; // Build URL
 
-      $("#resultsGrid").html("<p style='grid-column: 1/-1; text-align:center;'>Loading...</p>"); // Show loading
+      $("#resultsGrid").html("<p style='grid-column: 1/-1; text-align:center;'>Searching...</p>"); // Loading
 
-      $.get(url, function(data) {                                       // Get data from Google
+      $.get(url, function(data) {                                       // Request data
         $("#resultsGrid").empty();                                      // Clear grid
-        var items = data.items || [];                                   // Get book array
+        var items = data.items || [];                                   // Get items
 
-        items.forEach(function(book) {                                  // Loop through books
-          var v = book.volumeInfo;                                      // Shortcut info
-          var img = v.imageLinks ? v.imageLinks.smallThumbnail : 'https://via.placeholder.com/120x160'; // Set image
-          img = img.replace("http://", "https://");                    
+        if (items.length === 0) {                                  
+            $("#resultsGrid").html("<p class='error-msg'>No books found. Try another search.</p>"); // Error
+            return;                                                     // Stop
+        }
 
-          var card = $("<div class='card'></div>");                     // Create card div
+        items.forEach(function(book) {                                  // Loop books
+          var v = book.volumeInfo;                                      // Data shortcut
+          var img = v.imageLinks ? v.imageLinks.smallThumbnail : 'https://via.placeholder.com/120x160'; // Image
+          img = img.replace("http://", "https://");                     
+
+          var card = $("<div class='card'></div>");                     // Create card
           card.append("<img src='" + img + "' alt='Book'>");            // Add image
-          card.append("<h3><a href='details.html?id=" + book.id + "'>" + v.title + "</a></h3>"); // Add title link
-          card.append("<p><b>Author:</b> " + (v.authors ? v.authors[0] : 'N/A') + "</p>"); // Add first author
+          card.append("<h3><a href='details.html?id=" + book.id + "'>" + (v.title || 'Untitled') + "</a></h3>"); // Add title
+          card.append("<p style='font-size:0.9em;'><b>By:</b> " + (v.authors ? v.authors[0] : 'Unknown') + "</p>"); // Add author
           
-          var dText = v.description || 'No description available.';     // Get description
-          if (dText.length > 100) dText = dText.substring(0, 100) + "..."; // Trim description
-          card.append("<p class='desc'>" + dText + "</p>");             // Add description text
+          var dText = v.description || 'No description available.';     // Get desc
+          if (dText.length > 90) dText = dText.substring(0, 90) + "..."; // Trim desc
+          card.append("<p class='desc'>" + dText + "</p>");             // Add desc
 
-          $("#resultsGrid").append(card);                               // Add card to grid
+          $("#resultsGrid").append(card);                               // Add to grid
         });                                                             // End loop
 
-        renderPagination(data.totalItems);                              // Draw page buttons
-      });                                                               // End GET
-    }                                                                   // End runSearch
+        renderPagination(data.totalItems);                              // Draw buttons
+      }).fail(function() {                                              // If API fails
+          $("#resultsGrid").html("<p class='error-msg'>Error connecting to Google Books. Please try again.</p>"); // Fail 
+      });
+    }
 
-    function renderPagination(total) {                                  // Pagination function
+    function renderPagination(total) {                                  // Draw pages
       $("#pagination").empty();                                         // Clear buttons
-      var pages = Math.ceil(Math.min(total, 60) / 20);                  // Max 3 pages (60 items)
-      for (var i = 1; i <= pages; i++) {                                // Loop for buttons
-        var btn = $("<button class='page-btn'>" + i + "</button>");     // Create button
-        if (i === currentPage) btn.addClass("active");                  // Highlight current
+      var pages = Math.ceil(Math.min(total, 60) / 20);                  // Max 3 pages
+      for (var i = 1; i <= pages; i++) {                                // Loop pages
+        var btn = $("<button class='page-btn'>" + i + "</button>");     // Create btn
+        if (i === currentPage) btn.addClass("active");                  // Set active
         btn.on("click", (function(num) {                                // Click logic
-          return function() { currentPage = num; runSearch(); };        // Go to page
-        })(i));                                                         // Pass number
-        $("#pagination").append(btn);                                   // Add button to page
-      }                                                                 // End button loop
-    }                                                                   // End pagination
+          return function() { currentPage = num; runSearch(); window.scrollTo(0,0); }; // Go to page
+        })(i));
+        $("#pagination").append(btn);                                   // Add to div
+      }
+    }
   });                                                                   // End ready
   </script>                                                             </body>
 </html>
