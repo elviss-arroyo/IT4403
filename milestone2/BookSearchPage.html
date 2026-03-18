@@ -14,7 +14,7 @@
     h1 { text-align: center; margin-top: 40px; color: #111; } 
     
     .search-container { text-align: center; margin-bottom: 30px; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); max-width: 700px; margin-left: auto; margin-right: auto; } 
-    #searchTerm { padding: 12px; width: 65%; border: 1px solid #ddd; border-radius: 6px; font-size: 16px; outline: none; }
+    #searchTerm { padding: 12px; width: 60%; border: 1px solid #ddd; border-radius: 6px; font-size: 16px; outline: none; }
     #searchTerm:focus { border-color: #007bff; }
     #searchBtn { padding: 12px 25px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; margin-left: 10px; transition: background 0.2s; }
     #searchBtn:hover { background: #0056b3; }
@@ -25,16 +25,15 @@
     .card img { width: 130px; height: 180px; border: 2px solid #333; margin-bottom: 15px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); object-fit: cover; } 
     .card h3 { font-size: 1.1em; margin: 10px 0; min-height: 2.4em; overflow: hidden; }
     .card h3 a { color: #007bff; text-decoration: none; }
-    .card h3 a:hover { text-decoration: underline; }
     .card p { font-size: 0.9em; color: #555; margin: 4px 0; }
     .desc { font-size: 0.85em; color: #777 !important; margin-top: 10px; line-height: 1.4; height: 4.2em; overflow: hidden; } 
     
     #pagination { text-align: center; margin: 40px 0; } 
-    .page-btn { margin: 4px; padding: 10px 18px; background: white; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; transition: all 0.2s; font-size: 14px; } 
-    .page-btn:hover { background: #f0f0f0; }
+    .page-btn { margin: 4px; padding: 10px 18px; background: white; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; transition: all 0.2s; } 
     .page-btn.active { background: #007bff; color: white; border-color: #007bff; font-weight: bold; }
     
-    .error-msg { color: #d93025; background: #fde8e8; padding: 15px; border-radius: 6px; grid-column: 1 / -1; text-align: center; }
+    .error-msg { color: #d93025; background: #fde8e8; padding: 15px; border-radius: 6px; grid-column: 1 / -1; text-align: center; border: 1px solid #f5c6cb; }
+    .loading-text { text-align: center; grid-column: 1 / -1; font-style: italic; color: #666; }
   </style>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> 
@@ -57,7 +56,7 @@ $(function() {
   let query = "";
   let currentPage = 1;
 
-  // 1. CLICK HANDLER
+  // 1. Search Button Logic
   $("#searchBtn").on("click", function() {
     query = $("#searchTerm").val().trim();
     if (!query) return; 
@@ -65,59 +64,54 @@ $(function() {
     runSearch();
   });
 
-  // 2. ENTER KEY HANDLER
+  // 2. Enter Key Logic
   $("#searchTerm").on("keydown", function(e) {
     if (e.which === 13) {
       $("#searchBtn").click();
     }
   });
 
-  // 3. MAIN SEARCH FUNCTION
+  // 3. API Request Function
   function runSearch() {
     const startIndex = (currentPage - 1) * 20;
-    // URL built exactly like the working example
     const url = "https://www.googleapis.com/books/v1/volumes?q=" + encodeURIComponent(query) + 
                 "&maxResults=20&startIndex=" + startIndex;
 
-    $("#resultsGrid").html("<p style='text-align:center; grid-column: 1/-1;'>Searching Google Books...</p>");
+    $("#resultsGrid").html("<p class='loading-text'>Searching Google Books...</p>");
     $("#pagination").empty();
 
     $.ajax({
       url: url,
       method: "GET",
-      dataType: "json",
+      dataType: "jsonp",
       success: function(data) {
         $("#resultsGrid").empty();
         const items = data.items || [];
 
         if (items.length === 0) {
-          $("#resultsGrid").html("<p style='text-align:center; grid-column: 1/-1;'>No results found. Please try a different term.</p>");
+          $("#resultsGrid").html("<p class='loading-text'>No results found. Try a different term.</p>");
           return;
         }
 
-        // Loop through results with safety checks
+        // Loop through and build cards
         items.forEach(book => {
           const info = book.volumeInfo;
           
-          // Double safety check for images
+          // Image check
           const img = (info.imageLinks && info.imageLinks.smallThumbnail) 
                       ? info.imageLinks.smallThumbnail 
                       : "https://via.placeholder.com/120x180?text=No+Cover";
           
           const title = info.title || "Untitled";
           const authors = info.authors ? info.authors.join(", ") : "Unknown Author";
-          const publisher = info.publisher || "Not Published";
-          
-          let desc = info.description || "No description available for this book.";
+          let desc = info.description || "No description available.";
           if (desc.length > 120) desc = desc.substring(0, 120) + "...";
 
-          // Generate HTML Card
           const cardHTML = `
             <div class="card">
               <img src="${img}" alt="Book Cover">
               <h3><a href="details.html?id=${book.id}">${title}</a></h3>
               <p><b>Author:</b> ${authors}</p>
-              <p><b>Publisher:</b> ${publisher}</p>
               <p class="desc">${desc}</p>
             </div>
           `;
@@ -126,25 +120,22 @@ $(function() {
 
         renderPagination(data.totalItems);
       },
-      error: function(xhr, status, error) {
-        console.error("API Error:", status, error);
+      error: function() {
         $("#resultsGrid").html(`
           <div class="error-msg">
-            <b>Error connecting to Google Books.</b><br>
-            Common causes: Searching too quickly or API rate limits. 
-            Please wait a moment and try again.
+            <b>Connection Failed.</b><br>
           </div>
         `);
       }
     });
   }
 
-  // 4. PAGINATION GENERATOR
+  // 4. Pagination Buttons
   function renderPagination(totalItems) {
     $("#pagination").empty();
     if (!totalItems || totalItems === 0) return;
 
-    // Limit to 60 total results (3 pages) as per Milestone requirements
+    // Milestone requirement: max 60 items (3 pages)
     const maxItems = Math.min(totalItems, 60);
     const totalPages = Math.ceil(maxItems / 20);
 
