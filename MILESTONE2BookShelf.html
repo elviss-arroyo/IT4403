@@ -10,28 +10,26 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   
   <style>                                                               
-    /* Base Styles */
-    body { font-family: 'Inter', sans-serif; background-color: #f9f9f9; color: #333; margin: 0; }
+
+    body { font-family: 'Inter', sans-serif; background-color: white; color: #333; margin: 0; }
     
     header { padding: 30px 50px; display: flex; gap: 30px; }
     header a { 
         color: #333; 
         text-decoration: none; 
         font-weight: 700; 
-        font-size: 14px; 
-        text-transform: uppercase; 
-        letter-spacing: 1px;
+        font-size: 16px; 
     }
 
     h1 { text-align: center; margin-top: 40px; font-size: 32px; font-weight: 800; }
 
-    /* Grid and Card Styling for Consistent Font Sizes */
+  
     .grid { 
         display: grid; 
         grid-template-columns: repeat(3, 1fr); 
         gap: 20px; 
         max-width: 1100px; 
-        margin: 40px auto; 
+        margin: 0 auto; 
         padding: 20px; 
     } 
     
@@ -42,30 +40,28 @@
         border: 1px solid #eee; 
         display: flex; 
         flex-direction: column; 
-        justify-content: flex-start; 
-        min-height: 480px; 
+        justify-content: space-between; 
+        min-height: 450px; 
     } 
     
-    .card img { border: 1px solid #333; width: 120px; height: 160px; object-fit: cover; margin: 0 auto 15px auto; } 
+    .card img { border: 1px solid #333; width: 120px; height: 160px; object-fit: cover; margin: 0 auto; } 
     
-    /* Standardized Title Size */
-    .card h3 { font-size: 1.1em; margin: 10px 0; height: 2.4em; overflow: hidden; line-height: 1.2; } 
+
+    .card h3 { font-size: 1em; margin: 15px 0 5px 0; height: 2.4em; overflow: hidden; } 
     .card h3 a { color: #333; text-decoration: none; }                   
     
-    /* Unified font size for all metadata */
-    .card p { font-size: 0.85em; margin: 4px 0; color: #333; }
-    
-    .price-tag { font-weight: bold; margin: 10px 0 !important; }
-    
-    .desc { 
+
+    .card p, .price-tag, .desc { 
         font-size: 0.85em; 
         color: #666; 
-        height: 4.5em; 
-        overflow: hidden; 
-        margin-top: auto; 
-        line-height: 1.4; 
-    } 
+        margin: 5px 0;
+        line-height: 1.4;
+    }
+    
+    .price-tag { color: #333; font-weight: bold; }
+    .desc { height: 3.6em; overflow: hidden; margin-bottom: 15px; }
 
+    /* REVERTED: Original Footer Style */
     footer { padding: 40px; text-align: center; font-size: 12px; color: #888; border-top: 1px solid #eee; margin-top: 50px; }
     .footer-left { text-align: center; }
   </style>                                                              
@@ -82,7 +78,7 @@
   <main>                                                                
     <h1>My Bookshelf</h1>          
     <div class="grid" id="resultsGrid">
-      </div>                                                              
+        </div>                                                              
   </main>                                                               
 
   <footer>                                                              
@@ -99,14 +95,14 @@
     const $grid = $("#resultsGrid");
 
     function loadShelf() {
-      $grid.html("<p style='grid-column: 1/-1; text-align:center;'>Loading Books...</p>");
-
+      $grid.html("<p style='grid-column: 1/-1; text-align:center;'>Loading Bookshelf...</p>");
+      
       const requests = volumeIds.map(id => 
         $.get(`https://www.googleapis.com/books/v1/volumes/${id}?key=${myKey}`)
       );
 
       $.when(...requests).done(function(...responses) {
-        $grid.empty(); 
+        $grid.empty();
         const books = volumeIds.length === 1 ? [responses[0]] : responses.map(r => r[0]);
 
         books.forEach(book => {
@@ -119,7 +115,6 @@
             priceText = "Price: $" + s.listPrice.amount.toFixed(2);
           }
 
-          // Use standard <p> tags for By and Publisher to inherit the 0.85em font size
           const card = $(`
             <div class="card">
               <img src="${img}" alt="Book Cover">
@@ -127,14 +122,12 @@
               <p><b>By:</b> ${v.authors ? v.authors[0] : 'N/A'}</p>
               <p><b>Publisher:</b> ${v.publisher || 'N/A'}</p>
               <p class="price-tag">${priceText}</p>
-              <p class="desc">${v.description ? v.description.substring(0, 110) + '...' : 'No description available.'}</p>
+              <p class="desc">${v.description ? v.description.substring(0, 90) + '...' : 'No description available.'}</p>
             </div>
           `);
           
           $grid.append(card);
         });
-      }).fail(function() {
-        $grid.html("<p class='error-msg'>Error loading bookshelf.</p>");
       });
     }
 
