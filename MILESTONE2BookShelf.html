@@ -1,190 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8">                                                
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Bookshelf | Milestone 2</title>
+  <title>My Bookshelf | Milestone 2</title>                             
   
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">           
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-
-  <style>
-    /* Reset and Base - Matches Image 2 Font Consistency */
+  
+  <style>                                                               
+    /* Base Styles */
     body { font-family: 'Inter', sans-serif; background-color: #f9f9f9; color: #333; margin: 0; }
     
-    /* Navigation Header */
-    header { padding: 30px 50px; display: flex; gap: 30px; }
-    header a { 
-        color: #333; 
-        text-decoration: none; 
-        font-weight: 700; 
-        font-size: 14px; 
-        text-transform: uppercase; 
-        letter-spacing: 1px;
-    }
+    header { padding: 20px 40px; }
+    header a { margin-right: 20px; text-decoration: none; color: #333; font-weight: bold; font-size: 14px; }
 
-    /* Search Section Styling from Image 2 */
-    .search-section { text-align: center; margin: 40px auto; }
-    .search-section h1 { font-size: 32px; font-weight: 800; margin-bottom: 30px; }
-    
-    .search-container { 
-        display: flex; 
-        justify-content: center; 
-        align-items: flex-end; 
-        max-width: 700px; 
-        margin: 0 auto; 
-    }
-    #searchTerm { 
-        padding: 10px; 
-        width: 70%; 
-        border: none; 
-        border-bottom: 2px solid #333; 
-        background: transparent; 
-        font-size: 18px; 
-        outline: none; 
-        font-family: 'Inter';
-    }
-    #searchBtn { 
-        padding: 12px 35px; 
-        background: #333; 
-        color: white; 
-        border: none; 
-        cursor: pointer; 
-        font-size: 14px; 
-        font-weight: bold; 
-        margin-left: 20px; 
-        text-transform: uppercase;
-    }
+    /* Search Container Styling - Matches your reference */
+    .search-container { text-align: center; margin: 40px auto; max-width: 700px; display: flex; justify-content: center; align-items: flex-end; }
+    #searchTerm { padding: 12px; width: 70%; border: none; border-bottom: 1px solid #333; background: transparent; font-size: 16px; outline: none; font-family: 'Inter'; } 
+    #searchBtn { padding: 10px 25px; background: #333; color: white; border: none; cursor: pointer; font-size: 14px; font-weight: bold; margin-left: 10px; font-family: 'Inter'; } 
 
-    /* Grid Layout - Fixed Spacing */
-    .grid { 
-        display: grid; 
-        grid-template-columns: repeat(3, 1fr); 
-        gap: 40px; 
-        max-width: 1100px; 
-        margin: 50px auto; 
-        padding: 0 20px; 
-    }
-
-    /* Card Styling - Uniform Alignment */
-    .card { 
-        background: white; 
-        padding: 30px; 
-        text-align: center; 
-        border: 1px solid #eee; 
-        display: flex; 
-        flex-direction: column; 
-        align-items: center;
-        min-height: 520px; /* Prevents uneven heights */
-    }
+    /* Grid and Card Styling */
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1100px; margin: 0 auto; padding: 20px; } 
+    .card { background: white; padding: 20px; text-align: center; border: 1px solid #eee; display: flex; flex-direction: column; justify-content: space-between; min-height: 420px; } 
     
-    /* Image Consistency */
-    .card img { 
-        border: 1px solid #333; 
-        width: 130px; 
-        height: 190px; 
-        object-fit: cover; 
-        margin-bottom: 20px; 
-    }
-
-    /* Text Elements */
-    .card h3 { 
-        font-size: 16px; 
-        font-weight: 700; 
-        margin: 10px 0; 
-        height: 2.5em; 
-        overflow: hidden; 
-        line-height: 1.3;
-    }
-    .card h3 a { color: #333; text-decoration: none; }
+    .card img { border: 1px solid #333; width: 120px; height: 160px; object-fit: cover; margin: 0 auto; } 
+    .card h3 { font-size: 1em; margin: 15px 0 5px 0; height: 2.4em; overflow: hidden; } 
+    .card h3 a { color: #333; text-decoration: none; }                   
     
-    .card p { font-size: 13px; margin: 5px 0; color: #333; }
-    .price-tag { font-weight: 700; margin: 15px 0 !important; font-size: 14px; }
-    
-    .desc { 
-        font-size: 13px; 
-        color: #666; 
-        line-height: 1.6; 
-        height: 4.8em; 
-        overflow: hidden; 
-        margin-top: auto; /* Pushes description to the bottom */
-    }
+    .price-tag { font-weight: bold; color: #222; margin: 5px 0; font-size: 0.9em; }
+    .desc { font-size: 0.85em; color: #666; height: 3.6em; overflow: hidden; margin-bottom: 15px; line-height: 1.4; } 
 
     footer { padding: 40px; text-align: center; font-size: 12px; color: #888; border-top: 1px solid #eee; margin-top: 50px; }
-  </style>
+  </style>                                                              
+
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>   
 </head>
-<body>
 
-  <header>
-    <a href="MILESTONE2BookSearchPage.html">Home</a>
-    <a href="MILESTONE2BookShelf.html">My Bookshelf</a>
-  </header>
+<body>                                                                  
+  <header>                                                              
+    <a href="MILESTONE2BookSearchPage.html">Home</a> 
+    <a href="MILESTONE2BookShelf.html">My Bookshelf</a>     
+  </header>                                                             
 
-  <main>
-    <div class="search-section">
-        <h1>Book Search List</h1>
-        <div class="search-container">
-            <input type="text" id="searchTerm" placeholder="Search for books...">
-            <button id="searchBtn">SEARCH</button>
-        </div>
-    </div>
+  <main>                                                                
+    <h1 style="text-align: center;">My Bookshelf</h1>          
+
+    <div class="search-container">                                     
+      <input type="text" id="searchTerm" placeholder="Search for books..."> 
+      <button id="searchBtn">SEARCH</button>                            
+    </div>                                                              
 
     <div class="grid" id="resultsGrid">
-        </div>
-  </main>
+      </div>                                                              
+  </main>                                                               
 
-  <footer>
+  <footer>                                                              
+    <div class="footer-left">                 
       Disclaimer: This is a student website created for courses. 
-      <br> Visit the <a href="https://www.kennesaw.edu/ccse/" target="_blank">CCSE Website</a>.
-  </footer>
+      <br> Visit the <a href="https://www.kennesaw.edu/ccse/academics/information-technology/" target="_blank">CCSE Website</a>.
+    </div>                                                      
+  </footer>                                                             
 
-  <script>
-    $(document).ready(function() {
-      // Your Volume IDs
-      const volumeIds = ["8VnJLu3AvvQC", "pTr44Sx6oWQC", "JVEc0QEACAAJ", "qhQAywOYz10C", "L-U3AAAACAAJ"];
-      const myKey = "AIzaSyBu_4vbTfN8fWyFkHPgvlphVEZ0KJdkEtc";
-      const $grid = $("#resultsGrid");
+  <script>                                                              
+  $(document).ready(function() {                                        
+    const volumeIds = ["8VnJLu3AvvQC", "pTr44Sx6oWQC", "JVEc0QEACAAJ", "qhQAywOYz10C", "L-U3AAAACAAJ"];
+    const myKey = "AIzaSyBu_4vbTfN8fWyFkHPgvlphVEZ0KJdkEtc";              
+    const $grid = $("#resultsGrid");
 
-      function loadShelf() {
-        $grid.empty();
-        
-        // Loop through each ID and fetch data
-        volumeIds.forEach(id => {
-          $.get(`https://www.googleapis.com/books/v1/volumes/${id}?key=${myKey}`, function(book) {
-            const v = book.volumeInfo;
-            const s = book.saleInfo;
-            
-            // Image handling
-            const img = v.imageLinks ? v.imageLinks.smallThumbnail.replace("http://", "https://") : 'https://via.placeholder.com/130x190';
-            
-            // Price handling
-            let priceText = "Price: N/A";
-            if (s && s.listPrice) {
-                priceText = "Price: $" + s.listPrice.amount.toFixed(2);
-            }
+    function loadShelf() {
+      $grid.empty();
+      $grid.html("<p style='grid-column: 1/-1; text-align:center;'>Loading your bookshelf...</p>");
 
-            // Create Card Template
-            const card = $(`
-              <div class="card">
-                <img src="${img}" alt="Book Cover">
-                <h3><a href="details.html?id=${book.id}">${v.title || 'Untitled'}</a></h3>
-                <p><b>By:</b> ${v.authors ? v.authors[0] : 'N/A'}</p>
-                <p><b>Publisher:</b> ${v.publisher || 'N/A'}</p>
-                <p class="price-tag">${priceText}</p>
-                <p class="desc">${v.description ? v.description.substring(0, 110) + '...' : 'No description available.'}</p>
-              </div>
-            `);
-            
-            $grid.append(card);
-          });
+      // Fetch each book by ID
+      volumeIds.forEach(id => {
+        $.get(`https://www.googleapis.com/books/v1/volumes/${id}?key=${myKey}`, function(book) {
+          // If this is the first book loading, clear the loading message
+          if ($grid.find('p').length > 0) $grid.empty();
+
+          const v = book.volumeInfo;
+          const s = book.saleInfo;
+          const img = v.imageLinks ? v.imageLinks.smallThumbnail.replace("http://", "https://") : 'https://via.placeholder.com/120x160';
+          
+          let priceText = "Price: N/A";
+          if (s && s.listPrice) {
+            priceText = "Price: $" + s.listPrice.amount.toFixed(2);
+          }
+
+          const card = $(`
+            <div class="card">
+              <img src="${img}" alt="Book Cover">
+              <h3><a href="details.html?id=${book.id}">${v.title || 'Untitled'}</a></h3>
+              <p style="font-size:0.85em; margin: 2px 0;"><b>By:</b> ${v.authors ? v.authors[0] : 'N/A'}</p>
+              <p style="font-size:0.85em; margin: 2px 0;"><b>Publisher:</b> ${v.publisher || 'N/A'}</p>
+              <p class="price-tag">${priceText}</p>
+              <p class="desc">${v.description ? v.description.substring(0, 90) + '...' : 'No description available.'}</p>
+            </div>
+          `);
+          
+          $grid.append(card);
         });
-      }
+      });
+    }
 
-      loadShelf();
+    // Call the load function on page start
+    loadShelf();
+
+    // Re-use search button logic if needed for bookshelf filtering
+    $("#searchBtn").on("click", function() {
+      const term = $("#searchTerm").val().toLowerCase();
+      $(".card").each(function() {
+        const title = $(this).find("h3").text().toLowerCase();
+        $(this).toggle(title.includes(term));
+      });
     });
-  </script>
-
+  });                                                                   
+  </script>                                                             
 </body>
 </html>
