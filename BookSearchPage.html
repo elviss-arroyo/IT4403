@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>M </title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body> 
+<div class="full_web">
+
+<header>
+
+<div class="Top_section"> 
+</div>
+
+<nav>
+<a href="index.html">HOME PAGE </a>
+<a href="Milestone2_Part3.html">SEARCH</a>
+<a href="bookshelf.html">MY BOOKSHELF </a>
+
+</header>
+
+<!--Buttons-->
+
+<div class="Buttons"> 
+<input id="TextBox" type="text" placeholder="Search Keywords (Example: App Development)">
+<button id="SearchButton">Search</button>
+<select id="NumberofPages"> </select>
+</div>
+
+<div class="Result"></div>
+
+<script> 
+
+user_input = ""
+number_of_results = 10
+pagebegin = 0
+
+$('#SearchButton').click(function(){
+    user_input=$('#TextBox').val()
+    pagenums()
+    resultnums(pagebegin)
+})
+
+function pagenums(){
+    $('#NumberofPages').html("")
+
+    for(i=0;i<3;i++){ //Keeps number of pages at 3
+
+        max=i*number_of_results
+        $('#NumberofPages').append(
+            "<option value='"+ max +"'>Page "+(i+1)+"</option>")
+    }}    pagebegin = $(this).val()
+    resultnums(pagebegin)
+
+})
+
+
+function resultnums(pagebegin){
+
+    $(".Result").html("")
+    url = "https://www.googleapis.com/books/v1/volumes?q=" + user_input +"&maxResults=" + number_of_results +"&startIndex=" + pagebegin +"&key=AIzaSyCKfwA19zlxpWUozLUu6PwikkFIodUt22Y"
+
+    $.get(url, function(json_MultipleBooks){ 
+        for (i = 0; i<json_MultipleBooks.items.length; i++){ 
+            MultBooks = json_MultipleBooks.items[i].volumeInfo
+            ForID = json_MultipleBooks.items[i]
+
+            title = MultBooks.title
+            id = ForID.id
+            authors = MultBooks.authors
+            publisher = MultBooks.publisher
+            date = MultBooks.publishedDate
+            cover = MultBooks.imageLinks.thumbnail
+    
+
+            $(".Result").append(`
+
+                <div class="bookCard">
+                    <img src="${cover}" class="bookImg">
+                    <div class="bookInfo">
+                        
+                        <h3>
+                            <a href="M2P4(2).html?id=${id}">${title}</a>
+                        </h3>
+
+                        <p><b>Authors:</b> ${authors}</p>
+                        <p><b>Publisher:</b> ${publisher}</p>
+                        <p><b>Published:</b> ${date}</p>
+
+                        <div class="bookButtons">
+                            <a href="https://books.google.com/books?id=${id}" target="_blank">Preview</a>
+                            <a href="details.html?id=${id}">Info</a>
+                        </div>
+
+                    </div>
+                </div>
+
+`)
+        }
+    })
+}
+</script>
+
+<style>
+
+body {
+    background-color: lightskyblue;
+    font-family: Arial;
+}
+
+.full_web {
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav a {
+    text-decoration: none;
+    background-color: black;
+    color:white;
+    border-radius: 30px;
+    padding: 10px 20px;
+    margin-left: 10px;
+}
+
+</style>
