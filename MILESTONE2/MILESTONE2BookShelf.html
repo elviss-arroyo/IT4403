@@ -45,6 +45,7 @@
         Visit the
         <a href="https://www.kennesaw.edu/ccse/academics/information-technology/" target="_blank"> <!-- link -->
             CCSE Department of IT Website</a>.
+      
     </div>                      
   </footer>                                                      
   <script>                                                               
@@ -69,12 +70,14 @@
           const s = book.saleInfo;
           let img = v.imageLinks ? v.imageLinks.smallThumbnail : 'https://via.placeholder.com/120x160';
           img = img.replace("http://", "https://");
+
           
           let priceText = "Price: N/A";
           if (s && s.listPrice) {
             priceText = "Price: $" + s.listPrice.amount.toFixed(2);
           }
 
+          
           let dText = v.description || 'No description available.';
           if (dText.length > 90) dText = dText.substring(0, 90) + "...";
 
