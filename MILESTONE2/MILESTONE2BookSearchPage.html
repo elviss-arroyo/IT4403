@@ -14,6 +14,10 @@
     #searchTerm { padding: 12px; width: 70%; border: none; border-bottom: 1px solid #333; background: transparent; font-size: 16px; outline: none; font-family: 'Inter'; } 
     #searchBtn { padding: 10px 25px; background: #333; color: white; border: none; cursor: pointer; font-size: 14px; font-weight: bold; margin-left: 10px; font-family: 'Inter'; } /* Black button */
     .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1100px; margin: 0 auto; padding: 20px; } /* 3 column grid */
+    
+    /* This style ensures the title is perfectly centered over the 3-column book grid */
+    .main-title { grid-column: 1 / -1; text-align: center; margin-bottom: 0; margin-top: 20px; }
+
     .card { background: white; padding: 20px; text-align: center; border: 1px solid #eee; display: flex; flex-direction: column; justify-content: space-between; } /* Card box */
     .card img { border: 1px solid #333; width: 120px; height: 160px; object-fit: cover; margin: 0 auto; } /* Book cover style */
     .card h3 { font-size: 1em; margin: 15px 0 5px 0; height: 2.4em; overflow: hidden; } /* Title style */
@@ -22,9 +26,6 @@
     #pagination { text-align: center; margin: 40px 0; }                 /* Page buttons area */
     #pageSelect { padding: 8px 15px; font-family: 'Inter'; border: 1px solid #333; background: white; cursor: pointer; } /* Dropdown style */
     .error-msg { color: #d93025; background: #fde8e8; padding: 15px; text-align: center; grid-column: 1/-1; border: 1px solid #f5c6cb; } /* Error style */
-    
-    /* This ensures the title respects the same width and centering as the book grid */
-    .title-wrapper { max-width: 1100px; margin: 0 auto; padding: 0 20px; text-align: center; }
   </style>                                                          
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>   
 </head>
@@ -36,42 +37,45 @@
     <a href="MILESTONE2BookShelf.html">My Bookshelf</a>    
   </header>                                                         
   <main>                                                    
-    <div class="title-wrapper">
-      <h1 style="margin-top: 40px;">Book Search</h1>
-    </div>        
+    <div class="grid">
+       <h1 class="main-title">My Bookshelf</h1>
+    </div>
+
     <div class="search-container">                                    
       <input type="text" id="searchTerm" placeholder="Search by keyword or title"> 
       <button id="searchBtn">SEARCH
       </button>                           
     </div>                                                               
-    <div class="grid" id="resultsGrid">
-      
-    </div>                          
-    <div id="pagination">
     
-    </div>                
+    <div class="grid" id="resultsGrid">
+      </div>                          
+    
+    <div id="pagination">
+      </div>                
   </main>                                     
+  
   <footer>                                    
     <div class="footer-left">                 
         Disclaimer: This is a student website created for course projects in IT 4403. 
       <br> Visit the <a href="https://www.kennesaw.edu/ccse/academics/information-technology/" target="_blank">CCSE Website</a>.
     </div>                      
   </footer>                                     
-  <script>                                                              // Start script
-  $(document).ready(function() {                                        // Page ready function
-    var myKey = "AIzaSyBu_4vbTfN8fWyFkHPgvlphVEZ0KJdkEtc";              // API Key
-    var query = "";                                                     // Search term storage
-    var currentPage = 1;                                                // Page tracker
 
-    $("#searchBtn").on("click", function() {                            // Search trigger
-      query = $("#searchTerm").val().trim();                            // Get text input
-      if (!query) return;                                               // Exit if empty
-      currentPage = 1;                                                  // Reset page count
-      runSearch();                                                      // Run API call
+  <script>                                                              
+  $(document).ready(function() {                                        
+    var myKey = "AIzaSyBu_4vbTfN8fWyFkHPgvlphVEZ0KJdkEtc";              
+    var query = "";                                                     
+    var currentPage = 1;                                                
+
+    $("#searchBtn").on("click", function() {                            
+      query = $("#searchTerm").val().trim();                            
+      if (!query) return;                                               
+      currentPage = 1;                                                  
+      runSearch();                                                      
     });
 
-    function runSearch() {                                              // Fetch data
-      var startIndex = (currentPage - 1) * 20;                          // Calculate offset
+    function runSearch() {                                              
+      var startIndex = (currentPage - 1) * 20;                          
       var url = "https://www.googleapis.com/books/v1/volumes?q=" + encodeURIComponent(query) + 
                 "&maxResults=20&startIndex=" + startIndex + "&key=" + myKey; 
 
