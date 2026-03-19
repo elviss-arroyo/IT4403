@@ -22,6 +22,9 @@
     #pagination { text-align: center; margin: 40px 0; }                 /* Page buttons area */
     #pageSelect { padding: 8px 15px; font-family: 'Inter'; border: 1px solid #333; background: white; cursor: pointer; } /* Dropdown style */
     .error-msg { color: #d93025; background: #fde8e8; padding: 15px; text-align: center; grid-column: 1/-1; border: 1px solid #f5c6cb; } /* Error style */
+    
+    /* Container to keep title aligned with grid width */
+    .title-container { max-width: 1100px; margin: 0 auto; text-align: center; }
   </style>                                                          
   <script src="https://code.jquery.com/jquery-3.7.0.min.js">
     
@@ -35,8 +38,9 @@
     <a href="MILESTONE2BookShelf.html">My Bookshelf</a>    
   </header>                                                         
   <main>                                                    
-    <h1 style="text-align: center;">Book Search List
-    </h1>        
+    <div class="title-container">
+      <h1>My Bookshelf</h1>
+    </div>        
     <div class="search-container">                                    
       <input type="text" id="searchTerm" placeholder="Search by keyword or title"> 
       <button id="searchBtn">SEARCH
