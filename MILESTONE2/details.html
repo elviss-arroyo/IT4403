@@ -36,7 +36,7 @@
 
     var url = "https://www.googleapis.com/books/v1/volumes/" + bookId + "?key=" + myKey; // 
 
-    $.get(url, function(data) {                                         // Call Google Books
+    $.get(url, function(data) {                                         // Google Books
         $("#grid").empty();                                             // Clear the loading message
         
         var v = data.volumeInfo;                                       
@@ -46,8 +46,8 @@
         img = img.replace("http://", "https://");                       
 
         var priceText = "Not for Sale";                                 // Default price text
-        if (s && s.listPrice) {                                         // Check if price exists
-            priceText = "$" + s.listPrice.amount + " " + s.listPrice.currencyCode; // Format price string
+        if (s && s.listPrice) {                                         // Check price exists
+            priceText = "$" + s.listPrice.amount + " " + s.listPrice.currencyCode;
         }
 
         var card = $("<div class='card'></div>");                       // Create the card element
