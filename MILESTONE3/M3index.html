@@ -1,44 +1,64 @@
 <!DOCTYPE html>
-<html lang="en"> 
-
-<head> 
+<html lang="en">
+<head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>Home | IT 4403</title> <!-- Page title -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milestone 3 - TMDB AJAX Movie App</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"> <!-- Font -->
-
-    <link rel="stylesheet" href="style.css"> <!-- External CSS -->
+    <link rel="stylesheet" href="styles.css">
 </head>
+<body>
 
-<body> 
+    <header>
+        <h1>Milestone 3 - TMDB AJAX Movie App</h1>
+        <p>Search movie by keyword or title</p>
+    </header>
 
-<header> 
-  
-</header>
-    <h1>Milestone 3 - TMDB AJAX Movie App/h1> <!-- Heading -->
-<main> 
-    <h1>Elvis Arroyo</h1> <!-- Heading -->
-    <p> <!-- Paragraph -->
-        I am a student at Kennesaw State University. This website was created 
-        to practice setting up a public web hosting environment and to publish 
-        all my exercises and projects for IT 4403 - Advanced Web and Mobile Applications.
-        
-    </p>
-</main>
+    <main class="container">
 
-<footer> 
-    <div class="footer-left"> <!-- Left content -->
-        Disclaimer: This is a student website created for course projects in IT 4403. <br> <!-- Disclaimer -->
-        Visit the
-        <a href="https://www.kennesaw.edu/ccse/academics/information-technology/" target="_blank"> <!-- link -->
-            CCSE Department of IT Website
-        </a>.
-    </div>
-    <div class="page-counter">01 — 03</div> <!-- Page counter -->
-</footer>
+        <!-- Search -->
+        <section class="search-section">
+            <input 
+                type="text" 
+                id="searchInput" 
+                placeholder="Search for a movie..."
+                aria-label="Search movie"
+            >
+            <button id="searchBtn">Search</button>
+        </section>
 
-</body> 
-</html> 
+        <!-- Results + Details -->
+        <section class="content-row">
+
+            <!-- Search Results -->
+            <div class="search-results">
+                <h2>Search Results</h2>
+                <div id="resultsGrid"></div>
+            </div>
+
+            <!-- Movie Details -->
+            <div class="movie-details">
+                <h2>Movie Details</h2>
+                <div id="movieDetails"></div>
+            </div>
+
+        </section>
+
+        <!-- Categories -->
+        <section class="categories">
+            <h2>Display Movies from a Predefined Category</h2>
+
+            <div class="category-buttons">
+                <button id="popularBtn">Popular Movies</button>
+                <button id="topRatedBtn">Top Rated Movies</button>
+            </div>
+
+            <div id="categoryResults" class="category-grid"></div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
