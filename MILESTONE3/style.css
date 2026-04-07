@@ -1,1 +1,157 @@
+/* Global variables */
+:root {
+    --background: #F0F0F0;
+    --text: #000000;
+    --dim-text: #555555;
+    --hover: #A9A9A9;
+}
 
+/* Page setup */
+body {
+    background-color: var(--background);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    padding: 50px 10%;
+}
+
+header h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+}
+
+header p {
+    font-size: 1.3rem;
+    color: var(--dim-text);
+}
+
+/* Main container */
+.container {
+    flex-grow: 1;
+    padding: 0 10%;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+/* Search */
+.search-section {
+    display: flex;
+    gap: 10px;
+}
+
+.search-section input {
+    flex: 1;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    background: white;
+    font-family: inherit;
+}
+
+.search-section button {
+    padding: 12px 20px;
+    border: 1px solid #000;
+    background: var(--text);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.search-section button:hover {
+    background: var(--hover);
+}
+
+/* Grid layout: 66% / 33% */
+.content-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* 66% / 33% */
+    gap: 30px;
+}
+
+/* Sections */
+.search-results,
+.movie-details {
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+}
+
+/* Section titles */
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+/* Results grid */
+#resultsGrid,
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+/* Movie card */
+.movie-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.movie-card:hover {
+    background: var(--hover);
+    transform: translateY(-3px);
+}
+
+/* Movie details */
+.movie-details p {
+    color: var(--dim-text);
+    line-height: 1.5;
+}
+
+/* Categories */
+.categories {
+    padding: 20px;
+    border-top: 1px solid #ccc;
+}
+
+.category-buttons {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.category-buttons button {
+    padding: 10px 15px;
+    border: 1px solid #000;
+    background: var(--text);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.category-buttons button:hover {
+    background: var(--hover);
+}
+
+
+footer {
+    padding: 40px 10%;
+    font-size: 0.9rem;
+    color: var(--dim-text);
+    border-top: 1px solid #ccc;
+}
