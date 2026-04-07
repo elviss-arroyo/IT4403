@@ -1,3 +1,4 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 const API_KEY = "4ecce31518d3c79af6da91dc53d038d5"; 
 
 let currentQuery = "";
