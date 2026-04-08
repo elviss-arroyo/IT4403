@@ -101,13 +101,15 @@ h2 {
     text-align: center;
 }
 
+/* ✅ FIXED GRID FOR 5 PER ROW */
 #resultsGrid,
 .category-grid {
     display: grid;
-    grid-template-columns: repeat(5, 200px); 
+    grid-template-columns: repeat(5, 1fr); /* 5 equal columns */
     gap: 20px;
 
-    justify-content: center; 
+    width: 100%;
+    max-width: 1100px; /* controls layout so it doesn't wrap early */
     margin: 0 auto;
 }
 
@@ -122,7 +124,8 @@ h2 {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    width: 200px; 
+
+    width: 100%; /* IMPORTANT: fill grid cell */
     box-sizing: border-box;
 }
 
@@ -143,7 +146,7 @@ h2 {
     font-size: 0.95rem;
 }
 
-
+/* Movie details */
 #movieDetails {
     grid-template-columns: 1fr; 
     max-width: 800px;
