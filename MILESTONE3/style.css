@@ -43,7 +43,7 @@ header p {
     flex-direction: column;
     gap: 40px;
 
-    max-width: 900px;
+    max-width: 1400px; /* widened so 9 columns fit */
     margin: 0 auto;
 }
 
@@ -76,7 +76,6 @@ header p {
     background: var(--hover);
 }
 
-
 .content-row {
     display: flex;
     flex-direction: column;
@@ -98,12 +97,12 @@ h2 {
     margin-bottom: 15px;
 }
 
-/* Results grid */
+
 #resultsGrid,
 .category-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(9, 1fr); /* 9 equal columns */
+    gap: 15px;
 }
 
 /* Movie card */
@@ -124,7 +123,6 @@ h2 {
     background: var(--hover);
     transform: translateY(-3px);
 }
-
 
 .movie-card img {
     width: 100%;
