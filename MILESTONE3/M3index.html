@@ -9,53 +9,44 @@
 </head>
 <body>
 
-    <header>
-        <h1>Milestone 3 - TMDB AJAX Movie App</h1>
-        <p>place</p>
-    </header>
+<header>
+    <h1>Milestone 3 - TMDB AJAX Movie App</h1>
+    <p>Search movie by keyword or title</p>
+</header>
 
-    <main class="container">
+<main class="container">
 
-        <!-- Search -->
-        <section class="search-section">
-            <input 
-                type="text" 
-                id="searchInput" 
-                placeholder="Search for a movie..."
-                aria-label="Search movie"
-            >
-            <button id="searchBtn">Search movie by keyword or title</button>
-        </section>
+    <section class="search-section">
+        <input type="text" id="searchInput" placeholder="Search for a movie...">
+        <button id="searchBtn">Search</button>
+    </section>
 
-        <!-- Results + Details -->
-        <section class="content-row">
+    <section class="content-row">
 
-            <!-- Search Results -->
-            <div class="search-results">
-                <h2>Search Results</h2>
-                <div id="resultsGrid"></div>
-            </div>
+        <div class="search-results">
+            <h2>Search Results</h2>
+            <div id="resultsGrid"></div>
+        </div>
 
-            <!-- Movie Details -->
-            <div class="movie-details">
-                <h2>Movie Details</h2>
-                <div id="movieDetails"></div>
-            </div>
+        <div class="movie-details">
+            <h2>Movie Details</h2>
+            <div id="movieDetails"></div>
+        </div>
 
-        </section>
+    </section>
 
-        <!-- Categories -->
-      <section class="categories">
-    <h2>Animation Movies</h2>
-    <div id="animationMovies" class="category-grid"></div>
+    <section class="categories">
+        <h2>Popular Movies</h2>
+        <div id="popularMovies" class="category-grid"></div>
 
-    <h2>Horror Movies</h2>
-    <div id="horrorMovies" class="category-grid"></div>
-</section>
+        <h2>Top Rated Movies</h2>
+        <div id="topRatedMovies" class="category-grid"></div>
+    </section>
 
-    </main>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="movie.js"></script>
+</main>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="movie.js"></script>
 
 </body>
 </html>
