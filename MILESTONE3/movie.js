@@ -5,8 +5,12 @@ $(document).ready(function () {
     let currentQuery = "";
     let currentPage = 1;
 
+    // SEARCH BUTTON
     $("#searchBtn").click(function () {
         currentQuery = $("#searchInput").val();
+
+        if (!currentQuery) return; // prevent empty search
+
         currentPage = 1;
         searchMovies();
     });
@@ -16,80 +20,89 @@ $(document).ready(function () {
             api_key: API_KEY,
             query: currentQuery,
             page: currentPage
-        }, function (data) {
+        })
+        .done(function (data) {
+
             displayMovies(data.results, "#resultsGrid");
-            createPagination(5);
+
+            createPagination(data.total_pages);
+
+        })
+        .fail(function () {
+            console.error("API Error");
         });
     }
 
     function displayMovies(movies, container) {
+
         $(container).empty();
 
-        movies.slice(0, 10).forEach(movie => { 
+        if (!movies) return;
 
-            // Added backticks here
+        movies.slice(0, 10).forEach(movie => {
+
             let poster = movie.poster_path
                 ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
                 : "https://via.placeholder.com/200x300?text=No+Image";
 
-            // Added backticks here
-            let element = $(`
+            let card = $(`
                 <div class="movie-card">
                     <img src="${poster}">
                     <p>${movie.title}</p>
                 </div>
             `);
-            
-            element.click(function () {
+
+            card.click(function () {
                 showDetails(movie);
             });
 
-            $(container).append(element);
+            $(container).append(card);
         });
     }
 
     function showDetails(movie) {
-        // Added backticks here
+
         $("#movieDetails").html(`
             <h3>${movie.title}</h3>
-            <p><strong>Release:</strong> ${movie.release_date}</p>
+            <p><strong>Release:</strong> ${movie.release_date || "N/A"}</p>
             <p><strong>Rating:</strong> ${movie.vote_average}</p>
             <p>${movie.overview}</p>
         `);
     }
 
     function createPagination(totalPages) {
+
         $("#resultsGrid .pagination").remove();
 
-        // Added backticks here
-        let pagination = `<div class="pagination">`;
+        let pagination = $('<div class="pagination"></div>');
 
-        for (let i = 1; i <= totalPages; i++) {
-            // Added backticks here
-            pagination += `<button class="page-btn" data-page="${i}">${i}</button>`;
+        for (let i = 1; i <= Math.min(totalPages, 5); i++) {
+
+            let btn = $(`<button class="page-btn">${i}</button>`);
+
+            btn.click(function () {
+                currentPage = i;
+                searchMovies();
+            });
+
+            pagination.append(btn);
         }
 
-        pagination += `</div>`;
-
         $("#resultsGrid").append(pagination);
-
-        $(".page-btn").click(function () {
-            currentPage = $(this).data("page");
-            searchMovies();
-        });
     }
 
-    // Load Initial Categories
+    // LOAD ACTION MOVIES
     $.get("https://api.themoviedb.org/3/discover/movie", {
         api_key: API_KEY,
-        with_genres: 28 
+        with_genres: 28
     }, function (data) {
         displayMovies(data.results, "#actionMovies");
     });
-        
+
+    // LOAD HORROR MOVIES
     $.get("https://api.themoviedb.org/3/discover/movie", {
         api_key: API_KEY,
-        with_genres: 27 
+        with_genres: 27
     }, function (data) {
         displayMovies(data.results, "#horrorMovies");
     });
