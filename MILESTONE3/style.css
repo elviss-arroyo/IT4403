@@ -29,9 +29,10 @@ header {
 /* MAIN CONTAINER */
 .container {
   flex-grow: 1;
-  width: 100%;
+  width: 90%;
   max-width: 1200px;
   margin: 0 auto;
+  align-items: center; /* This forces the white sections to center themselves */
   padding: 0; 
   display: flex;
   flex-direction: column;
@@ -82,8 +83,9 @@ header {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 20px;
-  margin-top: 20px;
-  justify-content: center;
+  margin: 20px auto 0 auto; /* Added auto margins to left/right */
+  max-width: 1000px;        /* Optional: Constrain the grid width to keep it tight */
+  justify-items: center;    /* Ensures cards stay centered in their tracks */
 }
 
 /* MOVIE CARD */
