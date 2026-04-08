@@ -1,52 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Milestone 3 - TMDB AJAX Movie App</title>
-
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<header>
-    <h1>Milestone 3 - TMDB AJAX Movie App</h1>
-    <p>PLACEHOLDER</p>
-</header>
-
 <main class="container">
 
-    <section class="search-section">
-        <input type="text" id="searchInput" placeholder="Search for a movie...">
-        <button id="searchBtn">Search</button>
-    </section>
+    <!-- LEFT SIDE -->
+    <div class="left-column">
 
-    <section class="content-row">
+        <section class="search-section">
+            <input type="text" id="searchInput" placeholder="Search for a movie...">
+            <button id="searchBtn">Search</button>
+        </section>
 
         <div class="search-results">
             <h2>Search Results</h2>
             <div id="resultsGrid"></div>
         </div>
 
-        <div class="movie-details">
-            <h2>Movie Details</h2>
-            <div id="movieDetails"></div>
+        <div class="categories">
+            <h2>Action Movies</h2>
+            <div id="actionMovies" class="category-grid"></div>
+
+            <h2>Horror Movies</h2>
+            <div id="horrorMovies" class="category-grid"></div>
         </div>
 
-    </section>
+    </div>
 
-    <section class="categories">
-        <h2>Action Movies</h2>
-        <div id="actionMovies" class="category-grid"></div>
+    <!-- RIGHT SIDE -->
+    <div class="right-column">
 
-        <h2>Horror Movies</h2>
-        <div id="horrorMovies" class="category-grid"></div>
-    </section>
+        <div class="movie-details">
+            <h2>Movie Details</h2>
+            <div id="movieDetails">
+                <p>Select a movie to see details</p>
+            </div>
+        </div>
+
+    </div>
 
 </main>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="movie.js"></script>
-
-</body>
-</html>
