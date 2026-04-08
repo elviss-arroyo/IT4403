@@ -5,17 +5,19 @@ $(document).ready(function () {
     let currentQuery = "";
     let currentPage = 1;
 
-    // SEARCH BUTTON
-    $("#searchBtn").click(function () {
-        currentQuery = $("#searchInput").val();
+    /* ================= SEARCH ================= */
 
-        if (!currentQuery) return; // prevent empty search
+    $("#searchBtn").click(function () {
+        currentQuery = $("#searchInput").val().trim();
+
+        if (!currentQuery) return;
 
         currentPage = 1;
         searchMovies();
     });
 
     function searchMovies() {
+
         $.get("https://api.themoviedb.org/3/search/movie", {
             api_key: API_KEY,
             query: currentQuery,
@@ -29,9 +31,11 @@ $(document).ready(function () {
 
         })
         .fail(function () {
-            console.error("API Error");
+            console.error("Search API Error");
         });
     }
+
+    /* ================= DISPLAY MOVIES ================= */
 
     function displayMovies(movies, container) {
 
@@ -52,6 +56,7 @@ $(document).ready(function () {
                 </div>
             `);
 
+            // CLICK → SHOW DETAILS
             card.click(function () {
                 showDetails(movie);
             });
@@ -60,15 +65,24 @@ $(document).ready(function () {
         });
     }
 
+    /* ================= MOVIE DETAILS ================= */
+
     function showDetails(movie) {
 
+        let poster = movie.poster_path
+            ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+            : "https://via.placeholder.com/300x450?text=No+Image";
+
         $("#movieDetails").html(`
+            <img src="${poster}" alt="${movie.title}">
             <h3>${movie.title}</h3>
             <p><strong>Release:</strong> ${movie.release_date || "N/A"}</p>
             <p><strong>Rating:</strong> ${movie.vote_average}</p>
-            <p>${movie.overview}</p>
+            <p>${movie.overview || "No description available."}</p>
         `);
     }
+
+    /* ================= PAGINATION ================= */
 
     function createPagination(totalPages) {
 
@@ -91,20 +105,30 @@ $(document).ready(function () {
         $("#resultsGrid").append(pagination);
     }
 
-    // LOAD ACTION MOVIES
+    /* ================= LOAD ACTION MOVIES ================= */
+
     $.get("https://api.themoviedb.org/3/discover/movie", {
         api_key: API_KEY,
         with_genres: 28
-    }, function (data) {
+    })
+    .done(function (data) {
         displayMovies(data.results, "#actionMovies");
+    })
+    .fail(function () {
+        console.error("Action movies API error");
     });
 
-    // LOAD HORROR MOVIES
+    /* ================= LOAD HORROR MOVIES ================= */
+
     $.get("https://api.themoviedb.org/3/discover/movie", {
         api_key: API_KEY,
         with_genres: 27
-    }, function (data) {
+    })
+    .done(function (data) {
         displayMovies(data.results, "#horrorMovies");
+    })
+    .fail(function () {
+        console.error("Horror movies API error");
     });
 
 });
