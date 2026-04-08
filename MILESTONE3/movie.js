@@ -73,18 +73,18 @@ function createPagination(totalPages) {
     });
 }
 
-/* PREDEFINED CATEGORIES (REQUIRED) */
 
-$.get("https://api.themoviedb.org/3/movie/popular", {
+
+$.get("https://api.themoviedb.org/3/movie/horror", {
     api_key: API_KEY
 }, function (data) {
-    displayMovies(data.results, "#popularMovies");
+    displayMovies(data.results, "#horrorMovies");
 });
 
-$.get("https://api.themoviedb.org/3/movie/top_rated", {
+$.get("https://api.themoviedb.org/3/movie/animation", {
     api_key: API_KEY
 }, function (data) {
-    displayMovies(data.results, "#topRatedMovies");
+    displayMovies(data.results, "#animationMovies");
 });
 
 });
