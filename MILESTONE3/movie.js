@@ -19,7 +19,7 @@ function searchMovies() {
         page: currentPage
     }, function (data) {
         displayMovies(data.results, "#resultsGrid");
-        createPagination(5);
+        createPagination(5); // keeping your current setup
     });
 }
 
@@ -72,7 +72,14 @@ function createPagination(totalPages) {
     let pagination = `<div class="pagination">`;
 
     for (let i = 1; i <= totalPages; i++) {
-        pagination += `<button class="page-btn" data-page="${i}">${i}</button>`;
+
+        let activeClass = (i === currentPage) ? "active-page" : "";
+
+        pagination += `
+            <button class="page-btn ${activeClass}" data-page="${i}">
+                ${i}
+            </button>
+        `;
     }
 
     pagination += `</div>`;
