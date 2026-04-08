@@ -74,12 +74,11 @@ function createPagination(totalPages) {
 }
 
 
-
 $.get("https://api.themoviedb.org/3/discover/movie", {
     api_key: API_KEY,
-    with_keywords: 207317 
+    with_genres: 28 
 }, function (data) {
-    displayMovies(data.results, "#christmasMovies");
+    displayMovies(data.results, "#actionMovies");
 });
     
 $.get("https://api.themoviedb.org/3/discover/movie", {
