@@ -141,8 +141,8 @@ header {
 
 
 .page-btn.active { /* Highlight current page */
-  background: black; /* Black background */
-  color: white; /* White text */
+  background: red; /* Black background */
+  color: red; /* White text */
   border-color: black; /* Match border */
   font-weight: bold; /* Bold  */
 }
