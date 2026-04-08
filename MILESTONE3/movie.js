@@ -84,26 +84,31 @@ $(document).ready(function () {
 
     /* ================= PAGINATION ================= */
 
-    function createPagination(totalPages) {
+function createPagination(totalPages) {
 
-        $("#resultsGrid .pagination").remove();
+    $("#resultsGrid .pagination").remove();
 
-        let pagination = $('<div class="pagination"></div>');
+    let pagination = $('<div class="pagination"></div>');
 
-        for (let i = 1; i <= Math.min(totalPages, 5); i++) {
+    for (let i = 1; i <= Math.min(totalPages, 5); i++) {
 
-            let btn = $(`<button class="page-btn">${i}</button>`);
+        let btn = $(`<button class="page-btn">${i}</button>`);
 
-            btn.click(function () {
-                currentPage = i;
-                searchMovies();
-            });
-
-            pagination.append(btn);
+        // Highlight current page
+        if (i === currentPage) {
+            btn.addClass("active");
         }
 
-        $("#resultsGrid").append(pagination);
+        btn.click(function () {
+            currentPage = i;
+            searchMovies();
+        });
+
+        pagination.append(btn);
     }
+
+    $("#resultsGrid").append(pagination);
+}
 
     /* ================= LOAD ACTION MOVIES ================= */
 
