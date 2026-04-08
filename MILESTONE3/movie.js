@@ -1,137 +1,142 @@
-$(document).ready(function () {
-
-const API_KEY = "4ecce31518d3c79af6da91dc53d038d5";
-
-let currentQuery = "";
-let currentPage = 1;
-
-/* =========================
-   SEARCH BUTTON
-========================= */
-$("#searchBtn").click(function () {
-    currentQuery = $("#searchInput").val().trim();
-
-    if (currentQuery === "") return;
-
-    currentPage = 1;
-    searchMovies();
-});
-
-/* =========================
-   SEARCH MOVIES
-========================= */
-function searchMovies() {
-    $.get("https://api.themoviedb.org/3/search/movie", {
-        api_key: API_KEY,
-        query: currentQuery,
-        page: currentPage
-    }, function (data) {
-
-        if (!data.results) return;
-
-        displayMovies(data.results, "#resultsGrid");
-        createPagination(data.total_pages); // FIXED (real pages)
-    });
+/* Global variables */
+:root {
+    --background: #F0F0F0;
+    --text: #000000;
+    --dim-text: #555555;
+    --hover: #A9A9A9;
 }
 
-/* =========================
-   DISPLAY MOVIES
-========================= */
-function displayMovies(movies, container) {
-    $(container).empty();
-
-    movies.forEach(movie => {
-
-        let poster = movie.poster_path
-            ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
-            : "https://via.placeholder.com/200x300?text=No+Image";
-
-        let element = $(`
-            <div class="movie-card">
-                <img src="${poster}">
-                <p>${movie.title}</p>
-            </div>
-        `);
-
-        element.click(function () {
-            showDetails(movie);
-        });
-
-        $(container).append(element);
-    });
+/* Page setup */
+body {
+    background-color: var(--background);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-/* =========================
-   MOVIE DETAILS
-========================= */
-function showDetails(movie) {
-
-    let poster = movie.poster_path
-        ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
-        : "https://via.placeholder.com/300x450?text=No+Image";
-
-    $("#movieDetails").html(`
-        <img src="${poster}">
-        <h3>${movie.title}</h3>
-        <p><strong>Release:</strong> ${movie.release_date}</p>
-        <p><strong>Rating:</strong> ${movie.vote_average}</p>
-        <p>${movie.overview}</p>
-    `);
+/* Header */
+header {
+    padding: 50px 10%;
+    text-align: center;
 }
 
-/* =========================
-   PAGINATION
-========================= */
-function createPagination(totalPages) {
-
-    $(".pagination").remove();
-
-    let pagination = `<div class="pagination">`;
-
-    let maxPages = Math.min(totalPages, 5); // keep it clean
-
-    for (let i = 1; i <= maxPages; i++) {
-
-        let activeClass = (i === currentPage) ? "active-page" : "";
-
-        pagination += `
-            <button class="page-btn ${activeClass}" data-page="${i}">
-                ${i}
-            </button>
-        `;
-    }
-
-    pagination += `</div>`;
-
-    $(".search-results").append(pagination);
-
-    $(".page-btn").click(function () {
-        currentPage = $(this).data("page");
-        searchMovies();
-    });
+header h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
 }
 
-/* =========================
-   DEFAULT MOVIES (FIXED)
-========================= */
-function loadDefaultMovies() {
-
-    $.get("https://api.themoviedb.org/3/discover/movie", {
-        api_key: API_KEY,
-        with_genres: 28 // Action
-    }, function (data) {
-        displayMovies(data.results, "#actionMovies");
-    });
-
-    $.get("https://api.themoviedb.org/3/discover/movie", {
-        api_key: API_KEY,
-        with_genres: 27 // Horror
-    }, function (data) {
-        displayMovies(data.results, "#horrorMovies");
-    });
+header p {
+    font-size: 1.3rem;
+    color: var(--dim-text);
 }
 
-/* LOAD DEFAULT MOVIES ON PAGE LOAD */
-loadDefaultMovies();
+/* Container */
+.container {
+    flex-grow: 1;
+    padding: 0 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
 
-});
+/* Search */
+.search-section {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+#searchInput {
+    padding: 10px;
+    width: 300px;
+}
+
+#searchBtn {
+    padding: 10px 20px;
+    background: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Sections */
+.search-results,
+.movie-details,
+.categories {
+    width: 100%;
+    padding: 20px;
+    background: white;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+/* GRID */
+#resultsGrid,
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Movie Card */
+.movie-card {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.movie-card img {
+    width: 100%;
+    border-radius: 4px;
+}
+
+/* Movie Details */
+#movieDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+#movieDetails img {
+    max-width: 250px;
+    border-radius: 6px;
+}
+
+.movie-details p {
+    color: var(--dim-text);
+}
+
+/* Pagination */
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.page-btn {
+    padding: 8px 12px;
+    background: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* ACTIVE PAGE */
+.active-page {
+    background: white;
+    color: black;
+    border: 2px solid black;
+    font-weight: bold;
+}
