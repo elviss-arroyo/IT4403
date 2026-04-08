@@ -117,6 +117,42 @@ header {
   display: block;
 }
 
+/* ================= PAGINATION ================= */
+
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.page-btn {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.page-btn:hover {
+  background: var(--hover);
+}
+
+/* ACTIVE PAGE */
+.page-btn.active {
+  background: black;
+  color: white;
+  border-color: black;
+  font-weight: bold;
+}
+
+/* OPTIONAL: disabled buttons (for future use) */
+.page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* FOOTER */
 footer {
   text-align: center;
