@@ -96,16 +96,12 @@ h2 {
     margin-bottom: 15px;
 }
 
-/* GRID (IMPORTANT) */
+/* GRID */
 #resultsGrid,
 .category-grid {
     display: grid;
     grid-template-columns: repeat(4, 200px);
     gap: 15px;
-    justify-content: center; 
-}
-
-.category-grid {
     justify-content: center;
 }
 
@@ -138,6 +134,27 @@ h2 {
 .movie-card p {
     margin-top: 10px;
     font-size: 0.95rem;
+}
+
+/* PAGINATION FIX */
+.pagination {
+    grid-column: 1 / -1;   
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.page-btn {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border: 1px solid #000;
+    background: #fff;
+    cursor: pointer;
+}
+
+.page-btn:hover {
+    background: var(--hover);
 }
 
 /* Movie details */
