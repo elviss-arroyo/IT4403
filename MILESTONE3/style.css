@@ -101,7 +101,7 @@ h2 {
 #resultsGrid,
 .category-grid {
     display: grid;
-    grid-template-columns: repeat(9, 1fr); /* 9 equal columns */
+    grid-template-columns: repeat(4, 1fr);
     gap: 15px;
 }
 
