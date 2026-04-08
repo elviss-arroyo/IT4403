@@ -147,10 +147,7 @@ header {
   font-weight: bold;
 }
 
-/* OPTIONAL: disabled buttons (for future use) */
-.page-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+
 }
 
 /* FOOTER */
