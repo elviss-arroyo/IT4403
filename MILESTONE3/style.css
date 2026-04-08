@@ -73,11 +73,11 @@ header p {
     background: var(--hover);
 }
 
-/* Grid layout: 66% / 33% */
+
 .content-row {
-    display: grid;
-    grid-template-columns: 2fr 1fr; /* 66% / 33% */
-    gap: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 /* Sections */
