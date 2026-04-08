@@ -1,5 +1,6 @@
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-const API_KEY = "4ecce31518d3c79af6da91dc53d038d5"; 
+$(document).ready(function () {
+
+const API_KEY = "YOUR_API_KEY_HERE";
 
 let currentQuery = "";
 let currentPage = 1;
@@ -11,13 +12,13 @@ $("#searchBtn").click(function () {
 });
 
 function searchMovies() {
-    $.get(`https://api.themoviedb.org/3/search/movie`, {
+    $.get("https://api.themoviedb.org/3/search/movie", {
         api_key: API_KEY,
         query: currentQuery,
         page: currentPage
     }, function (data) {
         displayMovies(data.results, "#resultsGrid");
-        createPagination(data.total_pages);
+        createPagination(5);
     });
 }
 
@@ -27,11 +28,11 @@ function displayMovies(movies, container) {
     movies.forEach(movie => {
         let poster = movie.poster_path
             ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
-            : "";
+            : "https://via.placeholder.com/200x300?text=No+Image";
 
         let element = $(`
             <div class="movie-card">
-                <img src="${poster}" alt="${movie.title}">
+                <img src="${poster}">
                 <p>${movie.title}</p>
             </div>
         `);
@@ -58,7 +59,7 @@ function createPagination(totalPages) {
 
     let pagination = `<div class="pagination">`;
 
-    for (let i = 1; i <= Math.min(totalPages, 5); i++) {
+    for (let i = 1; i <= totalPages; i++) {
         pagination += `<button class="page-btn" data-page="${i}">${i}</button>`;
     }
 
@@ -72,16 +73,18 @@ function createPagination(totalPages) {
     });
 }
 
-$.get("https://api.themoviedb.org/3/discover/movie", {
-    api_key: API_KEY,
-    with_genres: 16
+/* PREDEFINED CATEGORIES (REQUIRED) */
+
+$.get("https://api.themoviedb.org/3/movie/popular", {
+    api_key: API_KEY
 }, function (data) {
-    displayMovies(data.results, "#animationMovies");
+    displayMovies(data.results, "#popularMovies");
 });
 
-$.get("https://api.themoviedb.org/3/discover/movie", {
-    api_key: API_KEY,
-    with_genres: 27
+$.get("https://api.themoviedb.org/3/movie/top_rated", {
+    api_key: API_KEY
 }, function (data) {
-    displayMovies(data.results, "#horrorMovies");
+    displayMovies(data.results, "#topRatedMovies");
+});
+
 });
