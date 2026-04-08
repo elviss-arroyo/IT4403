@@ -75,16 +75,18 @@ function createPagination(totalPages) {
 
 
 
-$.get("https://api.themoviedb.org/3/movie/horror", {
-    api_key: API_KEY
+$.get("https://api.themoviedb.org/3/discover/movie", {
+    api_key: API_KEY,
+    with_keywords: 207317 
+}, function (data) {
+    displayMovies(data.results, "#christmasMovies");
+});
+    
+$.get("https://api.themoviedb.org/3/discover/movie", {
+    api_key: API_KEY,
+    with_genres: 27 
 }, function (data) {
     displayMovies(data.results, "#horrorMovies");
-});
-
-$.get("https://api.themoviedb.org/3/movie/animation", {
-    api_key: API_KEY
-}, function (data) {
-    displayMovies(data.results, "#animationMovies");
 });
 
 });
