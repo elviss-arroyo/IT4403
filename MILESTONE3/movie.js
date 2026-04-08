@@ -1,168 +1,137 @@
-/* Global variables */
-:root {
-    --background: #F0F0F0;
-    --text: #000000;
-    --dim-text: #555555;
-    --hover: #A9A9A9;
+$(document).ready(function () {
+
+const API_KEY = "4ecce31518d3c79af6da91dc53d038d5";
+
+let currentQuery = "";
+let currentPage = 1;
+
+/* =========================
+   SEARCH BUTTON
+========================= */
+$("#searchBtn").click(function () {
+    currentQuery = $("#searchInput").val().trim();
+
+    if (currentQuery === "") return;
+
+    currentPage = 1;
+    searchMovies();
+});
+
+/* =========================
+   SEARCH MOVIES
+========================= */
+function searchMovies() {
+    $.get("https://api.themoviedb.org/3/search/movie", {
+        api_key: API_KEY,
+        query: currentQuery,
+        page: currentPage
+    }, function (data) {
+
+        if (!data.results) return;
+
+        displayMovies(data.results, "#resultsGrid");
+        createPagination(data.total_pages); // FIXED (real pages)
+    });
 }
 
-/* Page setup */
-body {
-    background-color: var(--background);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+/* =========================
+   DISPLAY MOVIES
+========================= */
+function displayMovies(movies, container) {
+    $(container).empty();
+
+    movies.forEach(movie => {
+
+        let poster = movie.poster_path
+            ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
+            : "https://via.placeholder.com/200x300?text=No+Image";
+
+        let element = $(`
+            <div class="movie-card">
+                <img src="${poster}">
+                <p>${movie.title}</p>
+            </div>
+        `);
+
+        element.click(function () {
+            showDetails(movie);
+        });
+
+        $(container).append(element);
+    });
 }
 
-/* Header */
-header {
-    padding: 50px 10%;
-    text-align: center;
+/* =========================
+   MOVIE DETAILS
+========================= */
+function showDetails(movie) {
+
+    let poster = movie.poster_path
+        ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+        : "https://via.placeholder.com/300x450?text=No+Image";
+
+    $("#movieDetails").html(`
+        <img src="${poster}">
+        <h3>${movie.title}</h3>
+        <p><strong>Release:</strong> ${movie.release_date}</p>
+        <p><strong>Rating:</strong> ${movie.vote_average}</p>
+        <p>${movie.overview}</p>
+    `);
 }
 
-header h1 {
-    font-size: 3rem;
-    margin-bottom: 10px;
+/* =========================
+   PAGINATION
+========================= */
+function createPagination(totalPages) {
+
+    $(".pagination").remove();
+
+    let pagination = `<div class="pagination">`;
+
+    let maxPages = Math.min(totalPages, 5); // keep it clean
+
+    for (let i = 1; i <= maxPages; i++) {
+
+        let activeClass = (i === currentPage) ? "active-page" : "";
+
+        pagination += `
+            <button class="page-btn ${activeClass}" data-page="${i}">
+                ${i}
+            </button>
+        `;
+    }
+
+    pagination += `</div>`;
+
+    $(".search-results").append(pagination);
+
+    $(".page-btn").click(function () {
+        currentPage = $(this).data("page");
+        searchMovies();
+    });
 }
 
-header p {
-    font-size: 1.3rem;
-    color: var(--dim-text);
+/* =========================
+   DEFAULT MOVIES (FIXED)
+========================= */
+function loadDefaultMovies() {
+
+    $.get("https://api.themoviedb.org/3/discover/movie", {
+        api_key: API_KEY,
+        with_genres: 28 // Action
+    }, function (data) {
+        displayMovies(data.results, "#actionMovies");
+    });
+
+    $.get("https://api.themoviedb.org/3/discover/movie", {
+        api_key: API_KEY,
+        with_genres: 27 // Horror
+    }, function (data) {
+        displayMovies(data.results, "#horrorMovies");
+    });
 }
 
-/* Container */
-.container {
-    flex-grow: 1;
-    padding: 0 5%;
-    max-width: 1400px;
-    margin: 0 auto;
-    width: 100%;
-}
+/* LOAD DEFAULT MOVIES ON PAGE LOAD */
+loadDefaultMovies();
 
-/* Search */
-.search-section {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-#searchInput {
-    padding: 10px;
-    width: 300px;
-}
-
-#searchBtn {
-    padding: 10px 20px;
-    background: black;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-
-.content-row {
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
-}
-
-/* LEFT: Search Results */
-.search-results {
-    flex: 3;
-    padding: 20px;
-    background: white;
-    border: 1px solid #ddd;
-    text-align: center;
-}
-
-/* RIGHT: Movie Details */
-.movie-details {
-    flex: 1;
-    padding: 20px;
-    background: white;
-    border: 1px solid #ddd;
-    text-align: center;
-
-    position: sticky;
-    top: 20px; /* stays visible when scrolling */
-}
-
-/* GRID */
-#resultsGrid,
-.category-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 15px;
-}
-
-/* Movie Card */
-.movie-card {
-    background: white;
-    border: 1px solid #ddd;
-    padding: 10px;
-    cursor: pointer;
-    text-align: center;
-}
-
-.movie-card img {
-    width: 100%;
-    border-radius: 4px;
-}
-
-.movie-card p {
-    margin-top: 10px;
-}
-
-/* Movie Details */
-#movieDetails {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-}
-
-/* 🔥 BIGGER POSTER */
-#movieDetails img {
-    max-width: 320px;
-    border-radius: 6px;
-}
-
-.movie-details p {
-    color: var(--dim-text);
-}
-
-/* Categories */
-.categories {
-    margin-top: 40px;
-    padding: 20px;
-    background: white;
-    border: 1px solid #ddd;
-    text-align: center;
-}
-
-/* Pagination */
-.pagination {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-.page-btn {
-    padding: 8px 12px;
-    background: black;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.active-page {
-    background: white;
-    color: black;
-    border: 2px solid black;
-    font-weight: bold;
-}
+});
