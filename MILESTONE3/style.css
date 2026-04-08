@@ -112,7 +112,7 @@ header {
 #movieDetails img { 
   width: 100%; /*  width */
   max-width: 300px; 
-  margin: 0 auto 20px; /* Center */
+  margin: 0 auto 20px;
   display: block; 
 }
 
@@ -144,6 +144,8 @@ header {
   color: white; /* White text */
   border-color: black; /* Match border */
   font-weight: bold; /* Bold  */
+  text-align: center; /* Center  */
+
 }
 
 
