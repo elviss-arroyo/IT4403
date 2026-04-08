@@ -5,7 +5,6 @@
   --hover: #A9A9A9;
 }
 
-/* Page setup */
 body {
   background-color: var(--background);
   color: var(--text);
@@ -16,7 +15,6 @@ body {
   min-height: 100vh;
 }
 
-/* Header */
 header {
   padding: 50px 10%;
   text-align: center;
@@ -25,17 +23,8 @@ header {
 header h1 {
   font-size: 3rem;
   margin-bottom: 10px;
-  font-weight: 700;
-  letter-spacing: -1.5px;
-  line-height: 1.1;
 }
 
-header p {
-  font-size: 1.3rem;
-  color: var(--dim-text);
-}
-
-/* Main container */
 .container {
   flex-grow: 1;
   padding: 0 5%;
@@ -44,44 +33,34 @@ header p {
   gap: 40px;
   max-width: 1400px;
   margin: 0 auto;
-  width: 100%;
-  box-sizing: border-box;
 }
 
-/* Search Section - Centered */
 .search-section {
   display: flex;
   gap: 10px;
   justify-content: center;
-  width: 100%;
 }
 
 #searchInput {
   padding: 10px;
   width: 300px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
 }
 
 #searchBtn {
   padding: 10px 20px;
   cursor: pointer;
-  background: #000;
-  color: #fff;
+  background: black;
+  color: white;
   border: none;
-  border-radius: 4px;
 }
 
-/* Content Row - Centered */
 .content-row {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 40px;
-  width: 100%;
 }
 
-/* Center sections */
 .search-results,
 .movie-details,
 .categories {
@@ -90,75 +69,36 @@ header p {
   background: #fff;
   border: 1px solid #ddd;
   text-align: center;
-  box-sizing: border-box;
-}
-
-/* Titles */
-h2 {
-  font-size: 1.5rem;
-  margin-bottom: 25px;
-  text-align: center;
 }
 
 #resultsGrid,
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 5 equal columns */
+  grid-template-columns: repeat(5, 1fr);
   gap: 20px;
-  width: 100%;
-  max-width: 1100px; /* controls layout so it doesn't wrap early */
+  max-width: 1100px;
   margin: 0 auto;
 }
 
-/* Movie card */
 .movie-card {
   background: #fff;
   border: 1px solid #ddd;
   padding: 10px;
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  width: 100%; /* IMPORTANT: fill grid cell */
-  box-sizing: border-box;
 }
 
 .movie-card:hover {
   background: var(--hover);
-  transform: translateY(-3px);
 }
 
 .movie-card img {
   width: 100%;
-  height: auto;
-  object-fit: cover;
-  border-radius: 4px;
 }
 
 .movie-card p {
   margin-top: 10px;
-  font-size: 0.95rem;
 }
 
-/* Movie details */
-#movieDetails {
-  grid-template-columns: 1fr;
-  max-width: 800px;
-}
-
-.movie-details p {
-  color: var(--dim-text);
-  line-height: 1.5;
-}
-
-/* Footer */
 footer {
-  padding: 40px 10%;
   text-align: center;
-  font-size: 0.9rem;
-  color: var(--dim-text);
-  border-top: 1px solid #ccc;
-  margin-top: 40px;
 }
