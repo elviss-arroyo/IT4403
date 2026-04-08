@@ -25,7 +25,8 @@ function searchMovies() {
 function displayMovies(movies, container) {
     $(container).empty();
 
-    movies.forEach(movie => {
+    movies.slice(0, 10).forEach(movie => { 
+
         let poster = movie.poster_path
             ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
             : "https://via.placeholder.com/200x300?text=No+Image";
