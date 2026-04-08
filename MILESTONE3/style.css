@@ -100,8 +100,9 @@ h2 {
 #resultsGrid,
 .category-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 200px);
     gap: 15px;
+    justify-content: center; 
 }
 
 .category-grid {
