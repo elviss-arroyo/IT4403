@@ -101,16 +101,14 @@ h2 {
     text-align: center;
 }
 
-/* Responsive Grid Logic */
 #resultsGrid,
-.category-grid,
-#movieDetails {
+.category-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 200px);
+    grid-template-columns: repeat(5, 200px); 
     gap: 20px;
+
     justify-content: center; 
     margin: 0 auto;
-    width: 100%;
 }
 
 /* Movie card */
