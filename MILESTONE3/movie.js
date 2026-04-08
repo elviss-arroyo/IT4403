@@ -27,19 +27,19 @@ $(document).ready(function () {
 
         movies.slice(0, 10).forEach(movie => { 
 
-            // Added backticks and fixed the URL string
+            // Added backticks here
             let poster = movie.poster_path
                 ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
                 : "https://via.placeholder.com/200x300?text=No+Image";
 
-            // Added backticks around the HTML string
+            // Added backticks here
             let element = $(`
                 <div class="movie-card">
                     <img src="${poster}">
                     <p>${movie.title}</p>
                 </div>
             `);
-
+            
             element.click(function () {
                 showDetails(movie);
             });
@@ -49,7 +49,7 @@ $(document).ready(function () {
     }
 
     function showDetails(movie) {
-        // Added backticks around the HTML string
+        // Added backticks here
         $("#movieDetails").html(`
             <h3>${movie.title}</h3>
             <p><strong>Release:</strong> ${movie.release_date}</p>
@@ -69,7 +69,6 @@ $(document).ready(function () {
             pagination += `<button class="page-btn" data-page="${i}">${i}</button>`;
         }
 
-        // Added backticks here
         pagination += `</div>`;
 
         $("#resultsGrid").append(pagination);
@@ -80,6 +79,7 @@ $(document).ready(function () {
         });
     }
 
+    // Load Initial Categories
     $.get("https://api.themoviedb.org/3/discover/movie", {
         api_key: API_KEY,
         with_genres: 28 
