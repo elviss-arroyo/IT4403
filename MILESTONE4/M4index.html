@@ -5,67 +5,65 @@
     <meta charset="UTF-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 
-    <title>Milestone 3 - TMDB AJAX Movie App</title> <!--  title -->
+    <title>Milestone 3 - TMDB AJAX Movie App</title> 
 
-    <link rel="stylesheet" href="style.css"> <!-- CSS file -->
+    <link rel="stylesheet" href="style.css"> 
 </head>
 
 <body>
 
-<header> <!-- Top page -->
-    <h1>Milestone 3 - TMDB AJAX Movie App</h1> <!-- heading -->
+<header> 
+    <h1>Milestone 3 - TMDB AJAX Movie App</h1> 
     <p>TMDB Movie Browser</p> 
 </header>
 
 <main class="container"> 
 
+    <div class="left-column"> 
 
-    <div class="left-column"> <!-- Left side -->
-
-
-        <section class="search-section"> <!-- Search input -->
-            <input type="text" id="searchInput" placeholder="Search for a movie..."> <!-- Search input -->
-            <button id="searchBtn">Search</button> <!-- Search button -->
+        <section class="search-section"> 
+            <input type="text" id="searchInput" placeholder="Search for a movie..."> 
+            <button id="searchBtn">Search</button> 
         </section>
 
-        <section class="search-results"> <!-- Section for search results -->
-            <h2>Search Results</h2> <!-- Section title -->
-            <div id="resultsGrid"></div> <!-- Container where search movies appear -->
+        <div class="tab-container">
+            <button class="tab-btn active" data-target="search-results-tab">Search Results</button>
+            <button class="tab-btn" data-target="collection-tab">Public Collection</button>
+        </div>
+
+        <section id="search-results-tab" class="tab-content active search-results"> 
+            <h2>Search Results</h2> 
+            <div id="resultsGrid"></div> 
         </section>
 
+        <div id="collection-tab" class="tab-content">
+            <section class="categories"> 
+                <h2>Collection of Action Movies</h2> 
+                <div id="actionMovies" class="category-grid"></div> 
+            </section>
 
-        <section class="categories"> <!-- Section for categories -->
-
-            <h2>Collection of Action Movies</h2> <!-- Action section title -->
-            <div id="actionMovies" class="category-grid"></div> <!-- Action movies grid -->
-        </section>
- <section class="categories"> 
-            <h2>Collection of Horror Movies</h2> <!-- Horror section title -->
-            <div id="horrorMovies" class="category-grid"></div> <!-- Horror movies grid -->
-
-        </section>
+            <section class="categories"> 
+                <h2>Collection of Horror Movies</h2> 
+                <div id="horrorMovies" class="category-grid"></div> 
+            </section>
+        </div>
 
     </div>
 
-  
-    <div class="right-column"> <!-- Right side  -->
-
-        <section class="movie-details"> <!-- Movie details section -->
+    <div class="right-column"> 
+        <section class="movie-details"> 
             <h2>Movie Details</h2> 
 
-            <div id="movieDetails"> <!--  selected movie info  -->
-                <p>Select a movie to see details</p> <!-- Default -->
+            <div id="movieDetails"> 
+                <p>Select a movie to see details</p> 
             </div>
-
         </section>
-
     </div>
 
 </main>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!--  jQuery  -->
-<script src="movie.js"></script> <!--  js file -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+<script src="movie.js"></script> 
 
 </body>
-
 </html>
