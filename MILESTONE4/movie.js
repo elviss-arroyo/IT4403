@@ -7,8 +7,6 @@ $(document).ready(function () {
     let currentPage = 1;
     let layout = "grid";
 
-    let lastResults = [];
-
     /* ================= INIT ================= */
     $("#searchView").show();
     $("#collectionView").hide();
@@ -20,6 +18,7 @@ $(document).ready(function () {
         if (!currentQuery) return;
 
         currentPage = 1;
+
         $("#collectionView").hide();
         $("#searchView").show();
 
@@ -55,14 +54,12 @@ $(document).ready(function () {
             page: currentPage
         }).done(data => {
 
-            lastResults = data.results;
-
             renderMovies(data.results, "#resultsGrid");
             buildControls(data.total_pages);
         });
     }
 
-    /* ================= FORMAT DATA (IMPORTANT) ================= */
+    /* ================= FORMAT DATA ================= */
     function formatMovies(movies) {
         return movies.map(m => ({
             id: m.id,
@@ -87,7 +84,7 @@ $(document).ready(function () {
         applyLayout();
     }
 
-    /* ================= MOVIE DETAILS (MUSTACHE) ================= */
+    /* ================= DETAILS ================= */
     function showDetails(movie) {
 
         const template = $("#details-template").html();
@@ -106,7 +103,7 @@ $(document).ready(function () {
         $("#movieDetails").html(Mustache.render(template, data));
     }
 
-    /* ================= CLICK EVENTS ================= */
+    /* ================= CLICK MOVIE ================= */
     $(document).on("click", ".movie-card", function () {
 
         const id = $(this).data("id");
@@ -117,50 +114,41 @@ $(document).ready(function () {
 
     });
 
-    /* ================= CONTROLS ================= */
+    /* ================= MUSTACHE PAGINATION (FIXED) ================= */
     function buildControls(totalPages) {
 
-        $("#controls").empty();
+        const template = $("#controls-template").html();
 
-        let wrapper = $('<div class="controls-wrapper"></div>');
-
-        let pagination = $('<div class="pagination"></div>');
+        let pages = [];
 
         for (let i = 1; i <= Math.min(totalPages, 5); i++) {
-
-            let btn = $(`<button class="page-btn">${i}</button>`);
-
-            if (i === currentPage) btn.addClass("active");
-
-            btn.click(() => {
-                currentPage = i;
-                searchMovies();
+            pages.push({
+                number: i,
+                active: i === currentPage ? "active" : ""
             });
-
-            pagination.append(btn);
         }
 
-        let toggle = $(`
-            <div class="view-toggle">
-                <button id="gridBtn">Grid</button>
-                <button id="listBtn">List</button>
-            </div>
-        `);
+        const html = Mustache.render(template, {
+            pages: pages
+        });
 
-        toggle.find("#gridBtn").click(() => {
+        $("#controls").html(html);
+
+        /* EVENTS AFTER RENDER */
+        $(".page-btn").click(function () {
+            currentPage = $(this).data("page");
+            searchMovies();
+        });
+
+        $("#gridBtn").click(function () {
             layout = "grid";
             applyLayout();
         });
 
-        toggle.find("#listBtn").click(() => {
+        $("#listBtn").click(function () {
             layout = "list";
             applyLayout();
         });
-
-        wrapper.append(pagination);
-        wrapper.append(toggle);
-
-        $("#controls").append(wrapper);
 
         applyLayout();
     }
