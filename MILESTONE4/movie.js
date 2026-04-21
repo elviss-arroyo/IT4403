@@ -78,7 +78,7 @@ function renderMovies(movies, container) {
     const limitedMovies = movies.slice(0, 10);
 
     const html = Mustache.render(template, {
-        movies: formatMovies(limitedMovies)
+        movies: formatMovies(movies)
     });
 
     $(container).html(html);
