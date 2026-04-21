@@ -70,15 +70,17 @@ $(document).ready(function () {
         }));
     }
 
-    /* ================= MUSTACHE RENDER ================= */
-function renderMovies(movies, container) {
 
+/* ================= MUSTACHE RENDER ================= */
+function renderMovies(movies, container) {
     const template = $("#movie-template").html();
     
+    // 1. Slice the array to get only the first 10
     const limitedMovies = movies.slice(0, 10);
 
+    // 2. Pass limitedMovies (NOT movies) to formatMovies
     const html = Mustache.render(template, {
-        movies: formatMovies(movies)
+        movies: formatMovies(limitedMovies) 
     });
 
     $(container).html(html);
