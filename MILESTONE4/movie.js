@@ -1,131 +1,156 @@
 $(document).ready(function () { 
-
     const API_KEY = "4ecce31518d3c79af6da91dc53d038d5"; // TMDB API key
-
     let currentQuery = ""; 
-    let currentPage = 1;  
+    let currentPage = 1;
 
+    // ======= MUSTACHE TEMPLATE HELPERS =======
+
+    // Grab a Mustache template from the HTML by its script tag ID
+    function getTemplate(id) {
+        return $("#" + id).html();
+    }
+
+    // Build a poster URL or return a placeholder
+    function getPoster(path, size) {
+        return path
+            ? "https://image.tmdb.org/t/p/" + size + path
+            : "https://via.placeholder.com/200x300?text=No+Image";
+    }
+
+    // ======= SEARCH =======
 
     $("#searchBtn").click(function () { 
-        currentQuery = $("#searchInput").val().trim(); // Get input value
-
-        if (!currentQuery) return; // Stop if empty
-
+        currentQuery = $("#searchInput").val().trim();
+        if (!currentQuery) return;
         currentPage = 1; 
-        searchMovies(); // Run search
+        searchMovies();
     });
 
-    function searchMovies() { // Fetch movies from API
-
+    function searchMovies() {
         $.get("https://api.themoviedb.org/3/search/movie", {
-            api_key: API_KEY, // API key
-            query: currentQuery, // Search text
-            page: currentPage // Page number
+            api_key: API_KEY,
+            query: currentQuery,
+            page: currentPage
         })
-        .done(function (data) { // If request succeeds
-
-            displayMovies(data.results, "#resultsGrid"); // Show movies
-
-            createPagination(data.total_pages); // Create page buttons
-
+        .done(function (data) {
+            displayMovies(data.results, "#resultsGrid");
+            createPagination(data.total_pages);
         })
-        .fail(function () { // If request fails
-            console.error("Search API Error"); // Log error
+        .fail(function () {
+            console.error("Search API Error");
         });
     }
 
+    // ======= DISPLAY MOVIES WITH MUSTACHE =======
 
-    function displayMovies(movies, container) { // Show movies in grid
+    function displayMovies(movies, container) {
+        $(container).empty();
+        if (!movies || movies.length === 0) return;
 
-        $(container).empty(); // Clear previous results
+        // Build the view object Mustache expects
+        // Each movie gets a pre-built poster URL added to it
+        const view = {
+            movies: movies.slice(0, 10).map(function (movie) {
+                return {
+                    id: movie.id,
+                    title: movie.title,
+                    release_date: movie.release_date || "N/A",
+                    vote_average: movie.vote_average,
+                    overview: movie.overview || "No description available.",
+                    poster_path: movie.poster_path || "",
+                    poster: getPoster(movie.poster_path, "w200") // pre-built for template
+                };
+            })
+        };
 
-        if (!movies) return; // Stop if no data
+        // Render cards using Mustache template
+        const template = getTemplate("movie-card-template");
+        const html = Mustache.render(template, view);
+        $(container).append(html);
 
-        movies.slice(0, 10).forEach(movie => { // first 10 movies
-
-            let poster = movie.poster_path
-                ? `https://image.tmdb.org/t/p/w200${movie.poster_path}` // imnage
-                : "https://via.placeholder.com/200x300?text=No+Image"; // Placeholder
-
-            let card = $(`
-                <div class="movie-card">
-                    <img src="${poster}">
-                    <p>${movie.title}</p>
-                </div>
-            `); // Create movie card
-
-            card.click(function () { // When clicked
-                showDetails(movie); // Show details
+        // Attach click handlers to rendered cards
+        $(container).find(".movie-card").click(function () {
+            const card = $(this);
+            // Read data stored in data attributes on the card
+            showDetails({
+                title: card.data("title"),
+                release_date: card.data("release"),
+                vote_average: card.data("rating"),
+                overview: card.data("overview"),
+                poster_path: card.data("poster")
             });
-
-            $(container).append(card); // Add to page
         });
     }
 
+    // ======= MOVIE DETAILS WITH MUSTACHE =======
 
-    function showDetails(movie) { // Show selected movie
+    function showDetails(movie) {
+        const view = {
+            title: movie.title,
+            release_date: movie.release_date || "N/A",
+            vote_average: movie.vote_average,
+            overview: movie.overview || "No description available.",
+            poster: getPoster(movie.poster_path, "w300")
+        };
 
-        let poster = movie.poster_path
-            ? `https://image.tmdb.org/t/p/w300${movie.poster_path}` // image
-            : "https://via.placeholder.com/300x450?text=No+Image"; // Placeholder
-
-        $("#movieDetails").html(`
-            <img src="${poster}" alt="${movie.title}">
-            <h3>${movie.title}</h3>
-            <p><strong>Release:</strong> ${movie.release_date || "N/A"}</p>
-            <p><strong>Rating:</strong> ${movie.vote_average}</p>
-            <p>${movie.overview || "No description available."}</p>
-        `); 
+        const template = getTemplate("movie-details-template");
+        const html = Mustache.render(template, view);
+        $("#movieDetails").html(html);
     }
 
+    // ======= PAGINATION WITH MUSTACHE =======
 
-
-    function createPagination(totalPages) { //  page buttons
-
+    function createPagination(totalPages) {
         $("#resultsGrid .pagination").remove();
 
-        let pagination = $('<div class="pagination"></div>');
-
-        for (let i = 1; i <= Math.min(totalPages, 5); i++) { //  pages 5
-
-            let btn = $(`<button class="page-btn">${i}</button>`); // Create button
-
-            if (i === currentPage) { // If active page
-                btn.addClass("active"); // Highlight it
-            }
-
-            btn.click(function () { // On click
-                currentPage = i; // Set page
-                searchMovies(); // Reload results
+        // Build pages array for Mustache {{#pages}} loop
+        const view = {
+            pages: []
+        };
+        for (let i = 1; i <= Math.min(totalPages, 5); i++) {
+            view.pages.push({
+                number: i,
+                active: i === currentPage // Mustache uses this for {{#active}} active{{/active}}
             });
-
-            pagination.append(btn); // Add button
         }
 
-        $("#resultsGrid").append(pagination); 
+        const template = getTemplate("pagination-template");
+        const html = Mustache.render(template, view);
+        const $pagination = $(html);
+
+        // Attach click handlers to pagination buttons
+        $pagination.find(".page-btn").click(function () {
+            currentPage = parseInt($(this).data("page"));
+            searchMovies();
+        });
+
+        $("#resultsGrid").append($pagination);
     }
 
+    // ======= CATEGORY GRIDS (Action & Horror) WITH MUSTACHE =======
 
+    // Action Movies
     $.get("https://api.themoviedb.org/3/discover/movie", {
-        api_key: API_KEY, // API key
-        with_genres: 28 // Action genre
+        api_key: API_KEY,
+        with_genres: 28 // Action
     })
-    .done(function (data) { // success
-        displayMovies(data.results, "#actionMovies"); // Show action movies
+    .done(function (data) {
+        displayMovies(data.results, "#actionMovies");
     })
-    .fail(function () { // fail
-        console.error("Action movies API error"); // error
+    .fail(function () {
+        console.error("Action movies API error");
     });
 
+    // Horror Movies
     $.get("https://api.themoviedb.org/3/discover/movie", {
-        api_key: API_KEY, // API key
-        with_genres: 27 // Horror genre
+        api_key: API_KEY,
+        with_genres: 27 // Horror
     })
-    .done(function (data) { // success
-        displayMovies(data.results, "#horrorMovies"); // Show horror movies
+    .done(function (data) {
+        displayMovies(data.results, "#horrorMovies");
     })
-    .fail(function () { // fail
-        console.error("Horror movies API error"); // error
+    .fail(function () {
+        console.error("Horror movies API error");
     });
 
-}); 
+});
