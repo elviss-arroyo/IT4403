@@ -110,19 +110,19 @@
 <!-- Controls template (pagination + view toggle) -->
 <script id="controls-template" type="text/template">
 
-    <div class="controls-wrapper"> <!-- Controls container -->
+    <div class="controls-wrapper">
 
-        <div class="pagination"> <!-- Pagination buttons -->
-            {{#pages}} <!-- Loop pages -->
-            <button class="page-btn {{active}}" data-page="{{number}}"> <!-- Page button -->
-                {{number}} <!-- Page number -->
+        <div class="pagination"> 
+            {{#pages}}
+            <button class="page-btn {{active}}" data-page="{{number}}"> 
+                {{number}} 
             </button>
             {{/pages}}
         </div>
 
         <div class="view-toggle"> <!-- View switch buttons -->
-            <button id="gridBtn">Grid</button> <!-- Grid view -->
-            <button id="listBtn">List</button> <!-- List view -->
+            <button id="gridBtn">Grid</button> 
+            <button id="listBtn">List</button> 
         </div>
 
     </div>
