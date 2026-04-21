@@ -31,37 +31,29 @@
         <!-- LEFT COLUMN -->
         <div class="left-column">
 
-            <!-- TAB BUTTONS -->
-            <div class="panel tab-bar">
-                <button id="showSearchTab" class="tab-btn active-tab">Search Results</button>
-                <button id="showBookshelfTab" class="tab-btn">Bookshelf</button>
-            </div>
-
-            <!-- SEARCH TAB -->
-            <div id="searchTab">
-                <div class="panel">
-                    <div class="section-header">
-                        <h2>Search Results</h2>
-                        <div class="view-toggle">
-                            <button id="gridViewBtn" class="toggle-btn active-view">Grid</button>
-                            <button id="listViewBtn" class="toggle-btn">List</button>
-                        </div>
+            <!-- SEARCH RESULTS -->
+            <div class="panel">
+                <div class="section-header">
+                    <h2>Search Results</h2>
+                    <div class="view-toggle">
+                        <button id="gridViewBtn" class="toggle-btn active-view">Grid</button>
+                        <button id="listViewBtn" class="toggle-btn">List</button>
                     </div>
-                    <div id="resultsGrid" class="movie-grid"></div>
-                    <div id="pagination"></div>
                 </div>
+                <div id="resultsGrid" class="movie-grid"></div>
+                <div id="pagination"></div>
             </div>
 
-            <!-- BOOKSHELF TAB (hidden by default) -->
-            <div id="bookshelfTab" style="display:none;">
-                <div class="panel">
-                    <h2>Action Movies</h2>
-                    <div id="actionMovies" class="movie-grid"></div>
-                </div>
-                <div class="panel">
-                    <h2>Horror Movies</h2>
-                    <div id="horrorMovies" class="movie-grid"></div>
-                </div>
+            <!-- ACTION MOVIES -->
+            <div class="panel">
+                <h2>Action Movies</h2>
+                <div id="actionMovies" class="movie-grid"></div>
+            </div>
+
+            <!-- HORROR MOVIES -->
+            <div class="panel">
+                <h2>Horror Movies</h2>
+                <div id="horrorMovies" class="movie-grid"></div>
             </div>
 
         </div>
