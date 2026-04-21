@@ -1,5 +1,9 @@
 :root {
   --bg: #f0f0f0;
+  --btn-bg: #ffffff;
+  --btn-border: #ccc;
+  --btn-active: #000;
+  --btn-text: #000;
 }
 
 body {
@@ -13,12 +17,13 @@ header {
   padding: 30px;
 }
 
+/* MAIN LAYOUT */
 .container {
   display: flex;
   gap: 20px;
   max-width: 1300px;
   margin: auto;
-  align-items: flex-start; 
+  align-items: flex-start;
 }
 
 /* LEFT */
@@ -26,11 +31,12 @@ header {
   flex: 2;
 }
 
-/* RIGHT STICKY FIX */
+/* RIGHT STICKY (FIXED) */
 .right-column {
   flex: 1;
   position: sticky;
   top: 20px;
+  align-self: flex-start;
 }
 
 .movie-details {
@@ -39,11 +45,41 @@ header {
   border: 1px solid #ddd;
 }
 
-/* SEARCH */
+/* SEARCH SECTION */
 .search-section {
   display: flex;
   gap: 10px;
   justify-content: center;
+  margin-bottom: 15px;
+}
+
+/* =========================
+   UNIFIED BUTTON STYLE
+   (SEARCH + COLLECTION + VIEW BUTTONS)
+   ========================= */
+
+button {
+  padding: 8px 12px;
+  border: 1px solid var(--btn-border);
+  background: var(--btn-bg);
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 14px;
+}
+
+button:hover {
+  background: #eaeaea;
+}
+
+button.active {
+  background: var(--btn-active);
+  color: white;
+  border-color: black;
+}
+
+/* SEARCH + COLLECTION INPUT AREA */
+#searchInput {
+  padding: 8px;
 }
 
 /* BOXES */
@@ -69,54 +105,33 @@ header {
   padding: 10px;
   border: 1px solid #ddd;
   cursor: pointer;
+  text-align: center;
 }
 
-/* IMAGE */
 .movie-card img {
   width: 100%;
 }
 
-/* CONTROLS FIX */
+/* CONTROLS (pagination + view buttons container) */
 .controls-wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
+/* PAGINATION */
 .pagination {
   display: flex;
   gap: 5px;
 }
 
-.page-btn {
-  padding: 5px 10px;
-  border: 1px solid #ccc;
-  background: white;
-}
-
-.page-btn.active {
-  background: black;
-  color: white;
-}
-
-/* VIEW BUTTONS FIX */
+/* VIEW TOGGLE */
 .view-toggle {
   display: flex;
   gap: 5px;
-}
-
-.view-btn {
-  padding: 5px 10px;
-  border: 1px solid #ccc;
-  background: white;
-  cursor: pointer;
-  width: auto; 
-}
-
-.view-btn.active {
-  background: black;
-  color: white;
 }
 
 /* LIST VIEW */
@@ -128,8 +143,39 @@ header {
   display: flex;
   gap: 10px;
   align-items: center;
+  text-align: left;
 }
 
 .list-view .movie-card img {
   width: 80px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .right-column {
+    position: static;
+  }
+
+  #resultsGrid,
+  .category-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  #resultsGrid,
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 400px) {
+  #resultsGrid,
+  .category-grid {
+    grid-template-columns: 1fr;
+  }
 }
