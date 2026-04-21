@@ -1,95 +1,70 @@
 <!DOCTYPE html> 
 <html lang="en"> 
+
 <head> 
     <meta charset="UTF-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>Milestone 3 - TMDB AJAX Movie App</title> <!-- page title -->
+
+    <title>Milestone 3 - TMDB AJAX Movie App</title> <!--  title -->
+
     <link rel="stylesheet" href="style.css"> <!-- CSS file -->
 </head>
+
 <body>
-<header> <!-- Top of page -->
-    <h1>Milestone 3 - TMDB AJAX Movie App</h1> <!-- Main heading -->
-    <p>TMDB Movie Browser</p> <!-- Subtitle -->
+
+<header> <!-- Top page -->
+    <h1>Milestone 3 - TMDB AJAX Movie App</h1> <!-- heading -->
+    <p>TMDB Movie Browser</p> 
 </header>
+
 <main class="container"> 
+
+
     <div class="left-column"> <!-- Left side -->
 
-        <!-- SEARCH INPUT -->
-        <section class="search-section"> 
-            <input type="text" id="searchInput" placeholder="Search for a movie..."> <!-- Search field -->
+
+        <section class="search-section"> <!-- Search input -->
+            <input type="text" id="searchInput" placeholder="Search for a movie..."> <!-- Search input -->
             <button id="searchBtn">Search</button> <!-- Search button -->
         </section>
 
-        <!-- VIEW TOGGLE BUTTONS -->
-        <section class="view-section">
-            <button id="gridViewBtn" class="active-view">Grid View</button> <!-- Grid button -->
-            <button id="listViewBtn">List View</button> <!-- List button -->
+        <section class="search-results"> <!-- Section for search results -->
+            <h2>Search Results</h2> <!-- Section title -->
+            <div id="resultsGrid"></div> <!-- Container where search movies appear -->
         </section>
 
-        <!-- TAB BUTTONS -->
-        <section class="view-section">
-            <button id="showSearchTab" class="active-view">Search Results</button> <!-- Search tab -->
-            <button id="showActionTab">Action Movies</button> <!-- Action tab -->
-            <button id="showHorrorTab">Horror Movies</button> <!-- Horror tab -->
-        </section>
 
-        <!-- SEARCH RESULTS TAB -->
-        <section id="searchTab" class="search-results"> 
-            <h2>Search Results</h2> <!-- Section heading -->
-            <div id="resultsGrid" class="grid-view"></div> <!-- Search results appear here -->
-            <div id="pagination" class="pagination"></div> <!-- Page buttons -->
-        </section>
+        <section class="categories"> <!-- Section for categories -->
 
-        <!-- ACTION MOVIES TAB -->
-        <section id="actionTab" class="categories" style="display:none;"> 
-            <h2>Action Movies</h2> <!-- Action heading -->
-            <div id="actionMovies" class="category-grid grid-view"></div> <!-- Action movies grid -->
-        </section>
+            <h2>Action Movies</h2> <!-- Action section title -->
+            <div id="actionMovies" class="category-grid"></div> <!-- Action movies grid -->
 
-        <!-- HORROR MOVIES TAB -->
-        <section id="horrorTab" class="categories" style="display:none;"> 
-            <h2>Horror Movies</h2> <!-- Horror heading -->
-            <div id="horrorMovies" class="category-grid grid-view"></div> <!-- Horror movies grid -->
+            <h2>Horror Movies</h2> <!-- Horror section title -->
+            <div id="horrorMovies" class="category-grid"></div> <!-- Horror movies grid -->
+
         </section>
 
     </div>
+
   
-    <div class="right-column"> <!-- Right side panel -->
-        <section class="movie-details"> <!-- Movie details panel -->
-            <h2>Movie Details</h2> <!-- Details heading -->
-            <div id="movieDetails"> <!-- Selected movie info renders here -->
-                <p>Select a movie to see details</p> <!-- Default message -->
+    <div class="right-column"> <!-- Right side  -->
+
+        <section class="movie-details"> <!-- Movie details section -->
+            <h2>Movie Details</h2> 
+
+            <div id="movieDetails"> <!--  selected movie info  -->
+                <p>Select a movie to see details</p> <!-- Default -->
             </div>
+
         </section>
+
     </div>
+
 </main>
 
-<!-- MUSTACHE TEMPLATE: Movie Cards (Search + Action + Horror) -->
-<script id="movie-card-template" type="x-tmpl-mustache">
-{{#movies}}
-<div class="movie-card {{viewClass}}" data-index="{{index}}">
-    <img src="{{poster}}" alt="{{title}}"> <!-- Movie poster -->
-    <p>{{title}}</p> <!-- Movie title -->
-    {{#showOverview}}
-        <p class="movie-overview">{{overview}}</p> <!-- Overview in list view -->
-    {{/showOverview}}
-</div>
-{{/movies}}
-</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!--  jQuery  -->
+<script src="movie.js"></script> <!--  js file -->
 
-<!-- MUSTACHE TEMPLATE: Movie Details -->
-<script id="movie-details-template" type="x-tmpl-mustache">
-<img src="{{poster}}" alt="{{title}}"> <!-- Detail poster -->
-<h3>{{title}}</h3> <!-- Movie title -->
-<p><strong>Release:</strong> {{release_date}}</p> <!-- Release date -->
-<p><strong>Rating:</strong> {{vote_average}}</p> <!-- Rating -->
-<p><strong>Language:</strong> {{original_language}}</p> <!-- Language -->
-<p><strong>Popularity:</strong> {{popularity}}</p> <!-- Popularity score -->
-<p>{{overview}}</p> <!-- Overview text -->
-</script>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.2.0/mustache.min.js"></script> <!-- Mustache -->
-<script src="movie.js"></script> <!-- App logic -->
 </body>
+
 </html>
