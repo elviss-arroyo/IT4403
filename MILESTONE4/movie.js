@@ -1,37 +1,39 @@
 $(document).ready(function () {
 
     const API_KEY = "4ecce31518d3c79af6da91dc53d038d5";
+    const IMG = "https://image.tmdb.org/t/p/w200";
 
     let currentQuery = "";
     let currentPage = 1;
     let layout = "grid";
 
-    let currentSearch = [];
+    let lastSearch = [];
 
+    /* ================= INIT ================= */
     $("#searchView").show();
     $("#collectionView").hide();
 
     /* ================= SEARCH ================= */
     $("#searchBtn").click(function () {
 
-        $("#collectionView").hide();
-        $("#searchView").show();
-
         currentQuery = $("#searchInput").val().trim();
         if (!currentQuery) return;
 
         currentPage = 1;
+        $("#collectionView").hide();
+        $("#searchView").show();
+
         searchMovies();
     });
 
-    /* ================= COLLECTION ================= */
+    /* ================= COLLECTIONS ================= */
     $("#collectionBtn").click(function () {
 
         $("#searchView").hide();
         $("#collectionView").show();
 
-        loadCollection(28, "#actionMovies"); // action
-        loadCollection(27, "#horrorMovies"); // horror
+        loadCollection(28, "#actionMovies");
+        loadCollection(27, "#horrorMovies");
     });
 
     function loadCollection(genre, container) {
@@ -42,6 +44,7 @@ $(document).ready(function () {
         }).done(data => {
             renderMovies(data.results, container);
         });
+
     }
 
     /* ================= SEARCH API ================= */
@@ -53,66 +56,68 @@ $(document).ready(function () {
             page: currentPage
         }).done(data => {
 
-            currentSearch = data.results;
-            renderMovies(currentSearch, "#resultsGrid");
+            lastSearch = data.results;
+            renderMovies(data.results, "#resultsGrid");
             buildControls(data.total_pages);
+
         });
     }
 
-    /* ================= MUSTACHE FORMAT ================= */
+    /* ================= FORMAT DATA (IMPORTANT) ================= */
     function formatMovies(movies) {
-
-        return movies.slice(0, 10).map(movie => ({
-            id: movie.id,
-            title: movie.title,
-            poster: movie.poster_path
-                ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
+        return movies.map(m => ({
+            id: m.id,
+            title: m.title,
+            poster: m.poster_path
+                ? IMG + m.poster_path
                 : "https://via.placeholder.com/200x300"
         }));
     }
 
-    /* ================= RENDER MOVIES (MUSTACHE) ================= */
+    /* ================= MUSTACHE RENDER MOVIES ================= */
     function renderMovies(movies, container) {
 
-        const template = $("#movie-card-template").html();
+        const template = $("#movie-template").html();
 
-        const data = {
-            movies: formatMovies(movies)
-        };
+        const formatted = formatMovies(movies);
 
-        $(container).html(Mustache.render(template, data));
+        const html = Mustache.render(template, {
+            movies: formatted
+        });
+
+        $(container).html(html);
 
         applyLayout();
     }
 
-    /* ================= DETAILS (MUSTACHE) ================= */
+    /* ================= MOVIE DETAILS (MUSTACHE) ================= */
     function showDetails(movie) {
 
-        const template = $("#movie-details-template").html();
+        const template = $("#details-template").html();
 
         const data = {
             poster: movie.poster_path
-                ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+                ? "https://image.tmdb.org/t/p/w300" + movie.poster_path
                 : "https://via.placeholder.com/300x450",
             title: movie.title,
             release_date: movie.release_date || "N/A",
             vote_average: movie.vote_average,
-            language: movie.original_language?.toUpperCase() || "N/A",
+            language: (movie.original_language || "N/A").toUpperCase(),
             overview: movie.overview || "No description"
         };
 
         $("#movieDetails").html(Mustache.render(template, data));
     }
 
-    /* ================= CLICK EVENT ================= */
+    /* ================= CLICK EVENTS ================= */
     $(document).on("click", ".movie-card", function () {
 
         const id = $(this).data("id");
 
-        const movie =
-            currentSearch.find(m => m.id === id);
+        $.get("https://api.themoviedb.org/3/movie/" + id, {
+            api_key: API_KEY
+        }).done(movie => showDetails(movie));
 
-        if (movie) showDetails(movie);
     });
 
     /* ================= CONTROLS ================= */
@@ -122,7 +127,6 @@ $(document).ready(function () {
 
         let wrapper = $('<div class="controls-wrapper"></div>');
 
-        /* pagination */
         let pagination = $('<div class="pagination"></div>');
 
         for (let i = 1; i <= Math.min(totalPages, 5); i++) {
@@ -139,11 +143,10 @@ $(document).ready(function () {
             pagination.append(btn);
         }
 
-        /* view toggle */
         let toggle = $(`
             <div class="view-toggle">
-                <button id="gridBtn" class="view-btn active">Grid</button>
-                <button id="listBtn" class="view-btn">List</button>
+                <button id="gridBtn">Grid</button>
+                <button id="listBtn">List</button>
             </div>
         `);
 
@@ -161,15 +164,17 @@ $(document).ready(function () {
         wrapper.append(toggle);
 
         $("#controls").append(wrapper);
+
+        applyLayout();
     }
 
-    /* ================= LAYOUT ================= */
+    /* ================= GRID / LIST ================= */
     function applyLayout() {
 
         if (layout === "list") {
-            $("#resultsGrid, .category-grid").addClass("list-view");
+            $("#resultsGrid, #actionMovies, #horrorMovies").addClass("list-view");
         } else {
-            $("#resultsGrid, .category-grid").removeClass("list-view");
+            $("#resultsGrid, #actionMovies, #horrorMovies").removeClass("list-view");
         }
     }
 
