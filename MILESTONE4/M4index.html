@@ -1,69 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TMDB Movie App</title>
+<!DOCTYPE html> <!-- HTML5 document -->
+<html lang="en"> <!-- English language page -->
 
-    <link rel="stylesheet" href="style.css">
+<head> <!-- Head section (metadata + imports) -->
+    <meta charset="UTF-8"> <!-- Character encoding -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Mobile responsive scaling -->
 
-    <!-- jQuery -->
+    <title>TMDB Movie App</title> <!-- Page title -->
+
+    <link rel="stylesheet" href="style.css"> <!-- CSS file -->
+
+    <!-- jQuery library -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- Mustache -->
+    <!-- Mustache template engine -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
 </head>
 
-<body>
+<body> <!-- Page content starts -->
 
-<header>
-    <h1>TMDB Movie Browser</h1>
+<header> <!-- Top header section -->
+    <h1>TMDB Movie Browser</h1> <!-- Main title -->
 </header>
 
-<main class="container">
+<main class="container"> <!-- Main layout container -->
 
-    <div class="left-column">
+    <div class="left-column"> <!-- Left side content -->
 
-        <section class="search-section">
-            <input type="text" id="searchInput" placeholder="Search movies...">
-            <button id="searchBtn">Search</button>
-            <button id="collectionBtn">Collections</button>
+        <section class="search-section"> <!-- Search bar section -->
+            <input type="text" id="searchInput" placeholder="Search movies..."> <!-- Search input box -->
+            <button id="searchBtn">Search</button> <!-- Search button -->
+            <button id="collectionBtn">Collections</button> <!-- Switch to collections -->
         </section>
 
-        <div id="searchView">
+        <div id="searchView"> <!-- Search results view -->
 
-            <section class="search-results">
-                <h2>Search Results</h2>
+            <section class="search-results"> <!-- Search results section -->
+                <h2>Search Results</h2> <!-- Title -->
 
-                <div id="controls"></div>
-                <div id="resultsGrid"></div>
+                <div id="controls"></div> <!-- Pagination + view buttons -->
 
+                <div id="resultsGrid"></div> <!-- Movie results grid -->
             </section>
+
         </div>
 
-        <div id="collectionView" style="display:none;">
+        <div id="collectionView" style="display:none;"> <!-- Collections view (hidden by default) -->
 
-            <section class="categories">
-                <h2>Action Movies</h2>
-                <div id="actionMovies" class="category-grid"></div>
+            <section class="categories"> <!-- Action category section -->
+                <h2>Action Movies</h2> <!-- Action title -->
+                <div id="actionMovies" class="category-grid"></div> <!-- Action movies grid -->
             </section>
 
-            <section class="categories">
-                <h2>Horror Movies</h2>
-                <div id="horrorMovies" class="category-grid"></div>
+            <section class="categories"> <!-- Horror category section -->
+                <h2>Horror Movies</h2> <!-- Horror title -->
+                <div id="horrorMovies" class="category-grid"></div> <!-- Horror movies grid -->
             </section>
 
         </div>
 
     </div>
 
-    <div class="right-column">
+    <div class="right-column"> <!-- Right side panel -->
 
-        <div class="movie-details">
-            <h2>Movie Details</h2>
+        <div class="movie-details"> <!-- Movie details container -->
+            <h2>Movie Details</h2> <!-- Section title -->
 
-            <div id="movieDetails">
-                <p>Select a movie</p>
+            <div id="movieDetails"> <!-- Selected movie info -->
+                <p>Select a movie</p> <!-- Default message -->
             </div>
 
         </div>
@@ -74,59 +77,59 @@
 
 <!-- ===================== TEMPLATES ===================== -->
 
-<!-- MOVIE CARD -->
+<!-- Movie card template -->
 <script id="movie-template" type="text/template">
 
-    {{#movies}}
-    <div class="movie-card" data-id="{{id}}">
-        <img src="{{poster}}" alt="{{title}}">
-        <p>{{title}}</p>
+    {{#movies}} <!-- Loop through movies -->
+    <div class="movie-card" data-id="{{id}}"> <!-- Single movie card -->
+        <img src="{{poster}}" alt="{{title}}"> <!-- Movie poster -->
+        <p>{{title}}</p> <!-- Movie title -->
     </div>
     {{/movies}}
 
-    {{^movies}}
-    <p>No movies found.</p>
+    {{^movies}} <!-- If no movies found -->
+    <p>No movies found.</p> <!-- Empty message -->
     {{/movies}}
 
 </script>
 
-<!-- DETAILS -->
+<!-- Movie details template -->
 <script id="details-template" type="text/template">
 
-    <img src="{{poster}}" alt="{{title}}">
-    <h3>{{title}}</h3>
+    <img src="{{poster}}" alt="{{title}}"> <!-- Poster image -->
+    <h3>{{title}}</h3> <!-- Movie title -->
 
-    <p><b>Release:</b> {{release_date}}</p>
-    <p><b>Rating:</b> {{vote_average}}</p>
-    <p><b>Language:</b> {{language}}</p>
+    <p><b>Release:</b> {{release_date}}</p> <!-- Release date -->
+    <p><b>Rating:</b> {{vote_average}}</p> <!-- Rating -->
+    <p><b>Language:</b> {{language}}</p> <!-- Language -->
 
-    <p>{{overview}}</p>
+    <p>{{overview}}</p> <!-- Movie description -->
 
 </script>
 
-<!-- MUSTACHE -->
+<!-- Controls template (pagination + view toggle) -->
 <script id="controls-template" type="text/template">
 
-    <div class="controls-wrapper">
+    <div class="controls-wrapper"> <!-- Controls container -->
 
-        <div class="pagination">
-            {{#pages}}
-            <button class="page-btn {{active}}" data-page="{{number}}">
-                {{number}}
+        <div class="pagination"> <!-- Pagination buttons -->
+            {{#pages}} <!-- Loop pages -->
+            <button class="page-btn {{active}}" data-page="{{number}}"> <!-- Page button -->
+                {{number}} <!-- Page number -->
             </button>
             {{/pages}}
         </div>
 
-        <div class="view-toggle">
-            <button id="gridBtn">Grid</button>
-            <button id="listBtn">List</button>
+        <div class="view-toggle"> <!-- View switch buttons -->
+            <button id="gridBtn">Grid</button> <!-- Grid view -->
+            <button id="listBtn">List</button> <!-- List view -->
         </div>
 
     </div>
 
 </script>
 
-<script src="movie.js"></script>
+<script src="movie.js"></script> <!-- JavaScript file -->
 
-</body>
-</html>
+</body> <!-- End body -->
+</html> <!-- End HTML -->
