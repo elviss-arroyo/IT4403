@@ -262,7 +262,11 @@ header {
 
 }
 
-
+.categories {
+  margin-bottom: 40px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+}
 
 footer { 
 
