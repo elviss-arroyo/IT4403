@@ -4,7 +4,6 @@ $(document).ready(function () {
 
     let currentQuery = "";
     let currentPage = 1;
-    let collectionsLoaded = false;
 
     // DEFAULT VIEW
     $("#searchView").show();
@@ -25,44 +24,41 @@ $(document).ready(function () {
     });
 
     // COLLECTION BUTTON
-   $("#collectionBtn").click(function () {
+    $("#collectionBtn").click(function () {
 
-    $("#searchView").hide();
-    $("#collectionView").show();
+        $("#searchView").hide();
+        $("#collectionView").show();
 
-    // CLEAR first (important)
-    $("#actionMovies").empty();
-    $("#horrorMovies").empty();
+        $("#actionMovies").empty();
+        $("#horrorMovies").empty();
 
-    console.log("Loading collections...");
+        console.log("Loading collections...");
 
-    // ACTION MOVIES
-    $.get("https://api.themoviedb.org/3/discover/movie", {
-        api_key: API_KEY,
-        with_genres: 28
-    })
-    .done(function (data) {
-        console.log("Action movies loaded");
-        displayMovies(data.results, "#actionMovies");
-    })
-    .fail(function () {
-        console.error("Action API failed");
+        // ACTION MOVIES
+        $.get("https://api.themoviedb.org/3/discover/movie", {
+            api_key: API_KEY,
+            with_genres: 28
+        })
+        .done(function (data) {
+            displayMovies(data.results, "#actionMovies");
+        })
+        .fail(function () {
+            console.error("Action API failed");
+        });
+
+        // HORROR MOVIES
+        $.get("https://api.themoviedb.org/3/discover/movie", {
+            api_key: API_KEY,
+            with_genres: 27
+        })
+        .done(function (data) {
+            displayMovies(data.results, "#horrorMovies");
+        })
+        .fail(function () {
+            console.error("Horror API failed");
+        });
+
     });
-
-    // HORROR MOVIES
-    $.get("https://api.themoviedb.org/3/discover/movie", {
-        api_key: API_KEY,
-        with_genres: 27
-    })
-    .done(function (data) {
-        console.log("Horror movies loaded");
-        displayMovies(data.results, "#horrorMovies");
-    })
-    .fail(function () {
-        console.error("Horror API failed");
-    });
-
-});
 
     // SEARCH FUNCTION
     function searchMovies() {
@@ -119,8 +115,13 @@ $(document).ready(function () {
         $("#movieDetails").html(`
             <img src="${poster}">
             <h3>${movie.title}</h3>
-            <p><strong>Release:</strong> ${movie.release_date || "N/A"}</p>
+
+            <p><strong>Release Date:</strong> ${movie.release_date || "N/A"}</p>
+
             <p><strong>Rating:</strong> ${movie.vote_average}</p>
+
+            <p><strong>Language:</strong> ${movie.original_language ? movie.original_language.toUpperCase() : "N/A"}</p>
+
             <p>${movie.overview || "No description available."}</p>
         `);
     }
