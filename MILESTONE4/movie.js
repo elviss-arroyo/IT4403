@@ -71,18 +71,20 @@ $(document).ready(function () {
     }
 
     /* ================= MUSTACHE RENDER ================= */
-    function renderMovies(movies, container) {
+function renderMovies(movies, container) {
 
-        const template = $("#movie-template").html();
-        const limitedMovies = movies.slice(0, 10);
-        const html = Mustache.render(template, {
-            movies: formatMovies(movies)
-        });
+    const template = $("#movie-template").html();
+    
+    const limitedMovies = movies.slice(0, 10);
 
-        $(container).html(html);
+    const html = Mustache.render(template, {
+        movies: formatMovies(limitedMovies)
+    });
 
-        applyLayout();
-    }
+    $(container).html(html);
+
+    applyLayout();
+}
 
     /* ================= DETAILS ================= */
     function showDetails(movie) {
