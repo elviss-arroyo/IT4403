@@ -1,42 +1,41 @@
 $(document).ready(function () {
 
-    const API_KEY = "4ecce31518d3c79af6da91dc53d038d5"; // TMDB API key
-    const IMAGE_BASE = "https://image.tmdb.org/t/p/w300"; // Base URL for poster images
+    const API_KEY = "4ecce31518d3c79af6da91dc53d038d5";
+    const IMAGE_BASE = "https://image.tmdb.org/t/p/w300";
+    const API_BASE = "https://api.themoviedb.org/3";
 
-    let currentQuery = ""; // Stores the current search term
-    let currentPage = 1;   // Tracks the current search page
-    const movieMap = {};   // Stores full movie objects by id for detail lookups
+    let currentQuery = "";
+    let currentPage = 1;
+    let currentView = "grid"; // "grid" or "list"
+    const movieMap = {}; // Cache movie objects by id for detail lookups
 
     // ======= CENTRAL REQUEST FUNCTION =======
 
-    // All API calls go through here — keeps auth and error handling in one place
-    function tmdbRequest(url, onSuccess, onError) {
+    function tmdbRequest(endpoint, params, onSuccess, onError) {
         $.ajax({
-            url: url,
+            url: API_BASE + endpoint,
             method: "GET",
-            data: { api_key: API_KEY },
+            data: $.extend({ api_key: API_KEY }, params),
             success: onSuccess,
             error: onError || function () {
-                console.error("TMDB request failed: " + url);
+                console.error("TMDB request failed: " + endpoint);
             }
         });
     }
 
     // ======= TEMPLATE HELPERS =======
 
-    // Grab a Mustache template string from its <script type="text/template"> tag
     function getTemplate(id) {
         return $("#" + id).html();
     }
 
-    // Build a full poster image URL or return a placeholder
     function buildPoster(posterPath) {
         return posterPath
             ? IMAGE_BASE + posterPath
             : "https://via.placeholder.com/200x300?text=No+Image";
     }
 
-    // Format raw API movie objects into a shape Mustache templates expect
+    // Format raw API results into objects Mustache templates can use
     function formatMovies(movies) {
         return movies.slice(0, 10).map(function (movie) {
             const formatted = {
@@ -45,16 +44,17 @@ $(document).ready(function () {
                 release_date: movie.release_date || "N/A",
                 vote_average: movie.vote_average || "N/A",
                 overview: movie.overview || "No description available.",
-                poster: buildPoster(movie.poster_path)
+                poster: buildPoster(movie.poster_path),
+                viewClass: currentView === "list" ? "movie-list-item" : "",
+                showOverview: currentView === "list"
             };
-            movieMap[movie.id] = formatted; // Cache for detail panel lookups
+            movieMap[movie.id] = formatted; // Cache for detail panel
             return formatted;
         });
     }
 
     // ======= RENDER FUNCTIONS =======
 
-    // Render a grid of movie cards into any container using Mustache
     function renderMovies(movies, containerSelector) {
         const $container = $(containerSelector);
         $container.empty();
@@ -67,9 +67,15 @@ $(document).ready(function () {
         const template = getTemplate("movie-card-template");
         const html = Mustache.render(template, { movies: formatMovies(movies) });
         $container.html(html);
+
+        // Switch grid/list class on container
+        if (currentView === "list") {
+            $container.removeClass("movie-grid").addClass("movie-list");
+        } else {
+            $container.removeClass("movie-list").addClass("movie-grid");
+        }
     }
 
-    // Render the details panel for a single movie using Mustache
     function renderMovieDetails(movie) {
         const template = getTemplate("movie-details-template");
         const html = Mustache.render(template, movie);
@@ -79,16 +85,16 @@ $(document).ready(function () {
     // ======= SEARCH =======
 
     function searchMovies() {
-        const url = "https://api.themoviedb.org/3/search/movie";
-
         tmdbRequest(
-            url + "?query=" + encodeURIComponent(currentQuery) + "&page=" + currentPage,
+            "/search/movie",
+            { query: currentQuery, page: currentPage },
             function (data) {
                 renderMovies(data.results || [], "#resultsGrid");
                 buildPagination(data.total_pages || 0);
             },
             function () {
                 $("#resultsGrid").html("<p>Search failed. Please try again.</p>");
+                $("#pagination").empty();
             }
         );
     }
@@ -96,37 +102,35 @@ $(document).ready(function () {
     // ======= PAGINATION =======
 
     function buildPagination(totalPages) {
-        $("#resultsGrid .pagination").remove();
-
+        $("#pagination").empty();
         if (totalPages === 0) return;
 
-        const view = { pages: [] };
+        const view = {
+            pages: [],
+            currentPage: currentPage
+        };
 
         for (let i = 1; i <= Math.min(totalPages, 5); i++) {
-            view.pages.push({
-                number: i,
-                active: i === currentPage
-            });
+            view.pages.push({ number: i, active: i === currentPage });
         }
 
         const template = getTemplate("pagination-template");
         const $pagination = $(Mustache.render(template, view));
 
-        // Attach click handlers to rendered pagination buttons
         $pagination.find(".page-btn").on("click", function () {
             currentPage = parseInt($(this).data("page"));
             searchMovies();
         });
 
-        $("#resultsGrid").append($pagination);
+        $("#pagination").append($pagination);
     }
 
-    // ======= CATEGORY LOADERS =======
+    // ======= CATEGORY LOADERS (Bookshelf) =======
 
-    // Load Action movies (genre id 28)
     function loadActionMovies() {
         tmdbRequest(
-            "https://api.themoviedb.org/3/discover/movie?with_genres=28",
+            "/discover/movie",
+            { with_genres: 28 },
             function (data) {
                 renderMovies(data.results || [], "#actionMovies");
             },
@@ -136,10 +140,10 @@ $(document).ready(function () {
         );
     }
 
-    // Load Horror movies (genre id 27)
     function loadHorrorMovies() {
         tmdbRequest(
-            "https://api.themoviedb.org/3/discover/movie?with_genres=27",
+            "/discover/movie",
+            { with_genres: 27 },
             function (data) {
                 renderMovies(data.results || [], "#horrorMovies");
             },
@@ -151,30 +155,66 @@ $(document).ready(function () {
 
     // ======= EVENT HANDLERS =======
 
-    // Search button click
+    // Search button
     $("#searchBtn").on("click", function () {
         currentQuery = $("#searchInput").val().trim();
         if (!currentQuery) return;
         currentPage = 1;
+        $("#showSearchTab").click(); // Switch to search tab automatically
         searchMovies();
     });
 
-    // Allow pressing Enter to trigger search
+    // Enter key triggers search
     $("#searchInput").on("keypress", function (e) {
-        if (e.which === 13) {
-            $("#searchBtn").click();
-        }
+        if (e.which === 13) $("#searchBtn").click();
     });
 
-    // Delegated click handler for all movie cards — works for dynamically rendered cards
+    // Delegated click on any movie card
     $(document).on("click", ".movie-card", function () {
         const id = $(this).data("id");
-        if (movieMap[id]) {
-            renderMovieDetails(movieMap[id]);
+        if (movieMap[id]) renderMovieDetails(movieMap[id]);
+    });
+
+    // Grid view toggle
+    $("#gridViewBtn").on("click", function () {
+        currentView = "grid";
+        $("#gridViewBtn").addClass("active-view");
+        $("#listViewBtn").removeClass("active-view");
+        // Re-render search results in new layout
+        const ids = Object.keys(movieMap);
+        if (ids.length > 0) {
+            renderMovies(Object.values(movieMap), "#resultsGrid");
         }
     });
 
-    // ======= INITIAL PAGE LOAD =======
+    // List view toggle
+    $("#listViewBtn").on("click", function () {
+        currentView = "list";
+        $("#listViewBtn").addClass("active-view");
+        $("#gridViewBtn").removeClass("active-view");
+        const ids = Object.keys(movieMap);
+        if (ids.length > 0) {
+            renderMovies(Object.values(movieMap), "#resultsGrid");
+        }
+    });
+
+    // Tab: Search Results
+    $("#showSearchTab").on("click", function () {
+        $("#searchTab").show();
+        $("#bookshelfTab").hide();
+        $("#showSearchTab").addClass("active-tab");
+        $("#showBookshelfTab").removeClass("active-tab");
+    });
+
+    // Tab: Bookshelf
+    $("#showBookshelfTab").on("click", function () {
+        $("#bookshelfTab").show();
+        $("#searchTab").hide();
+        $("#showBookshelfTab").addClass("active-tab");
+        $("#showSearchTab").removeClass("active-tab");
+    });
+
+    // ======= INITIAL LOAD =======
 
     loadActionMovies();
     loadHorrorMovies();
