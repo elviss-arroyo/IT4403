@@ -34,15 +34,22 @@
         </section>
 
 
-        <section class="categories"> <!-- Section for categories -->
+      <section class="categories">
+    <div class="tab-container">
+        <button class="tab-btn active" data-target="action">Action</button>
+        <button class="tab-btn" data-target="horror">Horror</button>
+    </div>
 
-            <h2>Action Movies</h2> <!-- Action section title -->
-            <div id="actionMovies" class="category-grid"></div> <!-- Action movies grid -->
+    <div id="action-content" class="tab-content active">
+        <h2>Action Movies</h2>
+        <div id="actionMovies" class="category-grid"></div>
+    </div>
 
-            <h2>Horror Movies</h2> <!-- Horror section title -->
-            <div id="horrorMovies" class="category-grid"></div> <!-- Horror movies grid -->
-
-        </section>
+    <div id="horror-content" class="tab-content">
+        <h2>Horror Movies</h2>
+        <div id="horrorMovies" class="category-grid"></div>
+    </div>
+</section>
 
     </div>
 
