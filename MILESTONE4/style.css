@@ -1,60 +1,42 @@
-:root { 
-  --background: #F0F0F0;
-  --text: #000000;
-  --dim-text: #555555;
-  --hover: #A9A9A9;
+:root {
+  --bg: #f0f0f0;
 }
 
-* { 
-  box-sizing: border-box; 
-}
-
-body { 
-  background-color: var(--background);
-  color: var(--text);
-  font-family: "Inter", sans-serif;
+body {
   margin: 0;
-  overflow-x: hidden; 
+  font-family: Arial;
+  background: var(--bg);
 }
 
-/* HEADER */
-header { 
-  padding: 50px 0;
+header {
   text-align: center;
+  padding: 30px;
 }
 
-/* MAIN LAYOUT */
-.container { 
-  width: 100%;
-  max-width: 1300px;
-  margin: 0 auto;
+.container {
   display: flex;
-  gap: 30px;
-  padding: 0 20px; 
-  align-items: flex-start; /* IMPORTANT */
+  gap: 20px;
+  max-width: 1300px;
+  margin: auto;
+  align-items: flex-start; /* 🔥 REQUIRED */
 }
 
 /* LEFT */
 .left-column {
   flex: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
 }
 
-/* RIGHT COLUMN (FIXED STICKY PROPERLY) */
+/* RIGHT STICKY FIX */
 .right-column {
   flex: 1;
   position: sticky;
   top: 20px;
-  align-self: flex-start;
 }
 
-/* make sticky work on container instead of inner box */
 .movie-details {
-  background: #fff;
+  background: white;
+  padding: 15px;
   border: 1px solid #ddd;
-  padding: 20px;
 }
 
 /* SEARCH */
@@ -64,39 +46,13 @@ header {
   justify-content: center;
 }
 
-#searchInput {
-  padding: 10px;
-  width: 300px;
-}
-
-#searchBtn, 
-#collectionBtn {
-  padding: 10px 20px;
-  cursor: pointer;
-  background: black;
-  color: white;
-  border: none;
-}
-
 /* BOXES */
 .search-results,
 .categories {
-  width: 100%;
-  background: #fff;
+  background: white;
+  padding: 15px;
+  margin-top: 20px;
   border: 1px solid #ddd;
-  padding: 20px;
-  text-align: center;
-}
-
-/* COLLECTION SPACING ONLY */
-#collectionView {
-  display: flex;
-  flex-direction: column;
-  gap: 60px;
-}
-
-#collectionView .categories {
-  border-radius: 8px;
 }
 
 /* GRID */
@@ -104,58 +60,39 @@ header {
 .category-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 15px;
-  margin-top: 20px;
+  gap: 10px;
 }
 
-/* MOVIE CARD */
+/* CARD */
 .movie-card {
-  background: #fff;
-  border: 1px solid #ddd;
+  background: white;
   padding: 10px;
+  border: 1px solid #ddd;
   cursor: pointer;
-  text-align: center;
 }
 
-.movie-card:hover {
-  background: var(--hover);
-}
-
+/* IMAGE */
 .movie-card img {
   width: 100%;
 }
 
-/* DETAILS */
-#movieDetails img { 
-  width: 100%;
-  max-width: 300px;
-  margin: 0 auto 20px;
-  display: block; 
-}
-
-/* =========================
-   FIX: PAGINATION + TOGGLE
-   ========================= */
-
-.pagination-wrapper {
+/* CONTROLS FIX */
+.controls-wrapper {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 15px;
-  margin-top: 20px;
-  flex-wrap: wrap;
+  margin-bottom: 10px;
 }
 
-.pagination { 
+.pagination {
   display: flex;
-  gap: 10px;
+  gap: 5px;
 }
 
-.page-btn { 
-  padding: 8px 12px;
-  border: 1px solid #ddd;
+.page-btn {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
   background: white;
-  cursor: pointer;
 }
 
 .page-btn.active {
@@ -163,63 +100,36 @@ header {
   color: white;
 }
 
-/* VIEW TOGGLE FIX */
+/* VIEW BUTTONS FIX */
 .view-toggle {
   display: flex;
-  gap: 10px;
+  gap: 5px;
 }
 
 .view-btn {
-  padding: 8px 12px;
-  border: 1px solid #ddd;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
   background: white;
   cursor: pointer;
+  width: auto; /* 🔥 FIX STRETCH */
 }
 
 .view-btn.active {
   background: black;
   color: white;
 }
+
+/* LIST VIEW */
 .list-view {
-    display: block !important;
+  display: block !important;
 }
 
 .list-view .movie-card {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    text-align: left;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
 .list-view .movie-card img {
-    width: 80px;
-}
-/* RESPONSIVE */
-@media (max-width: 900px) {
-  .container {
-    flex-direction: column;
-  }
-
-  .right-column {
-    position: static;
-  }
-
-  #resultsGrid,
-  .category-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  #resultsGrid,
-  .category-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 400px) {
-  #resultsGrid,
-  .category-grid {
-    grid-template-columns: 1fr;
-  }
+  width: 80px;
 }
