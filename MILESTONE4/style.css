@@ -112,7 +112,7 @@ header {
 }
 
 
-#searchBtn { /* Search button */
+#searchBtn, #collectionBtn { /* Search button */
 
   padding: 10px 20px; /* Button size */
 
