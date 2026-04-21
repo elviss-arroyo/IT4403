@@ -1,4 +1,4 @@
-:root {
+:root { /* global color variables */
   --bg: #f0f0f0;
   --btn-bg: #ffffff;
   --btn-border: #ccc;
@@ -6,19 +6,19 @@
   --btn-text: #000;
 }
 
-body {
+body { /* main page styling */
   margin: 0;
   font-family: Arial;
   background: var(--bg);
 }
 
-header {
+header { /* top header section */
   text-align: center;
   padding: 30px;
 }
 
-/* MAIN LAYOUT */
-.container {
+
+.container { /* main two-column layout */
   display: flex;
   gap: 20px;
   max-width: 1300px;
@@ -26,39 +26,35 @@ header {
   align-items: flex-start;
 }
 
-/* LEFT */
-.left-column {
+/* LEFT COLUMN */
+.left-column { /* main content area */
   flex: 2;
 }
 
-/* RIGHT STICKY (FIXED) */
-.right-column {
+/* RIGHT COLUMN */
+.right-column { /* movie details panel */
   flex: 1;
   position: sticky;
   top: 20px;
   align-self: flex-start;
 }
 
-.movie-details {
+.movie-details { /* details box styling */
   background: white;
   padding: 15px;
   border: 1px solid #ddd;
 }
 
-/* SEARCH SECTION */
-.search-section {
+
+.search-section { /* search bar layout */
   display: flex;
   gap: 10px;
   justify-content: center;
   margin-bottom: 15px;
 }
 
-/* =========================
-   UNIFIED BUTTON STYLE
-   (SEARCH + COLLECTION + VIEW BUTTONS)
-   ========================= */
 
-button {
+button { /* all buttons */
   padding: 8px 12px;
   border: 1px solid var(--btn-border);
   background: var(--btn-bg);
@@ -67,40 +63,40 @@ button {
   font-size: 14px;
 }
 
-button:hover {
+button:hover { /* hover effect */
   background: #eaeaea;
 }
 
-button.active {
+button.active { /* active button state */
   background: var(--btn-active);
   color: white;
   border-color: black;
 }
 
-/* SEARCH + COLLECTION INPUT AREA */
-#searchInput {
+
+#searchInput { /* search input box */
   padding: 8px;
 }
 
-/* BOXES */
+
 .search-results,
-.categories {
+.categories { /* result + category sections */
   background: white;
   padding: 15px;
   margin-top: 20px;
   border: 1px solid #ddd;
 }
 
-/* GRID */
+
 #resultsGrid,
-.category-grid {
+.category-grid { /* grid layout for movies */
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 10px;
 }
 
-/* CARD */
-.movie-card {
+
+.movie-card { /* individual movie card */
   background: white;
   padding: 10px;
   border: 1px solid #ddd;
@@ -108,12 +104,12 @@ button.active {
   text-align: center;
 }
 
-.movie-card img {
+.movie-card img { /* movie poster image */
   width: 100%;
 }
 
-/* CONTROLS (pagination + view buttons container) */
-.controls-wrapper {
+
+.controls-wrapper { /* pagination view buttons */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -122,36 +118,36 @@ button.active {
   gap: 10px;
 }
 
-/* PAGINATION */
-.pagination {
+
+.pagination { /* page buttons */
   display: flex;
   gap: 5px;
 }
 
-/* VIEW TOGGLE */
-.view-toggle {
+
+.view-toggle { /* grid/list buttons */
   display: flex;
   gap: 5px;
 }
 
-/* LIST VIEW */
-.list-view {
+
+.list-view { /* switch layout mode */
   display: block !important;
 }
 
-.list-view .movie-card {
+.list-view .movie-card { /* list layout card */
   display: flex;
   gap: 10px;
   align-items: center;
   text-align: left;
 }
 
-.list-view .movie-card img {
+.list-view .movie-card img { /* smaller image in list mode */
   width: 80px;
 }
 
-/* RESPONSIVE */
-@media (max-width: 900px) {
+
+@media (max-width: 900px) { /* tablet layout */
   .container {
     flex-direction: column;
   }
@@ -166,14 +162,14 @@ button.active {
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 600px) { /* mobile layout */
   #resultsGrid,
   .category-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 400px) { /* small mobile */
   #resultsGrid,
   .category-grid {
     grid-template-columns: 1fr;
