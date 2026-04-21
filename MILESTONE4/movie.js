@@ -7,7 +7,7 @@ $(document).ready(function () {
     let currentPage = 1;
     let layout = "grid";
 
-    let lastSearch = [];
+    let lastResults = [];
 
     /* ================= INIT ================= */
     $("#searchView").show();
@@ -44,7 +44,6 @@ $(document).ready(function () {
         }).done(data => {
             renderMovies(data.results, container);
         });
-
     }
 
     /* ================= SEARCH API ================= */
@@ -56,10 +55,10 @@ $(document).ready(function () {
             page: currentPage
         }).done(data => {
 
-            lastSearch = data.results;
+            lastResults = data.results;
+
             renderMovies(data.results, "#resultsGrid");
             buildControls(data.total_pages);
-
         });
     }
 
@@ -74,15 +73,13 @@ $(document).ready(function () {
         }));
     }
 
-    /* ================= MUSTACHE RENDER MOVIES ================= */
+    /* ================= MUSTACHE RENDER ================= */
     function renderMovies(movies, container) {
 
         const template = $("#movie-template").html();
 
-        const formatted = formatMovies(movies);
-
         const html = Mustache.render(template, {
-            movies: formatted
+            movies: formatMovies(movies)
         });
 
         $(container).html(html);
@@ -103,7 +100,7 @@ $(document).ready(function () {
             release_date: movie.release_date || "N/A",
             vote_average: movie.vote_average,
             language: (movie.original_language || "N/A").toUpperCase(),
-            overview: movie.overview || "No description"
+            overview: movie.overview || "No description available"
         };
 
         $("#movieDetails").html(Mustache.render(template, data));
