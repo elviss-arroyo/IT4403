@@ -4,7 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TMDB Movie App</title>
+
     <link rel="stylesheet" href="style.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Mustache -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
 </head>
 
 <body>
@@ -17,23 +24,28 @@
 
     <div class="left-column">
 
+        <!-- SEARCH -->
         <section class="search-section">
             <input type="text" id="searchInput" placeholder="Search movies...">
             <button id="searchBtn">Search</button>
             <button id="collectionBtn">Collections</button>
         </section>
 
+        <!-- SEARCH VIEW -->
         <div id="searchView">
+
             <section class="search-results">
                 <h2>Search Results</h2>
 
-                <!-- pagination + toggle ABOVE grid -->
+                <!-- pagination + grid/list buttons -->
                 <div id="controls"></div>
 
                 <div id="resultsGrid"></div>
             </section>
+
         </div>
 
+        <!-- COLLECTION VIEW -->
         <div id="collectionView" style="display:none;">
 
             <section class="categories">
@@ -50,18 +62,49 @@
 
     </div>
 
+    <!-- RIGHT SIDE (DETAILS) -->
     <div class="right-column">
+
         <div class="movie-details">
             <h2>Movie Details</h2>
+
             <div id="movieDetails">
                 <p>Select a movie</p>
             </div>
+
         </div>
+
     </div>
 
 </main>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- =========================
+     MUSTACHE TEMPLATE: CARDS
+========================= -->
+<script id="movie-card-template" type="text/template">
+  {{#movies}}
+    <div class="movie-card" data-id="{{id}}">
+        <img src="{{poster}}">
+        <p>{{title}}</p>
+    </div>
+  {{/movies}}
+</script>
+
+<!-- =========================
+     MUSTACHE TEMPLATE: DETAILS
+========================= -->
+<script id="movie-details-template" type="text/template">
+    <img src="{{poster}}">
+    <h3>{{title}}</h3>
+
+    <p><b>Release:</b> {{release_date}}</p>
+    <p><b>Rating:</b> {{vote_average}}</p>
+    <p><b>Language:</b> {{language}}</p>
+
+    <p>{{overview}}</p>
+</script>
+
+<!-- YOUR JS -->
 <script src="movie.js"></script>
 
 </body>
