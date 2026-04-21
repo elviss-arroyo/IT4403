@@ -161,7 +161,65 @@ header {
   border-color: black;
   font-weight: bold;
 }
+/* =========================
+   📱 BASIC RESPONSIVE DESIGN
+   ========================= */
 
+/* TABLET */
+@media (max-width: 900px) {
+
+  .container {
+    flex-direction: column; /* stack left + right */
+  }
+
+  .right-column {
+    position: static; /* stop sticky on small screens */
+  }
+
+  #resultsGrid,
+  .category-grid {
+    grid-template-columns: repeat(3, 1fr); /* 5 → 3 columns */
+  }
+
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+
+  /* search bar stacks nicely */
+  .search-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #searchInput {
+    width: 100%; /* full width */
+    max-width: 300px;
+  }
+
+  #searchBtn,
+  #collectionBtn {
+    width: 100%; /* buttons full width */
+    max-width: 300px;
+  }
+
+  /* grid becomes smaller */
+  #resultsGrid,
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+  }
+
+}
+
+/* VERY SMALL PHONES */
+@media (max-width: 400px) {
+
+  #resultsGrid,
+  .category-grid {
+    grid-template-columns: 1fr; /* 1 column */
+  }
+
+}
 footer { 
   text-align: center;
 }
