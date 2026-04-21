@@ -1,128 +1,222 @@
 $(document).ready(function () { 
 
-    const API_KEY = "4ecce31518d3c79af6da91dc53d038d5"; 
+
+    const API_KEY = "4ecce31518d3c79af6da91dc53d038d5"; // TMDB API key
+
 
     let currentQuery = ""; 
+
     let currentPage = 1;  
 
-    // Tab Switching Logic
-    $(".tab-btn").click(function () {
-        $(".tab-btn").removeClass("active");
-        $(this).addClass("active");
 
-        $(".tab-content").removeClass("active");
-        const target = $(this).attr("data-target");
-        $("#" + target).addClass("active");
-    });
 
     $("#searchBtn").click(function () { 
-        currentQuery = $("#searchInput").val().trim(); 
 
-        if (!currentQuery) return; 
+        currentQuery = $("#searchInput").val().trim(); // Get input value
 
-        // Automatically switch to Search Results tab when searching
-        $('[data-target="search-results-tab"]').click();
+
+        if (!currentQuery) return; // Stop if empty
+
 
         currentPage = 1; 
-        searchMovies(); 
+
+        searchMovies(); // Run search
+
     });
 
-    function searchMovies() { 
+
+    function searchMovies() { // Fetch movies from API
+
+
         $.get("https://api.themoviedb.org/3/search/movie", {
-            api_key: API_KEY, 
-            query: currentQuery, 
-            page: currentPage 
+
+            api_key: API_KEY, // API key
+
+            query: currentQuery, // Search text
+
+            page: currentPage // Page number
+
         })
-        .done(function (data) { 
-            displayMovies(data.results, "#resultsGrid"); 
-            createPagination(data.total_pages); 
+
+        .done(function (data) { // If request succeeds
+
+
+            displayMovies(data.results, "#resultsGrid"); // Show movies
+
+
+            createPagination(data.total_pages); // Create page buttons
+
+
         })
-        .fail(function () { 
-            console.error("Search API Error"); 
+
+        .fail(function () { // If request fails
+
+            console.error("Search API Error"); // Log error
+
         });
+
     }
 
-    function displayMovies(movies, container) { 
-        $(container).empty(); 
 
-        if (!movies) return; 
 
-        movies.slice(0, 10).forEach(movie => { 
+    function displayMovies(movies, container) { // Show movies in grid
+
+
+        $(container).empty(); // Clear previous results
+
+
+        if (!movies) return; // Stop if no data
+
+
+        movies.slice(0, 10).forEach(movie => { // first 10 movies
+
+
             let poster = movie.poster_path
-                ? `https://image.tmdb.org/t/p/w200${movie.poster_path}` 
-                : "https://via.placeholder.com/200x300?text=No+Image"; 
+
+                ? `https://image.tmdb.org/t/p/w200${movie.poster_path}` // imnage
+
+                : "https://via.placeholder.com/200x300?text=No+Image"; // Placeholder
+
 
             let card = $(`
-                <div class="movie-card">
-                    <img src="${poster}">
-                    <p>${movie.title}</p>
-                </div>
-            `); 
 
-            card.click(function () { 
-                showDetails(movie); 
+                <div class="movie-card">
+
+                    <img src="${poster}">
+
+                    <p>${movie.title}</p>
+
+                </div>
+
+            `); // Create movie card
+
+
+            card.click(function () { // When clicked
+
+                showDetails(movie); // Show details
+
             });
 
-            $(container).append(card); 
+
+            $(container).append(card); // Add to page
+
         });
+
     }
 
-    function showDetails(movie) { 
+
+
+    function showDetails(movie) { // Show selected movie
+
+
         let poster = movie.poster_path
-            ? `https://image.tmdb.org/t/p/w300${movie.poster_path}` 
-            : "https://via.placeholder.com/300x450?text=No+Image"; 
+
+            ? `https://image.tmdb.org/t/p/w300${movie.poster_path}` // image
+
+            : "https://via.placeholder.com/300x450?text=No+Image"; // Placeholder
+
 
         $("#movieDetails").html(`
+
             <img src="${poster}" alt="${movie.title}">
+
             <h3>${movie.title}</h3>
+
             <p><strong>Release:</strong> ${movie.release_date || "N/A"}</p>
+
             <p><strong>Rating:</strong> ${movie.vote_average}</p>
+
             <p>${movie.overview || "No description available."}</p>
+
         `); 
+
     }
 
-    function createPagination(totalPages) { 
+
+
+
+    function createPagination(totalPages) { //  page buttons
+
+
         $("#resultsGrid .pagination").remove();
+
+
         let pagination = $('<div class="pagination"></div>');
 
-        for (let i = 1; i <= Math.min(totalPages, 5); i++) { 
-            let btn = $(`<button class="page-btn">${i}</button>`); 
 
-            if (i === currentPage) { 
-                btn.addClass("active"); 
+        for (let i = 1; i <= Math.min(totalPages, 5); i++) { //  pages 5
+
+
+            let btn = $(`<button class="page-btn">${i}</button>`); // Create button
+
+
+            if (i === currentPage) { // If active page
+
+                btn.addClass("active"); // Highlight it
+
             }
 
-            btn.click(function () { 
-                currentPage = i; 
-                searchMovies(); 
+
+            btn.click(function () { // On click
+
+                currentPage = i; // Set page
+
+                searchMovies(); // Reload results
+
             });
 
-            pagination.append(btn); 
+
+            pagination.append(btn); // Add button
+
         }
+
+
         $("#resultsGrid").append(pagination); 
+
     }
 
-    // Load Action Movies
+
+
     $.get("https://api.themoviedb.org/3/discover/movie", {
-        api_key: API_KEY, 
-        with_genres: 28 
+
+        api_key: API_KEY, // API key
+
+        with_genres: 28 // Action genre
+
     })
-    .done(function (data) { 
-        displayMovies(data.results, "#actionMovies"); 
+
+    .done(function (data) { // success
+
+        displayMovies(data.results, "#actionMovies"); // Show action movies
+
     })
-    .fail(function () { 
-        console.error("Action movies API error"); 
+
+    .fail(function () { // fail
+
+        console.error("Action movies API error"); // error
+
     });
 
-    // Load Horror Movies
+
     $.get("https://api.themoviedb.org/3/discover/movie", {
-        api_key: API_KEY, 
-        with_genres: 27 
+
+        api_key: API_KEY, // API key
+
+        with_genres: 27 // Horror genre
+
     })
-    .done(function (data) { 
-        displayMovies(data.results, "#horrorMovies"); 
+
+    .done(function (data) { // success
+
+        displayMovies(data.results, "#horrorMovies"); // Show horror movies
+
     })
-    .fail(function () { 
-        console.error("Horror movies API error"); 
+
+    .fail(function () { // fail
+
+        console.error("Horror movies API error"); // error
+
     });
+
+
 });
