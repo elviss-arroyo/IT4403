@@ -4,26 +4,25 @@ $(document).ready(function () {
 
     let currentQuery = "";
     let currentPage = 1;
+    let currentLayout = "grid";
 
-    // DEFAULT VIEW
     $("#searchView").show();
     $("#collectionView").hide();
 
-    // SEARCH BUTTON
+    // SEARCH
     $("#searchBtn").click(function () {
 
         $("#collectionView").hide();
         $("#searchView").show();
 
         currentQuery = $("#searchInput").val().trim();
-
         if (!currentQuery) return;
 
         currentPage = 1;
         searchMovies();
     });
 
-    // COLLECTION BUTTON
+    // COLLECTIONS
     $("#collectionBtn").click(function () {
 
         $("#searchView").hide();
@@ -32,55 +31,39 @@ $(document).ready(function () {
         $("#actionMovies").empty();
         $("#horrorMovies").empty();
 
-        console.log("Loading collections...");
-
-        // ACTION MOVIES
         $.get("https://api.themoviedb.org/3/discover/movie", {
             api_key: API_KEY,
             with_genres: 28
-        })
-        .done(function (data) {
+        }).done(function (data) {
             displayMovies(data.results, "#actionMovies");
-        })
-        .fail(function () {
-            console.error("Action API failed");
         });
 
-        // HORROR MOVIES
         $.get("https://api.themoviedb.org/3/discover/movie", {
             api_key: API_KEY,
             with_genres: 27
-        })
-        .done(function (data) {
+        }).done(function (data) {
             displayMovies(data.results, "#horrorMovies");
-        })
-        .fail(function () {
-            console.error("Horror API failed");
         });
 
     });
 
-    // SEARCH FUNCTION
+    // SEARCH
     function searchMovies() {
 
         $.get("https://api.themoviedb.org/3/search/movie", {
             api_key: API_KEY,
             query: currentQuery,
             page: currentPage
-        })
-        .done(function (data) {
+        }).done(function (data) {
             displayMovies(data.results, "#resultsGrid");
             createPagination(data.total_pages);
-        })
-        .fail(function () {
-            console.error("Search API Error");
         });
     }
 
     // DISPLAY MOVIES
     function displayMovies(movies, container) {
 
-        $(container).empty();
+        $(container).children(".movie-card").remove();
 
         if (!movies) return;
 
@@ -103,9 +86,11 @@ $(document).ready(function () {
 
             $(container).append(card);
         });
+
+        applyLayout();
     }
 
-    // MOVIE DETAILS
+    // DETAILS
     function showDetails(movie) {
 
         let poster = movie.poster_path
@@ -115,21 +100,17 @@ $(document).ready(function () {
         $("#movieDetails").html(`
             <img src="${poster}">
             <h3>${movie.title}</h3>
-
-            <p><strong>Release Date:</strong> ${movie.release_date || "N/A"}</p>
-
+            <p><strong>Release:</strong> ${movie.release_date || "N/A"}</p>
             <p><strong>Rating:</strong> ${movie.vote_average}</p>
-
-            <p><strong>Language:</strong> ${movie.original_language ? movie.original_language.toUpperCase() : "N/A"}</p>
-
+            <p><strong>Language:</strong> ${movie.original_language?.toUpperCase() || "N/A"}</p>
             <p>${movie.overview || "No description available."}</p>
         `);
     }
 
-    // PAGINATION
+    // PAGINATION + VIEW BUTTONS
     function createPagination(totalPages) {
 
-        $("#resultsGrid .pagination").remove();
+        $("#resultsGrid .pagination, #resultsGrid .view-toggle").remove();
 
         let pagination = $('<div class="pagination"></div>');
 
@@ -137,9 +118,7 @@ $(document).ready(function () {
 
             let btn = $(`<button class="page-btn">${i}</button>`);
 
-            if (i === currentPage) {
-                btn.addClass("active");
-            }
+            if (i === currentPage) btn.addClass("active");
 
             btn.click(function () {
                 currentPage = i;
@@ -149,7 +128,41 @@ $(document).ready(function () {
             pagination.append(btn);
         }
 
+        let toggle = $(`
+            <div class="view-toggle">
+                <button id="gridBtn" class="view-btn active">Grid</button>
+                <button id="listBtn" class="view-btn">List</button>
+            </div>
+        `);
+
+        toggle.find("#gridBtn").click(function () {
+            currentLayout = "grid";
+            $("#gridBtn").addClass("active");
+            $("#listBtn").removeClass("active");
+            applyLayout();
+        });
+
+        toggle.find("#listBtn").click(function () {
+            currentLayout = "list";
+            $("#listBtn").addClass("active");
+            $("#gridBtn").removeClass("active");
+            applyLayout();
+        });
+
         $("#resultsGrid").append(pagination);
+        $("#resultsGrid").append(toggle);
+
+        applyLayout();
+    }
+
+    // LAYOUT SWITCH
+    function applyLayout() {
+
+        if (currentLayout === "grid") {
+            $("#resultsGrid").removeClass("list-view");
+        } else {
+            $("#resultsGrid").addClass("list-view");
+        }
     }
 
 });
