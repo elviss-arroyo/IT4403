@@ -161,9 +161,7 @@ header {
   border-color: black;
   font-weight: bold;
 }
-/* =========================
-   📱 BASIC RESPONSIVE DESIGN
-   ========================= */
+/* RESPONSIVE DESIGN
 
 /* TABLET */
 @media (max-width: 900px) {
