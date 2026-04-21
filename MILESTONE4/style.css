@@ -1,49 +1,32 @@
 :root { 
   --background: #F0F0F0;
   --text: #000000;
-  --dim-text: #555555;
   --hover: #A9A9A9;
 }
 
-* { 
-  box-sizing: border-box; 
-}
+* { box-sizing: border-box; }
 
-body { 
-  background-color: var(--background);
-  color: var(--text);
-  font-family: "Inter", sans-serif;
+body {
   margin: 0;
-  overflow-x: hidden; 
+  font-family: "Inter", sans-serif;
+  background: var(--background);
 }
 
-header { 
-  padding: 50px 0;
+header {
   text-align: center;
+  padding: 40px;
 }
 
-.container { 
-  width: 100%;
+.container {
+  display: flex;
   max-width: 1300px;
-  margin: 0 auto;
-  display: flex;
+  margin: auto;
   gap: 30px;
-  padding: 0 20px; 
+  padding: 20px;
 }
 
-.left-column {
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-
-.right-column {
-  flex: 1;
-  position: sticky;
-  top: 20px;
-  align-self: flex-start;
-}
+.left-column { flex: 2; display: flex; flex-direction: column; gap: 40px; }
+.right-column { flex: 1; position: sticky; top: 20px; }
 
 .search-section {
   display: flex;
@@ -56,45 +39,11 @@ header {
   width: 300px;
 }
 
-#searchBtn, 
-#collectionBtn {
-  padding: 10px 20px;
-  cursor: pointer;
+#searchBtn, #collectionBtn {
+  padding: 10px;
   background: black;
   color: white;
   border: none;
-}
-
-/* MAIN SECTIONS */
-.search-results,
-.categories,
-.movie-details { 
-  width: 100%;
-  background: #fff;
-  border: 1px solid #ddd;
-  padding: 20px;
-  text-align: center;
-}
-
-/* 🔥 BIG SPACING FIX */
-#collectionView {
-  display: flex;
-  flex-direction: column;
-  gap: 100px; /* 🔥 HUGE GAP (was 40px) */
-}
-
-#collectionView .categories {
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  padding: 30px;
-  margin-bottom: 40px; /* extra separation */
-}
-
-/* make section titles stand out more */
-.categories h2 {
-  margin-bottom: 25px;
-  border-bottom: 3px solid #ddd;
-  padding-bottom: 15px;
 }
 
 /* GRID */
@@ -103,13 +52,29 @@ header {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 20px;
-  margin-top: 20px;
+}
+
+/* LIST VIEW */
+.list-view {
+  display: flex !important;
+  flex-direction: column;
+}
+
+.list-view .movie-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  text-align: left;
+}
+
+.list-view .movie-card img {
+  width: 80px;
 }
 
 .movie-card {
-  background: #fff;
-  border: 1px solid #ddd;
+  background: white;
   padding: 10px;
+  border: 1px solid #ddd;
   cursor: pointer;
   text-align: center;
 }
@@ -122,102 +87,25 @@ header {
   width: 100%;
 }
 
-.movie-card p {
-  margin-top: 10px;
-}
-
-/* DETAILS */
-#movieDetails img { 
-  width: 100%;
-  max-width: 300px;
-  margin: 0 auto 20px;
-  display: block; 
-}
-
-/* PAGINATION */
-.pagination { 
-  margin-top: 20px;
+/* PAGINATION + TOGGLE */
+.pagination,
+.view-toggle {
   display: flex;
   justify-content: center;
   gap: 10px;
-  flex-wrap: wrap;
+  margin-top: 15px;
 }
 
-.page-btn { 
+.page-btn,
+.view-btn {
   padding: 8px 12px;
   border: 1px solid #ddd;
   background: white;
   cursor: pointer;
-  transition: 0.2s;
 }
 
-.page-btn:hover {
-  background: var(--hover);
-}
-
+.view-btn.active,
 .page-btn.active {
   background: black;
   color: white;
-  border-color: black;
-  font-weight: bold;
-}
-/* RESPONSIVE DESIGN
-
-/* TABLET */
-@media (max-width: 900px) {
-
-  .container {
-    flex-direction: column; /* stack left + right */
-  }
-
-  .right-column {
-    position: static; /* stop sticky on small screens */
-  }
-
-  #resultsGrid,
-  .category-grid {
-    grid-template-columns: repeat(3, 1fr); /* 5 → 3 columns */
-  }
-
-}
-
-/* MOBILE */
-@media (max-width: 600px) {
-
-  /* search bar stacks nicely */
-  .search-section {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  #searchInput {
-    width: 100%; /* full width */
-    max-width: 300px;
-  }
-
-  #searchBtn,
-  #collectionBtn {
-    width: 100%; /* buttons full width */
-    max-width: 300px;
-  }
-
-  /* grid becomes smaller */
-  #resultsGrid,
-  .category-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns */
-  }
-
-}
-
-/* VERY SMALL PHONES */
-@media (max-width: 400px) {
-
-  #resultsGrid,
-  .category-grid {
-    grid-template-columns: 1fr; /* 1 column */
-  }
-
-}
-footer { 
-  text-align: center;
 }
