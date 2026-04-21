@@ -76,24 +76,25 @@ header {
   text-align: center;
 }
 
-/* 🔥 FIX: Proper spacing for collections */
+/* 🔥 BIG SPACING FIX */
 #collectionView {
   display: flex;
   flex-direction: column;
-  gap: 40px; /* clean spacing between sections */
+  gap: 100px; /* 🔥 HUGE GAP (was 40px) */
 }
 
 #collectionView .categories {
   border: 2px solid #ccc;
   border-radius: 8px;
-  padding: 25px;
+  padding: 30px;
+  margin-bottom: 40px; /* extra separation */
 }
 
-/* Optional header styling (looks much better) */
+/* make section titles stand out more */
 .categories h2 {
-  margin-bottom: 15px;
-  border-bottom: 2px solid #eee;
-  padding-bottom: 10px;
+  margin-bottom: 25px;
+  border-bottom: 3px solid #ddd;
+  padding-bottom: 15px;
 }
 
 /* GRID */
