@@ -25,34 +25,44 @@ $(document).ready(function () {
     });
 
     // COLLECTION BUTTON
-    $("#collectionBtn").click(function () {
+   $("#collectionBtn").click(function () {
 
-        $("#searchView").hide();
-        $("#collectionView").show();
+    $("#searchView").hide();
+    $("#collectionView").show();
 
-        if (!collectionsLoaded) {
+    // CLEAR first (important)
+    $("#actionMovies").empty();
+    $("#horrorMovies").empty();
 
-            // ACTION MOVIES
-            $.get("https://api.themoviedb.org/3/discover/movie", {
-                api_key: API_KEY,
-                with_genres: 28
-            })
-            .done(function (data) {
-                displayMovies(data.results, "#actionMovies");
-            });
+    console.log("Loading collections...");
 
-            // HORROR MOVIES
-            $.get("https://api.themoviedb.org/3/discover/movie", {
-                api_key: API_KEY,
-                with_genres: 27
-            })
-            .done(function (data) {
-                displayMovies(data.results, "#horrorMovies");
-            });
-
-            collectionsLoaded = true;
-        }
+    // ACTION MOVIES
+    $.get("https://api.themoviedb.org/3/discover/movie", {
+        api_key: API_KEY,
+        with_genres: 28
+    })
+    .done(function (data) {
+        console.log("Action movies loaded");
+        displayMovies(data.results, "#actionMovies");
+    })
+    .fail(function () {
+        console.error("Action API failed");
     });
+
+    // HORROR MOVIES
+    $.get("https://api.themoviedb.org/3/discover/movie", {
+        api_key: API_KEY,
+        with_genres: 27
+    })
+    .done(function (data) {
+        console.log("Horror movies loaded");
+        displayMovies(data.results, "#horrorMovies");
+    })
+    .fail(function () {
+        console.error("Horror API failed");
+    });
+
+});
 
     // SEARCH FUNCTION
     function searchMovies() {
