@@ -1,184 +1,131 @@
-$(document).ready(function () {
+$(document).ready(function () { 
 
-    const API_KEY = "4ecce31518d3c79af6da91dc53d038d5";
-    const IMAGE_BASE = "https://image.tmdb.org/t/p/w300";
-    const API_BASE = "https://api.themoviedb.org/3";
+    const API_KEY = "4ecce31518d3c79af6da91dc53d038d5"; // TMDB API key
 
-    let currentQuery = "";
-    let currentPage = 1;
-    let currentView = "grid";
-    let lastSearchResults = [];
-    const movieMap = {};
+    let currentQuery = ""; 
+    let currentPage = 1;  
 
-    // ======= CENTRAL REQUEST FUNCTION =======
 
-    function tmdbRequest(endpoint, params, onSuccess, onError) {
-        $.ajax({
-            url: API_BASE + endpoint,
-            method: "GET",
-            data: $.extend({ api_key: API_KEY }, params),
-            success: onSuccess,
-            error: onError || function () {
-                console.error("TMDB request failed: " + endpoint);
+    $("#searchBtn").click(function () { 
+        currentQuery = $("#searchInput").val().trim(); // Get input value
+
+        if (!currentQuery) return; // Stop if empty
+
+        currentPage = 1; 
+        searchMovies(); // Run search
+    });
+
+    function searchMovies() { // Fetch movies from API
+
+        $.get("https://api.themoviedb.org/3/search/movie", {
+            api_key: API_KEY, // API key
+            query: currentQuery, // Search text
+            page: currentPage // Page number
+        })
+        .done(function (data) { // If request succeeds
+
+            displayMovies(data.results, "#resultsGrid"); // Show movies
+
+            createPagination(data.total_pages); // Create page buttons
+
+        })
+        .fail(function () { // If request fails
+            console.error("Search API Error"); // Log error
+        });
+    }
+
+
+    function displayMovies(movies, container) { // Show movies in grid
+
+        $(container).empty(); // Clear previous results
+
+        if (!movies) return; // Stop if no data
+
+        movies.slice(0, 10).forEach(movie => { // first 10 movies
+
+            let poster = movie.poster_path
+                ? `https://image.tmdb.org/t/p/w200${movie.poster_path}` // imnage
+                : "https://via.placeholder.com/200x300?text=No+Image"; // Placeholder
+
+            let card = $(`
+                <div class="movie-card">
+                    <img src="${poster}">
+                    <p>${movie.title}</p>
+                </div>
+            `); // Create movie card
+
+            card.click(function () { // When clicked
+                showDetails(movie); // Show details
+            });
+
+            $(container).append(card); // Add to page
+        });
+    }
+
+
+    function showDetails(movie) { // Show selected movie
+
+        let poster = movie.poster_path
+            ? `https://image.tmdb.org/t/p/w300${movie.poster_path}` // image
+            : "https://via.placeholder.com/300x450?text=No+Image"; // Placeholder
+
+        $("#movieDetails").html(`
+            <img src="${poster}" alt="${movie.title}">
+            <h3>${movie.title}</h3>
+            <p><strong>Release:</strong> ${movie.release_date || "N/A"}</p>
+            <p><strong>Rating:</strong> ${movie.vote_average}</p>
+            <p>${movie.overview || "No description available."}</p>
+        `); 
+    }
+
+
+
+    function createPagination(totalPages) { //  page buttons
+
+        $("#resultsGrid .pagination").remove();
+
+        let pagination = $('<div class="pagination"></div>');
+
+        for (let i = 1; i <= Math.min(totalPages, 5); i++) { //  pages 5
+
+            let btn = $(`<button class="page-btn">${i}</button>`); // Create button
+
+            if (i === currentPage) { // If active page
+                btn.addClass("active"); // Highlight it
             }
-        });
-    }
 
-    // ======= TEMPLATE HELPERS =======
+            btn.click(function () { // On click
+                currentPage = i; // Set page
+                searchMovies(); // Reload results
+            });
 
-    function getTemplate(id) {
-        return $("#" + id).html();
-    }
-
-    function buildPoster(posterPath) {
-        return posterPath
-            ? IMAGE_BASE + posterPath
-            : "https://via.placeholder.com/200x300?text=No+Image";
-    }
-
-    function formatMovies(movies) {
-        return movies.slice(0, 10).map(function (movie) {
-            const formatted = {
-                id: movie.id,
-                title: movie.title || "Untitled",
-                release_date: movie.release_date || "N/A",
-                vote_average: movie.vote_average || "N/A",
-                original_language: movie.original_language || "N/A",
-                popularity: movie.popularity ? movie.popularity.toFixed(1) : "N/A",
-                overview: movie.overview || "No description available.",
-                poster: buildPoster(movie.poster_path),
-                viewClass: currentView === "list" ? "movie-list-item" : "",
-                showOverview: currentView === "list"
-            };
-            movieMap[movie.id] = formatted;
-            return formatted;
-        });
-    }
-
-    // ======= RENDER FUNCTIONS =======
-
-    function renderMovies(movies, containerSelector) {
-        const $container = $(containerSelector);
-        $container.empty();
-
-        if (!movies || movies.length === 0) {
-            $container.html("<p>No movies found.</p>");
-            return;
+            pagination.append(btn); // Add button
         }
 
-        const template = getTemplate("movie-card-template");
-        const html = Mustache.render(template, { movies: formatMovies(movies) });
-        $container.html(html);
-
-        if (currentView === "list") {
-            $container.removeClass("movie-grid").addClass("movie-list");
-        } else {
-            $container.removeClass("movie-list").addClass("movie-grid");
-        }
+        $("#resultsGrid").append(pagination); 
     }
 
-    function renderMovieDetails(movie) {
-        const template = getTemplate("movie-details-template");
-        const html = Mustache.render(template, movie);
-        $("#movieDetails").html(html);
-    }
 
-    // ======= SEARCH =======
-
-    function searchMovies() {
-        tmdbRequest(
-            "/search/movie",
-            { query: currentQuery, page: currentPage },
-            function (data) {
-                lastSearchResults = data.results || [];
-                renderMovies(lastSearchResults, "#resultsGrid");
-                buildPagination(data.total_pages || 0);
-            },
-            function () {
-                $("#resultsGrid").html("<p>Search failed. Please try again.</p>");
-                $("#pagination").empty();
-            }
-        );
-    }
-
-    // ======= PAGINATION =======
-
-    function buildPagination(totalPages) {
-        $("#pagination").empty();
-        if (totalPages === 0) return;
-
-        const view = { pages: [], currentPage: currentPage };
-
-        for (let i = 1; i <= Math.min(totalPages, 5); i++) {
-            view.pages.push({ number: i, active: i === currentPage });
-        }
-
-        const template = getTemplate("pagination-template");
-        const $pagination = $(Mustache.render(template, view));
-
-        $pagination.find(".page-btn").on("click", function () {
-            currentPage = parseInt($(this).data("page"));
-            searchMovies();
-        });
-
-        $("#pagination").append($pagination);
-    }
-
-    // ======= CATEGORY LOADERS =======
-
-    function loadActionMovies() {
-        tmdbRequest(
-            "/discover/movie",
-            { with_genres: 28 },
-            function (data) { renderMovies(data.results || [], "#actionMovies"); },
-            function () { $("#actionMovies").html("<p>Error loading action movies.</p>"); }
-        );
-    }
-
-    function loadHorrorMovies() {
-        tmdbRequest(
-            "/discover/movie",
-            { with_genres: 27 },
-            function (data) { renderMovies(data.results || [], "#horrorMovies"); },
-            function () { $("#horrorMovies").html("<p>Error loading horror movies.</p>"); }
-        );
-    }
-
-    // ======= EVENT HANDLERS =======
-
-    $("#searchBtn").on("click", function () {
-        currentQuery = $("#searchInput").val().trim();
-        if (!currentQuery) return;
-        currentPage = 1;
-        searchMovies();
+    $.get("https://api.themoviedb.org/3/discover/movie", {
+        api_key: API_KEY, // API key
+        with_genres: 28 // Action genre
+    })
+    .done(function (data) { // success
+        displayMovies(data.results, "#actionMovies"); // Show action movies
+    })
+    .fail(function () { // fail
+        console.error("Action movies API error"); // error
     });
 
-    $("#searchInput").on("keypress", function (e) {
-        if (e.which === 13) $("#searchBtn").click();
+    $.get("https://api.themoviedb.org/3/discover/movie", {
+        api_key: API_KEY, // API key
+        with_genres: 27 // Horror genre
+    })
+    .done(function (data) { // success
+        displayMovies(data.results, "#horrorMovies"); // Show horror movies
+    })
+    .fail(function () { // fail
+        console.error("Horror movies API error"); // error
     });
 
-    $(document).on("click", ".movie-card", function () {
-        const id = $(this).data("id");
-        if (movieMap[id]) renderMovieDetails(movieMap[id]);
-    });
-
-    $("#gridViewBtn").on("click", function () {
-        currentView = "grid";
-        $("#gridViewBtn").addClass("active-view");
-        $("#listViewBtn").removeClass("active-view");
-        if (lastSearchResults.length > 0) renderMovies(lastSearchResults, "#resultsGrid");
-    });
-
-    $("#listViewBtn").on("click", function () {
-        currentView = "list";
-        $("#listViewBtn").addClass("active-view");
-        $("#gridViewBtn").removeClass("active-view");
-        if (lastSearchResults.length > 0) renderMovies(lastSearchResults, "#resultsGrid");
-    });
-
-    // ======= INITIAL LOAD =======
-
-    loadActionMovies();
-    loadHorrorMovies();
-
-});
+}); 
