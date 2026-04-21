@@ -1,33 +1,56 @@
 :root { 
   --background: #F0F0F0;
   --text: #000000;
+  --dim-text: #555555;
   --hover: #A9A9A9;
 }
 
-* { box-sizing: border-box; }
+* { 
+  box-sizing: border-box; 
+}
 
-body {
-  margin: 0;
+body { 
+  background-color: var(--background);
+  color: var(--text);
   font-family: "Inter", sans-serif;
-  background: var(--background);
+  margin: 0;
+  overflow-x: hidden; 
 }
 
-header {
+/* HEADER */
+header { 
+  padding: 50px 0;
   text-align: center;
-  padding: 40px;
 }
 
-.container {
-  display: flex;
+/* MAIN LAYOUT */
+.container { 
+  width: 100%;
   max-width: 1300px;
-  margin: auto;
+  margin: 0 auto;
+  display: flex;
   gap: 30px;
-  padding: 20px;
+  padding: 0 20px; 
 }
 
-.left-column { flex: 2; display: flex; flex-direction: column; gap: 40px; }
-.right-column { flex: 1; position: sticky; top: 20px; }
+/* LEFT SIDE */
+.left-column {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
 
+/* RIGHT SIDE (STICKY FIX) */
+.right-column {
+  flex: 1;
+  position: sticky;
+  top: 20px;
+  align-self: flex-start;
+  height: fit-content; /* IMPORTANT FIX */
+}
+
+/* SEARCH BAR */
 .search-section {
   display: flex;
   gap: 10px;
@@ -39,22 +62,57 @@ header {
   width: 300px;
 }
 
-#searchBtn, #collectionBtn {
-  padding: 10px;
+#searchBtn, 
+#collectionBtn {
+  padding: 10px 20px;
+  cursor: pointer;
   background: black;
   color: white;
   border: none;
 }
 
-/* GRID */
+/* MAIN BOXES */
+.search-results,
+.categories,
+.movie-details { 
+  width: 100%;
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  text-align: center;
+}
+
+/* COLLECTION SECTIONS (FIX VISUAL SEPARATION) */
+#collectionView {
+  display: flex;
+  flex-direction: column;
+  gap: 80px; /* space between Action & Horror */
+}
+
+#collectionView .categories {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 25px;
+}
+
+/* CATEGORY TITLES */
+.categories h2 {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #eee;
+}
+
+/* GRID VIEW */
 #resultsGrid,
 .category-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 20px;
+  margin-top: 20px;
 }
 
-/* LIST VIEW */
+/* LIST VIEW SUPPORT */
 .list-view {
   display: flex !important;
   flex-direction: column;
@@ -71,10 +129,11 @@ header {
   width: 80px;
 }
 
+/* MOVIE CARDS */
 .movie-card {
-  background: white;
-  padding: 10px;
+  background: #fff;
   border: 1px solid #ddd;
+  padding: 10px;
   cursor: pointer;
   text-align: center;
 }
@@ -87,8 +146,47 @@ header {
   width: 100%;
 }
 
-/* PAGINATION + TOGGLE */
-.pagination,
+.movie-card p {
+  margin-top: 10px;
+}
+
+/* MOVIE DETAILS IMAGE */
+#movieDetails img { 
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto 20px;
+  display: block; 
+}
+
+/* PAGINATION */
+.pagination { 
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.page-btn { 
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.page-btn:hover {
+  background: var(--hover);
+}
+
+.page-btn.active {
+  background: black;
+  color: white;
+  border-color: black;
+  font-weight: bold;
+}
+
+/* VIEW TOGGLE BUTTONS */
 .view-toggle {
   display: flex;
   justify-content: center;
@@ -96,7 +194,6 @@ header {
   margin-top: 15px;
 }
 
-.page-btn,
 .view-btn {
   padding: 8px 12px;
   border: 1px solid #ddd;
@@ -104,8 +201,61 @@ header {
   cursor: pointer;
 }
 
-.view-btn.active,
-.page-btn.active {
+.view-btn.active {
   background: black;
   color: white;
+}
+
+/* FOOTER */
+footer { 
+  text-align: center;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 900px) {
+
+  .container {
+    flex-direction: column;
+  }
+
+  .right-column {
+    position: static;
+  }
+
+  #resultsGrid,
+  .category-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+
+  .search-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #searchInput {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  #searchBtn,
+  #collectionBtn {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  #resultsGrid,
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 400px) {
+
+  #resultsGrid,
+  .category-grid {
+    grid-template-columns: 1fr;
+  }
 }
