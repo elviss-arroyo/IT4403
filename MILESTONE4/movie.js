@@ -6,10 +6,15 @@ $(document).ready(function () {
     let currentPage = 1;
     let currentLayout = "grid";
 
+    /* ======================
+        INITIAL VIEW STATE
+    ======================= */
     $("#searchView").show();
     $("#collectionView").hide();
 
-    // SEARCH
+    /* ======================
+        SEARCH BUTTON
+    ======================= */
     $("#searchBtn").click(function () {
 
         $("#collectionView").hide();
@@ -22,7 +27,9 @@ $(document).ready(function () {
         searchMovies();
     });
 
-    // COLLECTIONS
+    /* ======================
+        COLLECTION BUTTON
+    ======================= */
     $("#collectionBtn").click(function () {
 
         $("#searchView").hide();
@@ -31,6 +38,7 @@ $(document).ready(function () {
         $("#actionMovies").empty();
         $("#horrorMovies").empty();
 
+        // ACTION
         $.get("https://api.themoviedb.org/3/discover/movie", {
             api_key: API_KEY,
             with_genres: 28
@@ -38,16 +46,18 @@ $(document).ready(function () {
             displayMovies(data.results, "#actionMovies");
         });
 
+        // HORROR
         $.get("https://api.themoviedb.org/3/discover/movie", {
             api_key: API_KEY,
             with_genres: 27
         }).done(function (data) {
             displayMovies(data.results, "#horrorMovies");
         });
-
     });
 
-    // SEARCH
+    /* ======================
+        SEARCH API
+    ======================= */
     function searchMovies() {
 
         $.get("https://api.themoviedb.org/3/search/movie", {
@@ -55,15 +65,18 @@ $(document).ready(function () {
             query: currentQuery,
             page: currentPage
         }).done(function (data) {
+
             displayMovies(data.results, "#resultsGrid");
             createPagination(data.total_pages);
         });
     }
 
-    // DISPLAY MOVIES
+    /* ======================
+        DISPLAY MOVIES
+    ======================= */
     function displayMovies(movies, container) {
 
-        $(container).children(".movie-card").remove();
+        $(container).empty();
 
         if (!movies) return;
 
@@ -80,17 +93,17 @@ $(document).ready(function () {
                 </div>
             `);
 
-            card.click(function () {
-                showDetails(movie);
-            });
+            card.click(() => showDetails(movie));
 
             $(container).append(card);
         });
 
-        applyLayout();
+        applyLayout(); // apply grid/list after render
     }
 
-    // DETAILS
+    /* ======================
+        MOVIE DETAILS
+    ======================= */
     function showDetails(movie) {
 
         let poster = movie.poster_path
@@ -100,14 +113,18 @@ $(document).ready(function () {
         $("#movieDetails").html(`
             <img src="${poster}">
             <h3>${movie.title}</h3>
+
             <p><strong>Release:</strong> ${movie.release_date || "N/A"}</p>
             <p><strong>Rating:</strong> ${movie.vote_average}</p>
             <p><strong>Language:</strong> ${movie.original_language?.toUpperCase() || "N/A"}</p>
+
             <p>${movie.overview || "No description available."}</p>
         `);
     }
 
-    // PAGINATION + VIEW BUTTONS
+    /* ======================
+        PAGINATION + VIEW TOGGLE
+    ======================= */
     function createPagination(totalPages) {
 
         $("#resultsGrid .pagination, #resultsGrid .view-toggle").remove();
@@ -128,40 +145,56 @@ $(document).ready(function () {
             pagination.append(btn);
         }
 
+        /* VIEW TOGGLE (GRID / LIST) */
         let toggle = $(`
             <div class="view-toggle">
-                <button id="gridBtn" class="view-btn active">Grid</button>
+                <button id="gridBtn" class="view-btn">Grid</button>
                 <button id="listBtn" class="view-btn">List</button>
             </div>
         `);
 
-        toggle.find("#gridBtn").click(function () {
-            currentLayout = "grid";
-            $("#gridBtn").addClass("active");
-            $("#listBtn").removeClass("active");
-            applyLayout();
-        });
-
-        toggle.find("#listBtn").click(function () {
-            currentLayout = "list";
-            $("#listBtn").addClass("active");
-            $("#gridBtn").removeClass("active");
-            applyLayout();
-        });
-
         $("#resultsGrid").append(pagination);
         $("#resultsGrid").append(toggle);
+
+        // default active
+        setActiveButton();
+
+        $("#gridBtn").click(function () {
+            currentLayout = "grid";
+            setActiveButton();
+            applyLayout();
+        });
+
+        $("#listBtn").click(function () {
+            currentLayout = "list";
+            setActiveButton();
+            applyLayout();
+        });
 
         applyLayout();
     }
 
-    // LAYOUT SWITCH
+    /* ======================
+        VIEW STYLE HANDLER
+    ======================= */
     function applyLayout() {
 
-        if (currentLayout === "grid") {
-            $("#resultsGrid").removeClass("list-view");
-        } else {
+        if (currentLayout === "list") {
             $("#resultsGrid").addClass("list-view");
+            $(".category-grid").addClass("list-view");
+        } else {
+            $("#resultsGrid").removeClass("list-view");
+            $(".category-grid").removeClass("list-view");
+        }
+    }
+
+    function setActiveButton() {
+        $("#gridBtn, #listBtn").removeClass("active");
+
+        if (currentLayout === "grid") {
+            $("#gridBtn").addClass("active");
+        } else {
+            $("#listBtn").addClass("active");
         }
     }
 
