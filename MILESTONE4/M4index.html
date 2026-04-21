@@ -22,32 +22,25 @@
 
 <main class="container">
 
-    <!-- LEFT SIDE -->
     <div class="left-column">
 
-        <!-- SEARCH BAR -->
         <section class="search-section">
             <input type="text" id="searchInput" placeholder="Search movies...">
             <button id="searchBtn">Search</button>
             <button id="collectionBtn">Collections</button>
         </section>
 
-        <!-- SEARCH VIEW -->
         <div id="searchView">
 
             <section class="search-results">
                 <h2>Search Results</h2>
 
-                <!-- controls (pagination + view toggle injected here) -->
                 <div id="controls"></div>
-
-                <!-- movie results -->
                 <div id="resultsGrid"></div>
 
             </section>
         </div>
 
-        <!-- COLLECTION VIEW -->
         <div id="collectionView" style="display:none;">
 
             <section class="categories">
@@ -64,7 +57,6 @@
 
     </div>
 
-    <!-- RIGHT SIDE (DETAILS) -->
     <div class="right-column">
 
         <div class="movie-details">
@@ -80,22 +72,27 @@
 
 </main>
 
-<!-- ===================== -->
-<!-- MUSTACHE TEMPLATES -->
-<!-- ===================== -->
+<!-- ===================== TEMPLATES ===================== -->
 
-<!-- MOVIE CARD TEMPLATE -->
+<!-- MOVIE CARD -->
 <script id="movie-template" type="text/template">
+
     {{#movies}}
     <div class="movie-card" data-id="{{id}}">
         <img src="{{poster}}" alt="{{title}}">
         <p>{{title}}</p>
     </div>
     {{/movies}}
+
+    {{^movies}}
+    <p>No movies found.</p>
+    {{/movies}}
+
 </script>
 
-<!-- MOVIE DETAILS TEMPLATE -->
+<!-- DETAILS -->
 <script id="details-template" type="text/template">
+
     <img src="{{poster}}" alt="{{title}}">
     <h3>{{title}}</h3>
 
@@ -104,17 +101,19 @@
     <p><b>Language:</b> {{language}}</p>
 
     <p>{{overview}}</p>
+
 </script>
 
-<!-- OPTIONAL CONTROLS TEMPLATE (if you upgrade later) -->
+<!-- MUSTACHE CONTROLS (NOW USED PROPERLY) -->
 <script id="controls-template" type="text/template">
+
     <div class="controls-wrapper">
 
         <div class="pagination">
             {{#pages}}
-                <button class="page-btn {{active}}" data-page="{{number}}">
-                    {{number}}
-                </button>
+            <button class="page-btn {{active}}" data-page="{{number}}">
+                {{number}}
+            </button>
             {{/pages}}
         </div>
 
@@ -124,9 +123,9 @@
         </div>
 
     </div>
+
 </script>
 
-<!-- JS -->
 <script src="movie.js"></script>
 
 </body>
