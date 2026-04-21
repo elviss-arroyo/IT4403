@@ -180,7 +180,20 @@ header {
   background: black;
   color: white;
 }
+.list-view {
+    display: block !important;
+}
 
+.list-view .movie-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-align: left;
+}
+
+.list-view .movie-card img {
+    width: 80px;
+}
 /* RESPONSIVE */
 @media (max-width: 900px) {
   .container {
