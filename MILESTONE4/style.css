@@ -72,57 +72,6 @@ header {
 }
 
 
-
-.view-section {
-  text-align: center;
-}
-
-.view-section button {
-  padding: 8px 15px;
-  margin: 5px;
-  cursor: pointer;
-  border: 1px solid #ddd;
-  background: white;
-}
-
-.view-section button.active-view {
-  background: black;
-  color: white;
-  font-weight: bold;
-}
-
-
-
-
-/* GRID VIEW (DEFAULT) */
-.grid-view {
-  display: grid; 
-  grid-template-columns: repeat(5, 1fr); 
-  gap: 20px; 
-}
-
-/* LIST VIEW */
-.list-view {
-  display: flex; 
-  flex-direction: column; 
-  gap: 15px; 
-}
-
-.list-view .movie-card {
-  display: flex; 
-  align-items: center; 
-  gap: 15px; 
-  text-align: left; 
-}
-
-.list-view .movie-card img {
-  width: 80px; 
-  height: 120px; 
-  object-fit: cover; 
-}
-
-
-
 .search-results,
 .categories,
 .movie-details { 
@@ -200,50 +149,4 @@ header {
 
 footer { 
   text-align: center; 
-}
-
-
-/* ─── RESPONSIVE: MOBILE SUPPORT ─────────────────────────────────────────── */
-
-@media (max-width: 900px) { /* Tablet and below */
-
-  .container { 
-    flex-direction: column; /* Stack columns vertically */
-    padding: 0 15px; 
-  }
-
-  .right-column { 
-    position: static; /* Remove sticky on mobile */
-    width: 100%; /* Full width */
-  }
-
-  .grid-view,
-  #resultsGrid,
-  .category-grid { 
-    grid-template-columns: repeat(3, 1fr); /* 3 columns on tablet */
-  }
-
-}
-
-@media (max-width: 600px) { /* Mobile phones */
-
-  #searchInput { 
-    width: 100%; /* Full width input */
-  }
-
-  .search-section { 
-    flex-direction: column; /* Stack input and button */
-    align-items: stretch; /* Full width both */
-  }
-
-  .grid-view,
-  #resultsGrid,
-  .category-grid { 
-    grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
-  }
-
-  header { 
-    padding: 30px 15px; /* Less padding on mobile */
-  }
-
 }
