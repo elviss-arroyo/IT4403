@@ -1,245 +1,152 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  background-color: #f4f4f4;
-  color: #222;
+:root { 
+  --background: #F0F0F0; /*  gray color */
+  --text: #000000; /*  text */
+  --dim-text: #555555; /* dimm text color */
+  --hover: #A9A9A9; /* Hover  color */
 }
 
-.container {
-  width: 92%;
-  max-width: 1300px;
-  margin: 20px auto;
+
+* { 
+  box-sizing: border-box; 
 }
 
-h1, h2, h3 {
-  margin-top: 0;
+
+body { 
+  background-color: var(--background); /* Set background color */
+  color: var(--text); /* Set text color */
+  font-family: "Inter", sans-serif; /* Set font */
+  margin: 0; /* Remove default margin */
+  overflow-x: hidden; 
 }
 
-header {
-  text-align: center;
-  padding: 30px 0 10px;
+
+header { 
+  padding: 50px 0; /* Add  spacing */
+  text-align: center; /* Center text */
 }
 
-/* ======= PANEL ======= */
 
-.panel {
-  background: white;
-  padding: 15px;
-  margin-bottom: 20px;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+.container { 
+  width: 100%; /* width */
+  max-width: 1300px; /* max width */
+  margin: 0 auto; /* Center  */
+  display: flex; /* Use flexbox layout */
+  gap: 30px; /* Space between columns */
+  padding: 0 20px; 
 }
 
-/* ======= SEARCH ======= */
 
-.search-bar {
-  display: flex;
-  gap: 10px;
+.left-column { /* Left side of page */
+  flex: 2; /* Takes more space than right column */
+  display: flex; /* Use flexbox */
+  flex-direction: column; /* Stack items vertically */
+  gap: 40px; /* Space between sections */
 }
 
-.search-bar input {
-  flex: 1;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+
+.right-column { /* Right side panel */
+  flex: 1; /* Smaller than left column */
+  position: sticky; /* Sticks while scrolling */
+  top: 20px; /* Distance from top when stuck */
+  align-self: flex-start; /* Align to top */
 }
 
-.search-bar button {
-  padding: 10px 20px;
-  cursor: pointer;
-  background: #222;
-  color: white;
-  border: none;
-  border-radius: 4px;
+
+.search-section { /* Search bar container */
+  display: flex; 
+  gap: 10px; /* Space between input and button */
+  justify-content: center; /* Center search bar */
 }
 
-/* ======= SECTION HEADER ======= */
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
+#searchInput { /* Search input field */
+  padding: 10px; /*  spacing */
+  width: 300px; /*  width */
 }
 
-.view-toggle {
-  display: flex;
-  gap: 8px;
+#searchBtn { /* Search button */
+  padding: 10px 20px; /* Button size */
+  cursor: pointer; /* Show pointer on hover */
+  background: black; /* Black background */
+  color: white; /* White text */
+  border: none; /* border */
 }
 
-.toggle-btn {
-  padding: 6px 14px;
-  cursor: pointer;
-  border: 1px solid #ddd;
-  background: white;
-  border-radius: 4px;
-  font-size: 13px;
-  transition: background 0.2s;
+
+.search-results,
+.categories,
+.movie-details { 
+  width: 100%; /*  width */
+  background: #fff; /* White background */
+  border: 1px solid #ddd; /* Light border */
+  padding: 20px; /* Inner spacing */
+  text-align: center; /* Center  */
 }
 
-.toggle-btn:hover {
-  background: #f0f0f0;
+#resultsGrid,
+.category-grid { /* Movie grids */
+  display: grid; /* Use grid layout */
+  grid-template-columns: repeat(5, 1fr); /* 5 columns */
+  gap: 20px; /* Space between cards */
+  margin-top: 20px; /* Space above grid */
 }
-
-.toggle-btn.active-view {
-  background: #222;
-  color: white;
-  border-color: #222;
-  font-weight: bold;
-}
-
-/* ======= LAYOUT ======= */
-
-.layout {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 20px;
-}
-
-.left-column {
-  min-width: 0;
-}
-
-.right-column {
-  position: sticky;
-  top: 20px;
-  align-self: flex-start;
-}
-
-/* ======= MOVIE GRID ======= */
-
-.movie-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap: 15px;
-  margin-top: 10px;
-}
-
-/* ======= MOVIE LIST ======= */
-
-.movie-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 10px;
-}
-
-.movie-list-item {
-  display: flex;
-  gap: 15px;
-  align-items: flex-start;
-  text-align: left;
-}
-
-.movie-list-item img {
-  width: 70px !important;
-  height: 105px !important;
-  object-fit: cover;
-  border-radius: 4px;
-  flex-shrink: 0;
-}
-
-.movie-list-item .movie-overview {
-  font-size: 13px;
-  color: #555;
-  margin: 4px 0 0;
-  line-height: 1.4;
-}
-
-/* ======= MOVIE CARDS ======= */
 
 .movie-card {
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 10px;
-  text-align: center;
-  background: #fff;
-  cursor: pointer;
-  transition: box-shadow 0.2s;
+  background: #fff; /* White background */
+  border: 1px solid #ddd; /* Light border */
+  padding: 10px; /* Inner spacing */
+  cursor: pointer; 
+  text-align: center; /* Center text */
 }
 
-.movie-card:hover {
-  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+.movie-card:hover { /* Hover effect */
+  background: var(--hover); /* Change background on hover */
 }
 
-.movie-card img {
-  width: 100%;
-  height: 195px;
-  object-fit: cover;
-  border-radius: 4px;
-  margin-bottom: 8px;
+.movie-card img { /* Movie image */
+  width: 100%; 
+}
+.movie-card p { /* Movie title text */
+  margin-top: 10px; 
 }
 
-.movie-title {
-  font-size: 13px;
-  margin: 0;
-  font-weight: 600;
+#movieDetails img { 
+  width: 100%; /*  width */
+  max-width: 300px; 
+  margin: 0 auto 20px;
+  display: block; 
 }
 
-/* ======= PAGINATION ======= */
 
-.pagination {
-  margin-top: 15px;
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  align-items: center;
+
+.pagination { 
+  margin-top: 20px; 
+  display: flex; /* Flex layout */
+  justify-content: center; /* Center buttons */
+  gap: 10px; /* Space between buttons */
+  flex-wrap: wrap; /* Wrap */
 }
 
-.page-btn {
-  padding: 7px 12px;
-  cursor: pointer;
-  border: 1px solid #ddd;
-  background: white;
-  border-radius: 4px;
-  transition: background 0.2s;
+.page-btn { 
+  padding: 8px 12px; /* Button size */
+  border: 1px solid #ddd; /* Light border */
+  background: white; /* White background */
+  cursor: pointer; /* Clickable */
+  transition: 0.2s; /* hover effect */
 }
 
-.page-btn:hover {
-  background: #e0e0e0;
+.page-btn:hover { /* Hover effect */
+  background: var(--hover); /*  color */
 }
 
-.page-btn.active {
-  background: #222;
-  color: white;
-  font-weight: bold;
-  border-color: #222;
+
+.page-btn.active { /* Highlight current page */
+  background: black; /* Black background */
+  color: white; /* White text */
+  border-color: black; /* Match border */
+  font-weight: bold; /* Bold  */
 }
 
-.page-indicator {
-  font-size: 13px;
-  color: #666;
-  margin-left: 6px;
-}
 
-/* ======= MOVIE DETAILS ======= */
-
-#movieDetails img {
-  width: 100%;
-  max-width: 260px;
-  border-radius: 6px;
-  margin-bottom: 12px;
-  display: block;
-}
-
-#movieDetails h3 {
-  margin-bottom: 8px;
-}
-
-#movieDetails p {
-  line-height: 1.6;
-  font-size: 14px;
-  margin: 4px 0;
-}
-
-/* ======= RESPONSIVE ======= */
-
-@media (max-width: 900px) {
-  .layout {
-    grid-template-columns: 1fr;
-  }
-  .right-column {
-    position: static;
-  }
+footer { 
+  text-align: center; 
 }
