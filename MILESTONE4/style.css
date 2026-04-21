@@ -31,6 +31,7 @@ header {
   display: flex;
   gap: 30px;
   padding: 0 20px; 
+  align-items: flex-start; /* 🔥 IMPORTANT for sticky to work */
 }
 
 /* LEFT SIDE */
@@ -41,16 +42,18 @@ header {
   gap: 40px;
 }
 
-/* RIGHT SIDE (STICKY FIX) */
+/* RIGHT SIDE (FIXED STICKY) */
 .right-column {
   flex: 1;
-  position: sticky;
-  top: 20px;
-  align-self: flex-start;
-  height: fit-content; /* IMPORTANT FIX */
 }
 
-/* SEARCH BAR */
+/* 🔥 THIS is the REAL sticky fix */
+.movie-details {
+  position: sticky;
+  top: 20px;
+}
+
+/* SEARCH */
 .search-section {
   display: flex;
   gap: 10px;
@@ -71,7 +74,7 @@ header {
   border: none;
 }
 
-/* MAIN BOXES */
+/* BOXES */
 .search-results,
 .categories,
 .movie-details { 
@@ -82,54 +85,31 @@ header {
   text-align: center;
 }
 
-/* COLLECTION SECTIONS (FIX VISUAL SEPARATION) */
+/* COLLECTION VIEW SPACING (FIXED) */
 #collectionView {
   display: flex;
   flex-direction: column;
-  gap: 80px; /* space between Action & Horror */
+  gap: 60px; /* reasonable spacing */
 }
 
+/* ONLY SECTION BOX STYLE (NOT GRID) */
 #collectionView .categories {
   background: white;
   border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 25px;
+  border-radius: 8px;
+  padding: 20px;
 }
 
-/* CATEGORY TITLES */
-.categories h2 {
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #eee;
-}
-
-/* GRID VIEW */
+/* GRID (DO NOT TOUCH SPACING HERE TOO MUCH) */
 #resultsGrid,
 .category-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 20px;
+  gap: 15px;
   margin-top: 20px;
 }
 
-/* LIST VIEW SUPPORT */
-.list-view {
-  display: flex !important;
-  flex-direction: column;
-}
-
-.list-view .movie-card {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  text-align: left;
-}
-
-.list-view .movie-card img {
-  width: 80px;
-}
-
-/* MOVIE CARDS */
+/* MOVIE CARD */
 .movie-card {
   background: #fff;
   border: 1px solid #ddd;
@@ -150,7 +130,7 @@ header {
   margin-top: 10px;
 }
 
-/* MOVIE DETAILS IMAGE */
+/* DETAILS IMAGE */
 #movieDetails img { 
   width: 100%;
   max-width: 300px;
@@ -172,7 +152,6 @@ header {
   border: 1px solid #ddd;
   background: white;
   cursor: pointer;
-  transition: 0.2s;
 }
 
 .page-btn:hover {
@@ -182,11 +161,9 @@ header {
 .page-btn.active {
   background: black;
   color: white;
-  border-color: black;
-  font-weight: bold;
 }
 
-/* VIEW TOGGLE BUTTONS */
+/* VIEW TOGGLE */
 .view-toggle {
   display: flex;
   justify-content: center;
@@ -206,20 +183,14 @@ header {
   color: white;
 }
 
-/* FOOTER */
-footer { 
-  text-align: center;
-}
-
-/* RESPONSIVE DESIGN */
+/* RESPONSIVE */
 @media (max-width: 900px) {
-
   .container {
     flex-direction: column;
   }
 
-  .right-column {
-    position: static;
+  .movie-details {
+    position: static; /* sticky off on mobile */
   }
 
   #resultsGrid,
@@ -229,23 +200,6 @@ footer {
 }
 
 @media (max-width: 600px) {
-
-  .search-section {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  #searchInput {
-    width: 100%;
-    max-width: 300px;
-  }
-
-  #searchBtn,
-  #collectionBtn {
-    width: 100%;
-    max-width: 300px;
-  }
-
   #resultsGrid,
   .category-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -253,7 +207,6 @@ footer {
 }
 
 @media (max-width: 400px) {
-
   #resultsGrid,
   .category-grid {
     grid-template-columns: 1fr;
