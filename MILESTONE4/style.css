@@ -201,3 +201,49 @@ header {
 footer { 
   text-align: center; 
 }
+
+
+/* ─── RESPONSIVE: MOBILE SUPPORT ─────────────────────────────────────────── */
+
+@media (max-width: 900px) { /* Tablet and below */
+
+  .container { 
+    flex-direction: column; /* Stack columns vertically */
+    padding: 0 15px; 
+  }
+
+  .right-column { 
+    position: static; /* Remove sticky on mobile */
+    width: 100%; /* Full width */
+  }
+
+  .grid-view,
+  #resultsGrid,
+  .category-grid { 
+    grid-template-columns: repeat(3, 1fr); /* 3 columns on tablet */
+  }
+
+}
+
+@media (max-width: 600px) { /* Mobile phones */
+
+  #searchInput { 
+    width: 100%; /* Full width input */
+  }
+
+  .search-section { 
+    flex-direction: column; /* Stack input and button */
+    align-items: stretch; /* Full width both */
+  }
+
+  .grid-view,
+  #resultsGrid,
+  .category-grid { 
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
+  }
+
+  header { 
+    padding: 30px 15px; /* Less padding on mobile */
+  }
+
+}
