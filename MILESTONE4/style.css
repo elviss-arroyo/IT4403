@@ -111,7 +111,7 @@ header {
   border: 1px solid #ccc;
   background: white;
   cursor: pointer;
-  width: auto; /* 🔥 FIX STRETCH */
+  width: auto; 
 }
 
 .view-btn.active {
