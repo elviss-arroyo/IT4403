@@ -1,52 +1,74 @@
-<!DOCTYPE html> 
-<html lang="en"> 
-<head> 
-    <meta charset="UTF-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Milestone 3 - TMDB AJAX Movie App</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.2.0/mustache.min.js"></script>
 </head>
 <body>
+
 <header>
-    <h1>Milestone 4 - TMDB AJAX Movie App</h1>
-    <p>TMDB Movie Browser</p> 
+    <h1>Milestone 3 - TMDB AJAX Movie App</h1>
+    <p>Search movies and explore categories — click any movie to view details.</p>
 </header>
-<main class="container"> 
-    <div class="left-column">
-        <section class="search-section">
-            <input type="text" id="searchInput" placeholder="Search for a movie...">
-            <button id="searchBtn">Search</button>
-        </section>
-        <section class="search-results">
-            <h2>Search Results</h2>
-            <div id="resultsGrid"></div>
-        </section>
-        <section class="categories">
-            <h2>Action Movies</h2>
-            <div id="actionMovies" class="category-grid"></div>
-            <h2>Horror Movies</h2>
-            <div id="horrorMovies" class="category-grid"></div>
-        </section>
+
+<main class="container">
+
+    <!-- SEARCH BAR -->
+    <div class="search-section">
+        <input type="text" id="searchInput" placeholder="Search for a movie...">
+        <button id="searchBtn">Search</button>
     </div>
-  
-    <div class="right-column">
-        <section class="movie-details">
+
+    <div class="layout">
+
+        <!-- LEFT COLUMN -->
+        <div class="left-column">
+
+            <!-- SEARCH RESULTS -->
+            <section class="panel search-results">
+                <h2>Search Results</h2>
+                <div id="resultsGrid" class="category-grid"></div>
+            </section>
+
+            <!-- ACTION MOVIES -->
+            <section class="panel categories">
+                <h2>Action Movies</h2>
+                <div id="actionMovies" class="category-grid"></div>
+            </section>
+
+            <!-- HORROR MOVIES -->
+            <section class="panel categories">
+                <h2>Horror Movies</h2>
+                <div id="horrorMovies" class="category-grid"></div>
+            </section>
+
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="right-column panel movie-details">
             <h2>Movie Details</h2>
             <div id="movieDetails">
                 <p>Select a movie to see details</p>
             </div>
-        </section>
+        </div>
+
     </div>
 </main>
 
 <!-- ======= MUSTACHE TEMPLATES ======= -->
 
-<!-- Template: Movie Card (used for search results AND category grids) -->
+<!-- Template: Movie Card -->
 <script id="movie-card-template" type="text/template">
     {{#movies}}
-    <div class="movie-card" data-id="{{id}}" data-title="{{title}}" data-release="{{release_date}}" data-rating="{{vote_average}}" data-overview="{{overview}}" data-poster="{{poster_path}}">
+    <div class="movie-card" data-id="{{id}}">
         <img src="{{poster}}" alt="{{title}}">
-        <p>{{title}}</p>
+        <div class="movie-info">
+            <p class="movie-title">{{title}}</p>
+        </div>
     </div>
     {{/movies}}
 </script>
@@ -55,12 +77,12 @@
 <script id="movie-details-template" type="text/template">
     <img src="{{poster}}" alt="{{title}}">
     <h3>{{title}}</h3>
-    <p><strong>Release:</strong> {{release_date}}</p>
+    <p><strong>Release Date:</strong> {{release_date}}</p>
     <p><strong>Rating:</strong> {{vote_average}}</p>
-    <p>{{overview}}</p>
+    <p><strong>Overview:</strong> {{overview}}</p>
 </script>
 
-<!-- Template: Pagination Buttons -->
+<!-- Template: Pagination -->
 <script id="pagination-template" type="text/template">
     <div class="pagination">
         {{#pages}}
@@ -69,9 +91,6 @@
     </div>
 </script>
 
-<!-- ======= SCRIPTS ======= -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.2.0/mustache.min.js"></script>
 <script src="movie.js"></script>
 </body>
 </html>
