@@ -7,6 +7,9 @@ $(document).ready(function () {
 
     let currentSearchResults = []; // store for click access
 
+    let currentView = "grid"; //  grid or list view
+
+
     $("#searchBtn").click(function () { 
         currentQuery = $("#searchInput").val().trim(); // Get input value
 
@@ -38,6 +41,7 @@ $(document).ready(function () {
     }
 
 
+
     function displayMovies(movies, container) { // Show movies in grid
 
         $(container).empty(); // Clear previous results
@@ -54,7 +58,8 @@ $(document).ready(function () {
                 id: movie.id,
                 index: index,
                 title: movie.title,
-                poster: poster
+                poster: poster,
+                viewClass: currentView // 
             };
         });
 
@@ -62,7 +67,15 @@ $(document).ready(function () {
         let html = Mustache.render(template, { movies: formattedMovies });
 
         $(container).html(html);
+
+     
+        if (currentView === "list") {
+            $(container).removeClass("grid-view").addClass("list-view");
+        } else {
+            $(container).removeClass("list-view").addClass("grid-view");
+        }
     }
+
 
 
     function showDetails(movie) { // Show selected movie
@@ -124,8 +137,33 @@ $(document).ready(function () {
     }
 
 
-   
-    // ACTION MOVIES
+
+    $("#gridViewBtn").click(function () {
+        currentView = "grid"; // switch mode
+
+        $("#gridViewBtn").addClass("active-view");
+        $("#listViewBtn").removeClass("active-view");
+
+        displayMovies(currentSearchResults, "#resultsGrid");
+        displayMovies(currentSearchResults, "#actionMovies");
+        displayMovies(currentSearchResults, "#horrorMovies");
+    });
+
+
+    $("#listViewBtn").click(function () {
+        currentView = "list"; // switch mode
+
+        $("#listViewBtn").addClass("active-view");
+        $("#gridViewBtn").removeClass("active-view");
+
+        displayMovies(currentSearchResults, "#resultsGrid");
+        displayMovies(currentSearchResults, "#actionMovies");
+        displayMovies(currentSearchResults, "#horrorMovies");
+    });
+
+
+
+
     $.get("https://api.themoviedb.org/3/discover/movie", {
         api_key: API_KEY, // API key
         with_genres: 28 // Action genre
@@ -139,10 +177,6 @@ $(document).ready(function () {
         console.error("Action movies API error"); // error
     });
 
-
-
-
-    // HORROR MOVIES
     $.get("https://api.themoviedb.org/3/discover/movie", {
         api_key: API_KEY, // API key
         with_genres: 27 // Horror genre
