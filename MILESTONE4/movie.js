@@ -6,6 +6,8 @@ $(document).ready(function () {
     let currentPage = 1;
     let layout = "grid";
 
+    let currentSearch = [];
+
     $("#searchView").show();
     $("#collectionView").hide();
 
@@ -28,19 +30,19 @@ $(document).ready(function () {
         $("#searchView").hide();
         $("#collectionView").show();
 
-        $("#actionMovies").empty();
-        $("#horrorMovies").empty();
-
-        $.get("https://api.themoviedb.org/3/discover/movie", {
-            api_key: API_KEY,
-            with_genres: 28
-        }).done(data => displayMovies(data.results, "#actionMovies"));
-
-        $.get("https://api.themoviedb.org/3/discover/movie", {
-            api_key: API_KEY,
-            with_genres: 27
-        }).done(data => displayMovies(data.results, "#horrorMovies"));
+        loadCollection(28, "#actionMovies"); // action
+        loadCollection(27, "#horrorMovies"); // horror
     });
+
+    function loadCollection(genre, container) {
+
+        $.get("https://api.themoviedb.org/3/discover/movie", {
+            api_key: API_KEY,
+            with_genres: genre
+        }).done(data => {
+            renderMovies(data.results, container);
+        });
+    }
 
     /* ================= SEARCH API ================= */
     function searchMovies() {
@@ -51,54 +53,67 @@ $(document).ready(function () {
             page: currentPage
         }).done(data => {
 
-            displayMovies(data.results, "#resultsGrid");
+            currentSearch = data.results;
+            renderMovies(currentSearch, "#resultsGrid");
             buildControls(data.total_pages);
         });
     }
 
-    /* ================= DISPLAY ================= */
-    function displayMovies(movies, container) {
+    /* ================= MUSTACHE FORMAT ================= */
+    function formatMovies(movies) {
 
-        $(container).empty();
-
-        if (!movies) return;
-
-        movies.slice(0, 10).forEach(movie => {
-
-            let poster = movie.poster_path
+        return movies.slice(0, 10).map(movie => ({
+            id: movie.id,
+            title: movie.title,
+            poster: movie.poster_path
                 ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
-                : "https://via.placeholder.com/200x300";
+                : "https://via.placeholder.com/200x300"
+        }));
+    }
 
-            let card = $(`
-                <div class="movie-card">
-                    <img src="${poster}">
-                    <p>${movie.title}</p>
-                </div>
-            `);
+    /* ================= RENDER MOVIES (MUSTACHE) ================= */
+    function renderMovies(movies, container) {
 
-            card.click(() => showDetails(movie));
-            $(container).append(card);
-        });
+        const template = $("#movie-card-template").html();
+
+        const data = {
+            movies: formatMovies(movies)
+        };
+
+        $(container).html(Mustache.render(template, data));
 
         applyLayout();
     }
 
-    /* ================= DETAILS ================= */
+    /* ================= DETAILS (MUSTACHE) ================= */
     function showDetails(movie) {
 
-        let poster = movie.poster_path
-            ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
-            : "https://via.placeholder.com/300x450";
+        const template = $("#movie-details-template").html();
 
-        $("#movieDetails").html(`
-            <img src="${poster}">
-            <h3>${movie.title}</h3>
-            <p><b>Release:</b> ${movie.release_date || "N/A"}</p>
-            <p><b>Rating:</b> ${movie.vote_average}</p>
-            <p><b>Language:</b> ${movie.original_language?.toUpperCase() || "N/A"}</p>
-            <p>${movie.overview || "No description"}</p>
-        `);
+        const data = {
+            poster: movie.poster_path
+                ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+                : "https://via.placeholder.com/300x450",
+            title: movie.title,
+            release_date: movie.release_date || "N/A",
+            vote_average: movie.vote_average,
+            language: movie.original_language?.toUpperCase() || "N/A",
+            overview: movie.overview || "No description"
+        };
+
+        $("#movieDetails").html(Mustache.render(template, data));
     }
+
+    /* ================= CLICK EVENT ================= */
+    $(document).on("click", ".movie-card", function () {
+
+        const id = $(this).data("id");
+
+        const movie =
+            currentSearch.find(m => m.id === id);
+
+        if (movie) showDetails(movie);
+    });
 
     /* ================= CONTROLS ================= */
     function buildControls(totalPages) {
@@ -127,7 +142,7 @@ $(document).ready(function () {
         /* view toggle */
         let toggle = $(`
             <div class="view-toggle">
-                <button id="gridBtn" class="view-btn">Grid</button>
+                <button id="gridBtn" class="view-btn active">Grid</button>
                 <button id="listBtn" class="view-btn">List</button>
             </div>
         `);
@@ -146,8 +161,6 @@ $(document).ready(function () {
         wrapper.append(toggle);
 
         $("#controls").append(wrapper);
-
-        applyLayout();
     }
 
     /* ================= LAYOUT ================= */
@@ -155,12 +168,8 @@ $(document).ready(function () {
 
         if (layout === "list") {
             $("#resultsGrid, .category-grid").addClass("list-view");
-            $("#gridBtn").removeClass("active");
-            $("#listBtn").addClass("active");
         } else {
             $("#resultsGrid, .category-grid").removeClass("list-view");
-            $("#listBtn").removeClass("active");
-            $("#gridBtn").addClass("active");
         }
     }
 
