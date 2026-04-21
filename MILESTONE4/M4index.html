@@ -1,4 +1,4 @@
- <!DOCTYPE html> 
+<!DOCTYPE html> 
 <html lang="en"> 
 
 <head> 
@@ -60,10 +60,33 @@
 
     </div>
 
-</main>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!--  jQuery  -->
-<script src="movie.js"></script> <!--  js file -->
+
+<!-- Movie Cards Template (Search + Action + Horror) -->
+<script id="movie-card-template" type="x-tmpl-mustache">
+{{#movies}}
+<div class="movie-card" data-index="{{index}}">
+    <img src="{{poster}}" alt="{{title}}">
+    <p>{{title}}</p>
+</div>
+{{/movies}}
+</script>
+
+<!-- Movie Details Template -->
+<script id="movie-details-template" type="x-tmpl-mustache">
+<img src="{{poster}}" alt="{{title}}">
+<h3>{{title}}</h3>
+<p><strong>Release:</strong> {{release_date}}</p>
+<p><strong>Rating:</strong> {{vote_average}}</p>
+<p>{{overview}}</p>
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery -->
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.2.0/mustache.min.js"></script>
+
+<script src="movie.js"></script> <!-- JS file -->
 
 </body>
 
