@@ -43,6 +43,8 @@ $(document).ready(function () {
                 title: movie.title || "Untitled",
                 release_date: movie.release_date || "N/A",
                 vote_average: movie.vote_average || "N/A",
+                original_language: movie.original_language || "N/A",
+                popularity: movie.popularity ? movie.popularity.toFixed(1) : "N/A",
                 overview: movie.overview || "No description available.",
                 poster: buildPoster(movie.poster_path),
                 viewClass: currentView === "list" ? "movie-list-item" : "",
