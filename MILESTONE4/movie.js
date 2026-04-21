@@ -74,13 +74,15 @@ $(document).ready(function () {
 /* ================= MUSTACHE RENDER ================= */
 function renderMovies(movies, container) {
     const template = $("#movie-template").html();
-    
-    // 1. Slice the array to get only the first 10
-    const limitedMovies = movies.slice(0, 10);
 
-    // 2. Pass limitedMovies (NOT movies) to formatMovies
+  
+    const slicedMovies = movies.slice(0, 10);
+
+
+    const formattedData = formatMovies(slicedMovies);
+
     const html = Mustache.render(template, {
-        movies: formatMovies(limitedMovies) 
+        movies: formattedData
     });
 
     $(container).html(html);
