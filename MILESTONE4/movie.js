@@ -1,222 +1,144 @@
-$(document).ready(function () { 
+$(document).ready(function () {
 
+    const API_KEY = "4ecce31518d3c79af6da91dc53d038d5";
 
-    const API_KEY = "4ecce31518d3c79af6da91dc53d038d5"; // TMDB API key
+    let currentQuery = "";
+    let currentPage = 1;
+    let collectionsLoaded = false;
 
+    // DEFAULT VIEW
+    $("#searchView").show();
+    $("#collectionView").hide();
 
-    let currentQuery = ""; 
+    // SEARCH BUTTON
+    $("#searchBtn").click(function () {
 
-    let currentPage = 1;  
+        $("#collectionView").hide();
+        $("#searchView").show();
 
+        currentQuery = $("#searchInput").val().trim();
 
+        if (!currentQuery) return;
 
-    $("#searchBtn").click(function () { 
-
-        currentQuery = $("#searchInput").val().trim(); // Get input value
-
-
-        if (!currentQuery) return; // Stop if empty
-
-
-        currentPage = 1; 
-
-        searchMovies(); // Run search
-
+        currentPage = 1;
+        searchMovies();
     });
 
+    // COLLECTION BUTTON
+    $("#collectionBtn").click(function () {
 
-    function searchMovies() { // Fetch movies from API
+        $("#searchView").hide();
+        $("#collectionView").show();
 
+        if (!collectionsLoaded) {
 
-        $.get("https://api.themoviedb.org/3/search/movie", {
-
-            api_key: API_KEY, // API key
-
-            query: currentQuery, // Search text
-
-            page: currentPage // Page number
-
-        })
-
-        .done(function (data) { // If request succeeds
-
-
-            displayMovies(data.results, "#resultsGrid"); // Show movies
-
-
-            createPagination(data.total_pages); // Create page buttons
-
-
-        })
-
-        .fail(function () { // If request fails
-
-            console.error("Search API Error"); // Log error
-
-        });
-
-    }
-
-
-
-    function displayMovies(movies, container) { // Show movies in grid
-
-
-        $(container).empty(); // Clear previous results
-
-
-        if (!movies) return; // Stop if no data
-
-
-        movies.slice(0, 10).forEach(movie => { // first 10 movies
-
-
-            let poster = movie.poster_path
-
-                ? `https://image.tmdb.org/t/p/w200${movie.poster_path}` // imnage
-
-                : "https://via.placeholder.com/200x300?text=No+Image"; // Placeholder
-
-
-            let card = $(`
-
-                <div class="movie-card">
-
-                    <img src="${poster}">
-
-                    <p>${movie.title}</p>
-
-                </div>
-
-            `); // Create movie card
-
-
-            card.click(function () { // When clicked
-
-                showDetails(movie); // Show details
-
+            // ACTION MOVIES
+            $.get("https://api.themoviedb.org/3/discover/movie", {
+                api_key: API_KEY,
+                with_genres: 28
+            })
+            .done(function (data) {
+                displayMovies(data.results, "#actionMovies");
             });
 
+            // HORROR MOVIES
+            $.get("https://api.themoviedb.org/3/discover/movie", {
+                api_key: API_KEY,
+                with_genres: 27
+            })
+            .done(function (data) {
+                displayMovies(data.results, "#horrorMovies");
+            });
 
-            $(container).append(card); // Add to page
+            collectionsLoaded = true;
+        }
+    });
 
+    // SEARCH FUNCTION
+    function searchMovies() {
+
+        $.get("https://api.themoviedb.org/3/search/movie", {
+            api_key: API_KEY,
+            query: currentQuery,
+            page: currentPage
+        })
+        .done(function (data) {
+            displayMovies(data.results, "#resultsGrid");
+            createPagination(data.total_pages);
+        })
+        .fail(function () {
+            console.error("Search API Error");
         });
-
     }
 
+    // DISPLAY MOVIES
+    function displayMovies(movies, container) {
 
+        $(container).empty();
 
-    function showDetails(movie) { // Show selected movie
+        if (!movies) return;
 
+        movies.slice(0, 10).forEach(movie => {
+
+            let poster = movie.poster_path
+                ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
+                : "https://via.placeholder.com/200x300?text=No+Image";
+
+            let card = $(`
+                <div class="movie-card">
+                    <img src="${poster}">
+                    <p>${movie.title}</p>
+                </div>
+            `);
+
+            card.click(function () {
+                showDetails(movie);
+            });
+
+            $(container).append(card);
+        });
+    }
+
+    // MOVIE DETAILS
+    function showDetails(movie) {
 
         let poster = movie.poster_path
-
-            ? `https://image.tmdb.org/t/p/w300${movie.poster_path}` // image
-
-            : "https://via.placeholder.com/300x450?text=No+Image"; // Placeholder
-
+            ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+            : "https://via.placeholder.com/300x450?text=No+Image";
 
         $("#movieDetails").html(`
-
-            <img src="${poster}" alt="${movie.title}">
-
+            <img src="${poster}">
             <h3>${movie.title}</h3>
-
             <p><strong>Release:</strong> ${movie.release_date || "N/A"}</p>
-
             <p><strong>Rating:</strong> ${movie.vote_average}</p>
-
             <p>${movie.overview || "No description available."}</p>
-
-        `); 
-
+        `);
     }
 
-
-
-
-    function createPagination(totalPages) { //  page buttons
-
+    // PAGINATION
+    function createPagination(totalPages) {
 
         $("#resultsGrid .pagination").remove();
 
-
         let pagination = $('<div class="pagination"></div>');
 
+        for (let i = 1; i <= Math.min(totalPages, 5); i++) {
 
-        for (let i = 1; i <= Math.min(totalPages, 5); i++) { //  pages 5
+            let btn = $(`<button class="page-btn">${i}</button>`);
 
-
-            let btn = $(`<button class="page-btn">${i}</button>`); // Create button
-
-
-            if (i === currentPage) { // If active page
-
-                btn.addClass("active"); // Highlight it
-
+            if (i === currentPage) {
+                btn.addClass("active");
             }
 
-
-            btn.click(function () { // On click
-
-                currentPage = i; // Set page
-
-                searchMovies(); // Reload results
-
+            btn.click(function () {
+                currentPage = i;
+                searchMovies();
             });
 
-
-            pagination.append(btn); // Add button
-
+            pagination.append(btn);
         }
 
-
-        $("#resultsGrid").append(pagination); 
-
+        $("#resultsGrid").append(pagination);
     }
-
-
-
-    $.get("https://api.themoviedb.org/3/discover/movie", {
-
-        api_key: API_KEY, // API key
-
-        with_genres: 28 // Action genre
-
-    })
-
-    .done(function (data) { // success
-
-        displayMovies(data.results, "#actionMovies"); // Show action movies
-
-    })
-
-    .fail(function () { // fail
-
-        console.error("Action movies API error"); // error
-
-    });
-
-
-    $.get("https://api.themoviedb.org/3/discover/movie", {
-
-        api_key: API_KEY, // API key
-
-        with_genres: 27 // Horror genre
-
-    })
-
-    .done(function (data) { // success
-
-        displayMovies(data.results, "#horrorMovies"); // Show horror movies
-
-    })
-
-    .fail(function () { // fail
-
-        console.error("Horror movies API error"); // error
-
-    });
-
 
 });
