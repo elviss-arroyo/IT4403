@@ -54,35 +54,7 @@ header {
   border-radius: 4px;
 }
 
-/* ======= TABS ======= */
-
-.tab-bar {
-  display: flex;
-  gap: 10px;
-}
-
-.tab-btn {
-  padding: 8px 18px;
-  cursor: pointer;
-  border: 1px solid #ddd;
-  background: white;
-  border-radius: 4px;
-  font-size: 14px;
-  transition: background 0.2s;
-}
-
-.tab-btn:hover {
-  background: #f0f0f0;
-}
-
-.tab-btn.active-tab {
-  background: #222;
-  color: white;
-  border-color: #222;
-  font-weight: bold;
-}
-
-/* ======= SECTION HEADER (title + view toggle) ======= */
+/* ======= SECTION HEADER ======= */
 
 .section-header {
   display: flex;
@@ -126,7 +98,7 @@ header {
 }
 
 .left-column {
-  min-width: 0; /* Prevents grid blowout */
+  min-width: 0;
 }
 
 .right-column {
