@@ -11,48 +11,66 @@
 <body>
 
 <header>
-    <h1>Milestone 33 - TMDB AJAX Movie App</h1>
+    <h1>Milestone 3 - TMDB AJAX Movie App</h1>
     <p>Search movies and explore categories — click any movie to view details.</p>
 </header>
 
 <main class="container">
 
     <!-- SEARCH BAR -->
-    <div class="search-section">
-        <input type="text" id="searchInput" placeholder="Search for a movie...">
-        <button id="searchBtn">Search</button>
+    <div class="panel search-section">
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search for a movie...">
+            <button id="searchBtn">Search</button>
+        </div>
     </div>
 
+    <!-- MAIN LAYOUT -->
     <div class="layout">
 
         <!-- LEFT COLUMN -->
         <div class="left-column">
 
-            <!-- SEARCH RESULTS -->
-            <section class="panel search-results">
-                <h2>Search Results</h2>
-                <div id="resultsGrid" class="category-grid"></div>
-            </section>
+            <!-- TAB BUTTONS -->
+            <div class="panel tab-bar">
+                <button id="showSearchTab" class="tab-btn active-tab">Search Results</button>
+                <button id="showBookshelfTab" class="tab-btn">Bookshelf</button>
+            </div>
 
-            <!-- ACTION MOVIES -->
-            <section class="panel categories">
-                <h2>Action Movies</h2>
-                <div id="actionMovies" class="category-grid"></div>
-            </section>
+            <!-- SEARCH TAB -->
+            <div id="searchTab">
+                <div class="panel">
+                    <div class="section-header">
+                        <h2>Search Results</h2>
+                        <div class="view-toggle">
+                            <button id="gridViewBtn" class="toggle-btn active-view">Grid</button>
+                            <button id="listViewBtn" class="toggle-btn">List</button>
+                        </div>
+                    </div>
+                    <div id="resultsGrid" class="movie-grid"></div>
+                    <div id="pagination"></div>
+                </div>
+            </div>
 
-            <!-- HORROR MOVIES -->
-            <section class="panel categories">
-                <h2>Horror Movies</h2>
-                <div id="horrorMovies" class="category-grid"></div>
-            </section>
+            <!-- BOOKSHELF TAB (hidden by default) -->
+            <div id="bookshelfTab" style="display:none;">
+                <div class="panel">
+                    <h2>Action Movies</h2>
+                    <div id="actionMovies" class="movie-grid"></div>
+                </div>
+                <div class="panel">
+                    <h2>Horror Movies</h2>
+                    <div id="horrorMovies" class="movie-grid"></div>
+                </div>
+            </div>
 
         </div>
 
-        <!-- RIGHT COLUMN -->
-        <div class="right-column panel movie-details">
+        <!-- RIGHT COLUMN: DETAILS -->
+        <div class="right-column panel">
             <h2>Movie Details</h2>
             <div id="movieDetails">
-                <p>Select a movie to see details</p>
+                <p>Select a movie to see details.</p>
             </div>
         </div>
 
@@ -61,13 +79,16 @@
 
 <!-- ======= MUSTACHE TEMPLATES ======= -->
 
-<!-- Template: Movie Card -->
+<!-- Template: Movie Card (grid & list) -->
 <script id="movie-card-template" type="text/template">
     {{#movies}}
-    <div class="movie-card" data-id="{{id}}">
+    <div class="movie-card {{viewClass}}" data-id="{{id}}">
         <img src="{{poster}}" alt="{{title}}">
         <div class="movie-info">
             <p class="movie-title">{{title}}</p>
+            {{#showOverview}}
+            <p class="movie-overview">{{overview}}</p>
+            {{/showOverview}}
         </div>
     </div>
     {{/movies}}
@@ -88,6 +109,7 @@
         {{#pages}}
         <button class="page-btn {{#active}}active{{/active}}" data-page="{{number}}">{{number}}</button>
         {{/pages}}
+        <span class="page-indicator">Page {{currentPage}}</span>
     </div>
 </script>
 
