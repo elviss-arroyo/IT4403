@@ -72,6 +72,57 @@ header {
 }
 
 
+
+.view-section {
+  text-align: center;
+}
+
+.view-section button {
+  padding: 8px 15px;
+  margin: 5px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  background: white;
+}
+
+.view-section button.active-view {
+  background: black;
+  color: white;
+  font-weight: bold;
+}
+
+
+
+
+/* GRID VIEW (DEFAULT) */
+.grid-view {
+  display: grid; 
+  grid-template-columns: repeat(5, 1fr); 
+  gap: 20px; 
+}
+
+/* LIST VIEW */
+.list-view {
+  display: flex; 
+  flex-direction: column; 
+  gap: 15px; 
+}
+
+.list-view .movie-card {
+  display: flex; 
+  align-items: center; 
+  gap: 15px; 
+  text-align: left; 
+}
+
+.list-view .movie-card img {
+  width: 80px; 
+  height: 120px; 
+  object-fit: cover; 
+}
+
+
+
 .search-results,
 .categories,
 .movie-details { 
