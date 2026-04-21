@@ -115,44 +115,40 @@ $(document).ready(function () {
     });
 
     /* ================= MUSTACHE PAGINATION (FIXED) ================= */
-    function buildControls(totalPages) {
-
-        const template = $("#controls-template").html();
-
-        let pages = [];
-
-        for (let i = 1; i <= Math.min(totalPages, 5); i++) {
-            pages.push({
-                number: i,
-                active: i === currentPage ? "active" : ""
-            });
-        }
-
-        const html = Mustache.render(template, {
-            pages: pages
+function buildControls(totalPages) {
+    const template = $("#controls-template").html();
+    
+    // 1. Create the data for Mustache
+    const pages = [];
+    for (let i = 1; i <= Math.min(totalPages, 5); i++) {
+        pages.push({
+            number: i,
+            active: i === currentPage ? "active" : ""
         });
-
-        $("#controls").html(html);
-
-        /* EVENTS AFTER RENDER */
-        $(".page-btn").click(function () {
-            currentPage = $(this).data("page");
-            searchMovies();
-        });
-
-        $("#gridBtn").click(function () {
-            layout = "grid";
-            applyLayout();
-        });
-
-        $("#listBtn").click(function () {
-            layout = "list";
-            applyLayout();
-        });
-
-        applyLayout();
     }
 
+    // 2. Render the template
+    const html = Mustache.render(template, { pages: pages });
+    $("#controls").html(html);
+
+    // 3. Re-attach the click events (since Mustache replaced the HTML)
+    $(".page-btn").click(function() {
+        currentPage = parseInt($(this).data("page"));
+        searchMovies();
+    });
+
+    $("#gridBtn").click(() => {
+        layout = "grid";
+        applyLayout();
+    });
+
+    $("#listBtn").click(() => {
+        layout = "list";
+        applyLayout();
+    });
+
+    applyLayout();
+}
     /* ================= GRID / LIST ================= */
     function applyLayout() {
 
