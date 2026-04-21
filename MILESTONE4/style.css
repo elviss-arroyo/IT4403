@@ -262,10 +262,11 @@ header {
 
 }
 
-.categories {
-  margin-bottom: 40px;
-  border: 2px solid #ccc;
-  border-radius: 8px;
+#collectionView .categories {
+  margin-bottom: 40px;   /* space between Action & Horror */
+  border: 2px solid #ccc; 
+  border-radius: 8px;     /* makes it look cleaner */
+
 }
 
 footer { 
