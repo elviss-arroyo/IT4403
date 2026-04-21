@@ -1,152 +1,171 @@
 :root { 
-  --background: #F0F0F0; /*  gray color */
-  --text: #000000; /*  text */
-  --dim-text: #555555; /* dimm text color */
-  --hover: #A9A9A9; /* Hover  color */
+  --background: #F0F0F0; 
+  --text: #000000; 
+  --dim-text: #555555; 
+  --hover: #A9A9A9; 
 }
-
 
 * { 
   box-sizing: border-box; 
 }
 
-
 body { 
-  background-color: var(--background); /* Set background color */
-  color: var(--text); /* Set text color */
-  font-family: "Inter", sans-serif; /* Set font */
-  margin: 0; /* Remove default margin */
+  background-color: var(--background); 
+  color: var(--text); 
+  font-family: "Inter", sans-serif; 
+  margin: 0; 
   overflow-x: hidden; 
 }
 
-
 header { 
-  padding: 50px 0; /* Add  spacing */
-  text-align: center; /* Center text */
+  padding: 50px 0; 
+  text-align: center; 
 }
 
-
 .container { 
-  width: 100%; /* width */
-  max-width: 1300px; /* max width */
-  margin: 0 auto; /* Center  */
-  display: flex; /* Use flexbox layout */
-  gap: 30px; /* Space between columns */
+  width: 100%; 
+  max-width: 1300px; 
+  margin: 0 auto; 
+  display: flex; 
+  gap: 30px; 
   padding: 0 20px; 
 }
 
-
-.left-column { /* Left side of page */
-  flex: 2; /* Takes more space than right column */
-  display: flex; /* Use flexbox */
-  flex-direction: column; /* Stack items vertically */
-  gap: 40px; /* Space between sections */
-}
-
-
-.right-column { /* Right side panel */
-  flex: 1; /* Smaller than left column */
-  position: sticky; /* Sticks while scrolling */
-  top: 20px; /* Distance from top when stuck */
-  align-self: flex-start; /* Align to top */
-}
-
-
-.search-section { /* Search bar container */
+.left-column { 
+  flex: 2; 
   display: flex; 
-  gap: 10px; /* Space between input and button */
-  justify-content: center; /* Center search bar */
+  flex-direction: column; 
+  gap: 40px; 
 }
 
-#searchInput { /* Search input field */
-  padding: 10px; /*  spacing */
-  width: 300px; /*  width */
+.right-column { 
+  flex: 1; 
+  position: sticky; 
+  top: 20px; 
+  align-self: flex-start; 
 }
 
-#searchBtn { /* Search button */
-  padding: 10px 20px; /* Button size */
-  cursor: pointer; /* Show pointer on hover */
-  background: black; /* Black background */
-  color: white; /* White text */
-  border: none; /* border */
+.search-section { 
+  display: flex; 
+  gap: 10px; 
+  justify-content: center; 
 }
 
+#searchInput { 
+  padding: 10px; 
+  width: 300px; 
+}
+
+#searchBtn { 
+  padding: 10px 20px; 
+  cursor: pointer; 
+  background: black; 
+  color: white; 
+  border: none; 
+}
 
 .search-results,
 .categories,
 .movie-details { 
-  width: 100%; /*  width */
-  background: #fff; /* White background */
-  border: 1px solid #ddd; /* Light border */
-  padding: 20px; /* Inner spacing */
-  text-align: center; /* Center  */
+  width: 100%; 
+  background: #fff; 
+  border: 1px solid #ddd; 
+  padding: 20px; 
+  text-align: center; 
 }
 
 #resultsGrid,
-.category-grid { /* Movie grids */
-  display: grid; /* Use grid layout */
-  grid-template-columns: repeat(5, 1fr); /* 5 columns */
-  gap: 20px; /* Space between cards */
-  margin-top: 20px; /* Space above grid */
+.category-grid { 
+  display: grid; 
+  grid-template-columns: repeat(5, 1fr); 
+  gap: 20px; 
+  margin-top: 20px; 
 }
 
 .movie-card {
-  background: #fff; /* White background */
-  border: 1px solid #ddd; /* Light border */
-  padding: 10px; /* Inner spacing */
+  background: #fff; 
+  border: 1px solid #ddd; 
+  padding: 10px; 
   cursor: pointer; 
-  text-align: center; /* Center text */
+  text-align: center; 
 }
 
-.movie-card:hover { /* Hover effect */
-  background: var(--hover); /* Change background on hover */
+.movie-card:hover { 
+  background: var(--hover); 
 }
 
-.movie-card img { /* Movie image */
+.movie-card img { 
   width: 100%; 
 }
-.movie-card p { /* Movie title text */
+
+.movie-card p { 
   margin-top: 10px; 
 }
 
 #movieDetails img { 
-  width: 100%; /*  width */
+  width: 100%; 
   max-width: 300px; 
   margin: 0 auto 20px;
   display: block; 
 }
 
-
-
 .pagination { 
   margin-top: 20px; 
-  display: flex; /* Flex layout */
-  justify-content: center; /* Center buttons */
-  gap: 10px; /* Space between buttons */
-  flex-wrap: wrap; /* Wrap */
+  display: flex; 
+  justify-content: center; 
+  gap: 10px; 
+  flex-wrap: wrap; 
 }
 
 .page-btn { 
-  padding: 8px 12px; /* Button size */
-  border: 1px solid #ddd; /* Light border */
-  background: white; /* White background */
-  cursor: pointer; /* Clickable */
-  transition: 0.2s; /* hover effect */
+  padding: 8px 12px; 
+  border: 1px solid #ddd; 
+  background: white; 
+  cursor: pointer; 
+  transition: 0.2s; 
 }
 
-.page-btn:hover { /* Hover effect */
-  background: var(--hover); /*  color */
+.page-btn:hover { 
+  background: var(--hover); 
 }
 
-
-.page-btn.active { /* Highlight current page */
-  background: black; /* Black background */
-  color: white; /* White text */
-  border-color: black; /* Match border */
-  font-weight: bold; /* Bold  */
+.page-btn.active { 
+  background: black; 
+  color: white; 
+  border-color: black; 
+  font-weight: bold; 
 }
 
+/* --- TAB STYLING --- */
+.tab-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 15px;
+}
 
-footer { 
-  text-align: center; 
+.tab-btn {
+    padding: 10px 30px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.tab-btn.active {
+    background: black;
+    color: white;
+    border-color: black;
+}
+
+.tab-content {
+    display: none; /* Hide non-active tabs */
+}
+
+.tab-content.active {
+    display: block; /* Show active tab */
 }
