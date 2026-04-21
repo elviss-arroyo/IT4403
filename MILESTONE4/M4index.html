@@ -1,110 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Milestone 3 - TMDB AJAX Movie App</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.2.0/mustache.min.js"></script>
+<!DOCTYPE html> 
+<html lang="en"> 
+
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+
+    <title>Milestone 3 - TMDB AJAX Movie App</title> <!--  title -->
+
+    <link rel="stylesheet" href="style.css"> <!-- CSS file -->
 </head>
+
 <body>
 
-<header>
-    <h1>Milestone 3 - TMDB AJAX Movie App</h1>
-    <p>Search movies and explore categories — click any movie to view details.</p>
+<header> <!-- Top page -->
+    <h1>Milestone 3 - TMDB AJAX Movie App</h1> <!-- heading -->
+    <p>TMDB Movie Browser</p> 
 </header>
 
-<main class="container">
+<main class="container"> 
 
-    <!-- SEARCH BAR -->
-    <div class="panel search-section">
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search for a movie...">
-            <button id="searchBtn">Search</button>
-        </div>
-    </div>
 
-    <!-- MAIN LAYOUT -->
-    <div class="layout">
+    <div class="left-column"> <!-- Left side -->
 
-        <!-- LEFT COLUMN -->
-        <div class="left-column">
 
-            <!-- SEARCH RESULTS -->
-            <div class="panel">
-                <div class="section-header">
-                    <h2>Search Results</h2>
-                    <div class="view-toggle">
-                        <button id="gridViewBtn" class="toggle-btn active-view">Grid</button>
-                        <button id="listViewBtn" class="toggle-btn">List</button>
-                    </div>
-                </div>
-                <div id="resultsGrid" class="movie-grid"></div>
-                <div id="pagination"></div>
-            </div>
+        <section class="search-section"> <!-- Search input -->
+            <input type="text" id="searchInput" placeholder="Search for a movie..."> <!-- Search input -->
+            <button id="searchBtn">Search</button> <!-- Search button -->
+        </section>
 
-            <!-- ACTION MOVIES -->
-            <div class="panel">
-                <h2>Action Movies</h2>
-                <div id="actionMovies" class="movie-grid"></div>
-            </div>
+        <section class="search-results"> <!-- Section for search results -->
+            <h2>Search Results</h2> <!-- Section title -->
+            <div id="resultsGrid"></div> <!-- Container where search movies appear -->
+        </section>
 
-            <!-- HORROR MOVIES -->
-            <div class="panel">
-                <h2>Horror Movies</h2>
-                <div id="horrorMovies" class="movie-grid"></div>
-            </div>
 
-        </div>
+        <section class="categories"> <!-- Section for categories -->
 
-        <!-- RIGHT COLUMN: DETAILS -->
-        <div class="right-column panel">
-            <h2>Movie Details</h2>
-            <div id="movieDetails">
-                <p>Select a movie to see details.</p>
-            </div>
-        </div>
+            <h2>Action Movies</h2> <!-- Action section title -->
+            <div id="actionMovies" class="category-grid"></div> <!-- Action movies grid -->
+
+            <h2>Horror Movies</h2> <!-- Horror section title -->
+            <div id="horrorMovies" class="category-grid"></div> <!-- Horror movies grid -->
+
+        </section>
 
     </div>
+
+  
+    <div class="right-column"> <!-- Right side  -->
+
+        <section class="movie-details"> <!-- Movie details section -->
+            <h2>Movie Details</h2> 
+
+            <div id="movieDetails"> <!--  selected movie info  -->
+                <p>Select a movie to see details</p> <!-- Default -->
+            </div>
+
+        </section>
+
+    </div>
+
 </main>
 
-<!-- ======= MUSTACHE TEMPLATES ======= -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!--  jQuery  -->
+<script src="movie.js"></script> <!--  js file -->
 
-<!-- Template: Movie Card (grid & list) -->
-<script id="movie-card-template" type="text/template">
-    {{#movies}}
-    <div class="movie-card {{viewClass}}" data-id="{{id}}">
-        <img src="{{poster}}" alt="{{title}}">
-        <div class="movie-info">
-            <p class="movie-title">{{title}}</p>
-            {{#showOverview}}
-            <p class="movie-overview">{{overview}}</p>
-            {{/showOverview}}
-        </div>
-    </div>
-    {{/movies}}
-</script>
-
-<!-- Template: Movie Details Panel -->
-<script id="movie-details-template" type="text/template">
-    <img src="{{poster}}" alt="{{title}}">
-    <h3>{{title}}</h3>
-    <p><strong>Release Date:</strong> {{release_date}}</p>
-    <p><strong>Rating:</strong> {{vote_average}}</p>
-    <p><strong>Overview:</strong> {{overview}}</p>
-</script>
-
-<!-- Template: Pagination -->
-<script id="pagination-template" type="text/template">
-    <div class="pagination">
-        {{#pages}}
-        <button class="page-btn {{#active}}active{{/active}}" data-page="{{number}}">{{number}}</button>
-        {{/pages}}
-        <span class="page-indicator">Page {{currentPage}}</span>
-    </div>
-</script>
-
-<script src="movie.js"></script>
 </body>
+
 </html>
