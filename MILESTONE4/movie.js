@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    const API_KEY = "4ecce31518d3c79af6da91dc53d038d5"; // TMDB API key
-    const IMG = "https://image.tmdb.org/t/p/w200"; // base image URL
+    const API_KEY = "4ecce31518d3c79af6da91dc53d038d5"; 
+    const IMG = "https://image.tmdb.org/t/p/w200"; 
 
     let currentQuery = ""; 
     let currentPage = 1; 
@@ -21,6 +21,15 @@ $(document).ready(function () {
         searchMovies(); // call API search function
     });
 
+    $("#gridBtn").click(() => { // grid view button
+        layout = "grid"; // set grid mode
+        applyLayout(); // apply layout
+    });
+
+    $("#listBtn").click(() => { // list view button
+        layout = "list"; // set list mode
+        applyLayout(); // apply layout
+    });
 
     $("#collectionBtn").click(function () { // when collections clicked
         $("#searchView").hide(); // hide search view
@@ -59,7 +68,7 @@ $(document).ready(function () {
             title: m.title, // movie title
             poster: m.poster_path // poster image
                 ? IMG + m.poster_path // if exists use image
-                : "https://via.placeholder.com/200x300" // fallback image
+                : "https://via.placeholder.com/200x300"
         }));
     }
 
@@ -126,17 +135,7 @@ $(document).ready(function () {
             searchMovies(); // reload search
         });
 
-        $("#gridBtn").click(() => { // grid view button
-            layout = "grid"; // set grid mode
-            applyLayout(); // apply layout
-        });
-
-        $("#listBtn").click(() => { // list view button
-            layout = "list"; // set list mode
-            applyLayout(); // apply layout
-        });
-
-        applyLayout(); // apply layout initially
+        applyLayout(); // apply layout 
     }
 
 
