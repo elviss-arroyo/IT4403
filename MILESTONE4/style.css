@@ -5,19 +5,15 @@
   --btn-active: #000;
   --btn-text: #000;
 }
-
-body { /* main page styling */
+body { 
   margin: 0;
   font-family: Arial;
   background: var(--bg);
 }
-
 header { /* top header section */
   text-align: center;
   padding: 30px;
 }
-
-
 .container { /* main two-column layout */
   display: flex;
   gap: 20px;
@@ -25,12 +21,10 @@ header { /* top header section */
   margin: auto;
   align-items: flex-start;
 }
-
 /* LEFT COLUMN */
 .left-column { /* main content area */
   flex: 2;
 }
-
 /* RIGHT COLUMN */
 .right-column { /* movie details panel */
   flex: 1;
@@ -38,22 +32,17 @@ header { /* top header section */
   top: 20px;
   align-self: flex-start;
 }
-
 .movie-details { /* details box styling */
   background: white;
   padding: 15px;
   border: 1px solid #ddd;
 }
-
-
 .search-section { /* search bar layout */
   display: flex;
   gap: 10px;
   justify-content: center;
   margin-bottom: 15px;
 }
-
-
 button { /* all buttons */
   padding: 8px 12px;
   border: 1px solid var(--btn-border);
@@ -62,23 +51,17 @@ button { /* all buttons */
   transition: 0.2s;
   font-size: 14px;
 }
-
 button:hover { /* hover effect */
   background: #eaeaea;
 }
-
 button.active { /* active button state */
   background: var(--btn-active);
   color: white;
   border-color: black;
 }
-
-
 #searchInput { /* search input box */
   padding: 8px;
 }
-
-
 .search-results,
 .categories { /* result + category sections */
   background: white;
@@ -86,16 +69,12 @@ button.active { /* active button state */
   margin-top: 20px;
   border: 1px solid #ddd;
 }
-
-
 #resultsGrid,
 .category-grid { /* grid layout for movies */
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 10px;
 }
-
-
 .movie-card { /* individual movie card */
   background: white;
   padding: 10px;
@@ -103,72 +82,52 @@ button.active { /* active button state */
   cursor: pointer;
   text-align: center;
 }
-
 .movie-card img { /* movie poster image */
   width: 100%;
 }
-
-
-.controls-wrapper { /* pagination view buttons */
+.view-toggle { /* grid/list buttons - always visible */
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 15px;
-  flex-wrap: wrap;
-  gap: 10px;
+  gap: 5px;
+  margin-bottom: 10px;
 }
-
-
+#controls { /* pagination container */
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 .pagination { /* page buttons */
   display: flex;
   gap: 5px;
 }
-
-
-.view-toggle { /* grid/list buttons */
-  display: flex;
-  gap: 5px;
-}
-
-
 .list-view { /* switch layout mode */
   display: block !important;
 }
-
 .list-view .movie-card { /* list layout card */
   display: flex;
   gap: 10px;
   align-items: center;
   text-align: left;
 }
-
 .list-view .movie-card img { /* smaller image in list mode */
   width: 80px;
 }
-
-
 @media (max-width: 900px) { /* tablet layout */
   .container {
     flex-direction: column;
   }
-
   .right-column {
     position: static;
   }
-
   #resultsGrid,
   .category-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
-
 @media (max-width: 600px) { /* mobile layout */
   #resultsGrid,
   .category-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-
 @media (max-width: 400px) { /* small mobile */
   #resultsGrid,
   .category-grid {
